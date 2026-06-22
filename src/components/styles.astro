@@ -1,0 +1,38 @@
+---
+---
+
+<style>
+	:root {
+		--font-mono:
+			ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, Monaco, 'Cascadia Mono', Consolas,
+			'Liberation Mono', monospace;
+	}
+	body {
+		background-color: light-dark(#f7f7f8, #070708);
+		color: light-dark(#111, #f7f7f8);
+		font-family: var(--font-mono);
+		font-size: 12px;
+		line-height: 20px;
+		padding: 30px;
+		margin: 0;
+	}
+	pre, code {
+		font-family: inherit;
+		font-size: inherit;
+		line-height: inherit;
+	}
+	pre {
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+	}
+	@media (prefers-color-scheme: dark) {
+		body {
+			color-scheme: dark;
+		}
+	}
+	@media (width >= 640px) {
+		body {
+			padding: 40px;
+		}
+	}
+</style>

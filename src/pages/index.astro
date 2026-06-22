@@ -1,93 +1,38 @@
 ---
-import Analytics from '@vercel/analytics/astro';
+import Head from '../components/head.astro';
+import Styles from '../components/styles.astro';
+import Header from '../components/header.astro';
+import AsciiDivider from '../components/ascii-divider.astro';
+import InfoSection from '../components/info-section.astro';
+import ProjectSection from '../components/project-section.astro';
+import TeamSection from '../components/team-section.astro';
+import SocialSection from '../components/social-section.astro';
 ---
 
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Shadcn Labs</title>
-		<Analytics />
+		<Head />
 	</head>
-	<style>
-		:root {
-			--font-mono:
-				ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, Monaco, 'Cascadia Mono', Consolas,
-				'Liberation Mono', monospace;
-		}
-		body {
-			background-color: light-dark(#f7f7f8, #070708);
-			color: light-dark(#111, #f7f7f8);
-			font-family: var(--font-mono);
-			font-size: 12px;
-			line-height: 20px;
-			padding: 30px;
-			margin: 0;
-		}
-		pre, code {
-			font-family: inherit;
-			font-size: inherit;
-			line-height: inherit;
-		}
-		pre {
-			white-space: pre-wrap;
-			overflow-wrap: anywhere;
-		}
-		@media (prefers-color-scheme: dark) {
-			body {
-				color-scheme: dark;
-			}
-		}
-		@media (width >= 640px) {
-			body {
-				padding: 40px;
-			}
-		}
-	</style>
+	<Styles />
 	<body>
-		<pre style="margin: 0;"><code>SHADCN LABS █
+		<pre style="margin: 0;"><code><Header />
 
-~~~
+<AsciiDivider />
 
-CONTACT: PAWARANIKET508@GMAIL.COM
-LOCATION: INDIA
-STATUS: ONLINE
+<InfoSection title="CONTACT" value="PAWARANIKET508@GMAIL.COM" />
+<InfoSection title="LOCATION" value="INDIA" />
+<InfoSection title="STATUS" value="ONLINE" />
 
-~~~
+<AsciiDivider />
 
-PROJECTS:
- - [agentcn](<a target="_blank" href="https://agentcn.run">https://agentcn.run</a>)
-   customizable and production-ready AI agent recipes, built on Eve and Flue
- - [termcn](<a target="_blank" href="https://termcn.dev">https://termcn.dev</a>)
-   terminal UI components for React, built on Ink and OpenTUI
- - [framecn](<a target="_blank" href="https://framecn.dev">https://framecn.dev</a>)
-   video components for React, built on Editframe
- - [ogimagecn](<a target="_blank" href="https://ogimagecn.com">https://ogimagecn.com</a>)
-   Open Graph image components for React, built on Satori
- - [emailcn](<a target="_blank" href="https://emailcn.vercel.app">https://emailcn.dev</a>)
-   email components for React, built on React Email
- - [slidecn](<a target="_blank" href="https://slidecn.vercel.app">https://slidecn.vercel.app</a>)
-   presentation components for React, built on reveal.js
- - [startercn](<a target="_blank" href="https://startercn.vercel.app">https://startercn.vercel.app</a>)
-   shadcn/ui registry template with docs, landing page, and agent support
- - [skills](<a target="_blank" href="https://www.skills.sh/shadcn-labs/skills">https://www.skills.sh/shadcn-labs/skills</a>)
-   agent skills for launching and promoting shadcn registries
- - [shadcn-cssinjs](<a target="_blank" href="https://shadcn-cssinjs.vercel.app">https://shadcn-cssinjs.vercel.app</a>)
-   CSS-in-JS port of shadcn/ui, built on StyleX and Base UI
+<ProjectSection />
 
-~~~
+<AsciiDivider />
 
-TEAM:
-- [Aniket Pawar](<a target="_blank" href="https://aniketpawar.com">https://aniketpawar.com</a>)
+<TeamSection />
 
-~~~
+<AsciiDivider />
 
-SOCIALS:
-- [GitHub](<a target="_blank" href="https://github.com/shadcn-labs">https://github.com/shadcn-labs</a>)
-- [X](<a target="_blank" href="https://x.com/shadcnlabs">https://x.com/shadcnlabs</a>)
-- [Bluesky](<a target="_blank" href="https://bsky.app/profile/shadcnlabs.bsky.social">https://bsky.app/profile/shadcnlabs.bsky.social</a>)
-</code></pre>
+<SocialSection /></code></pre>
 	</body>
 </html>

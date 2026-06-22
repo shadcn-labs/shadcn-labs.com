@@ -1,0 +1,9 @@
+---
+interface Props {
+	name: string;
+	url: string;
+}
+
+const { name, url } = Astro.props;
+---
+[{name}](<a target="_blank" href={url}>{url}</a>)
