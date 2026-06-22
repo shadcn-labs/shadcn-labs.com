@@ -1,4 +1,5 @@
 <p align="center">
+  <img align="center" src="public/favicon.svg" height="96" />
   <h1 align="center">Shadcn Labs</h1>
 </p>
 
@@ -15,17 +16,14 @@
 
 ## Projects
 
-| Project                                             | Description                                                               | Stars                                                                                                                                                                       |
-| --------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [agentcn](https://agentcn.run)                      | Customizable and production-ready AI agent recipes, built on Eve and Flue | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/agentcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/agentcn)               |
-| [termcn](https://termcn.dev)                        | Terminal UI components for React, built on Ink and OpenTUI                | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/termcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/termcn)                 |
-| [framecn](https://framecn.dev)                      | Video components for React, built on Editframe                            | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/framecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/framecn)               |
-| [ogimagecn](https://ogimagecn.com)                  | Open Graph image components for React, built on Satori                    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/ogimagecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/ogimagecn)           |
-| [emailcn](https://emailcn.dev)                      | Email components for React, built on React Email                          | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/emailcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/emailcn)               |
-| [slidecn](https://slidecn.vercel.app)               | Presentation components for React, built on reveal.js                     | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/slidecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/slidecn)               |
-| [startercn](https://startercn.vercel.app)           | shadcn/ui registry template with docs, landing page, and agent support    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/startercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/startercn)           |
-| [skills](https://www.skills.sh/shadcn-labs/skills)  | Agent skills for launching and promoting shadcn registries                | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/skills.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/skills)                 |
-| [shadcn-cssinjs](https://shadcn-cssinjs.vercel.app) | CSS-in-JS port of shadcn/ui, built on StyleX and Base UI                  | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadcn-cssinjs.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadcn-cssinjs) |
+| Project                                            | Description                                                               | Stars                                                                                                                                                |
+| -------------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [startercn](https://startercn.vercel.app)          | shadcn/ui registry template with docs, landing page, and agent support    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/startercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/startercn) |
+| [skills](https://www.skills.sh/shadcn-labs/skills) | Agent skills for launching and promoting shadcn registries                | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/skills.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/skills)       |
+| [termcn](https://termcn.dev)                       | Terminal UI components for React, built on Ink and OpenTUI                | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/termcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/termcn)       |
+| [framecn](https://framecn.dev)                     | Video components for React, built on Editframe                            | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/framecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/framecn)     |
+| [ogimagecn](https://ogimagecn.com)                 | Open Graph image components for React, built on Satori                    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/ogimagecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/ogimagecn) |
+| [agentcn](https://agentcn.run)                     | Customizable and production-ready AI agent recipes, built on Eve and Flue | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/agentcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/agentcn)     |
 
 ## Contributing
 
