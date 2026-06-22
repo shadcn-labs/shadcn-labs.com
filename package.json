@@ -1,19 +1,29 @@
 {
-  "name": "",
-  "type": "module",
+  "name": "shadcn-labs",
   "version": "0.0.1",
-  "engines": {
-    "node": ">=22.12.0"
-  },
+  "description": "Pushing the limits of shadcn/ui ecosystem",
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@astrojs/vercel": "^10.0.8",
     "@vercel/analytics": "^2.0.1",
     "astro": "^6.4.7"
+  },
+  "devDependencies": {
+    "lefthook": "^2.1.9",
+    "oxfmt": "^0.55.0",
+    "oxlint": "^1.70.0",
+    "ultracite": "7.8.3"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
