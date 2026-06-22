@@ -1,5 +1,5 @@
 ---
-
+import Analytics from '@vercel/analytics/astro';
 ---
 
 <html lang="en">
@@ -9,6 +9,7 @@
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Shadcn Labs</title>
+		<Analytics />
 	</head>
 	<style>
 		:root {
