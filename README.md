@@ -1,43 +1,52 @@
-# Astro Starter Kit: Minimal
+<p align="center">
+  <h1 align="center">Shadcn Labs</h1>
+</p>
 
-```sh
-npm create astro@latest -- --template minimal
-```
+<p align="center">
+  Pushing the limits of the <a href="https://ui.shadcn.com/">shadcn/ui</a> ecosystem.<br/>
+  AI agent recipes, terminal UI, video components, and more.
+</p>
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+<p align="center">
+  <a href="https://discord.gg/N6G36KhYK4"><img src="https://www.shieldcn.dev/discord/online-members/N6G36KhYK4.svg?variant=branded&size=xs" alt="Discord Members" /></a>
+  <a href="https://x.com/shadcnlabs"><img src="https://www.shieldcn.dev/x/follow/shadcnlabs.svg?variant=branded&size=xs" alt="X Follow" /></a>
+  <a href="https://bsky.app/profile/shadcnlabs.bsky.social"><img src="https://www.shieldcn.dev/bluesky/shadcnlabs.bsky.social.svg?variant=branded&size=xs" alt="Bluesky" /></a>
+</p>
 
-## 🚀 Project Structure
+## Projects
 
-Inside of your Astro project, you'll see the following folders and files:
+| Project                                             | Description                                                               | Stars                                                                                                                                                                       |
+| --------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [agentcn](https://agentcn.run)                      | Customizable and production-ready AI agent recipes, built on Eve and Flue | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/agentcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/agentcn)               |
+| [termcn](https://termcn.dev)                        | Terminal UI components for React, built on Ink and OpenTUI                | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/termcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/termcn)                 |
+| [framecn](https://framecn.dev)                      | Video components for React, built on Editframe                            | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/framecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/framecn)               |
+| [ogimagecn](https://ogimagecn.com)                  | Open Graph image components for React, built on Satori                    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/ogimagecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/ogimagecn)           |
+| [emailcn](https://emailcn.dev)                      | Email components for React, built on React Email                          | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/emailcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/emailcn)               |
+| [slidecn](https://slidecn.vercel.app)               | Presentation components for React, built on reveal.js                     | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/slidecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/slidecn)               |
+| [startercn](https://startercn.vercel.app)           | shadcn/ui registry template with docs, landing page, and agent support    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/startercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/startercn)           |
+| [skills](https://www.skills.sh/shadcn-labs/skills)  | Agent skills for launching and promoting shadcn registries                | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/skills.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/skills)                 |
+| [shadcn-cssinjs](https://shadcn-cssinjs.vercel.app) | CSS-in-JS port of shadcn/ui, built on StyleX and Base UI                  | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadcn-cssinjs.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadcn-cssinjs) |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Contributing
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Any static assets, like images, can be placed in the `public/` directory.
+## License
 
-## 🧞 Commands
+[MIT](LICENSE)
 
-All commands are run from the root of the project, from a terminal:
+## Star History
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+<a href="https://www.star-history.com/?repos=shadcn-labs%2Fshadcn-labs.com&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&legend=top-left" />
+ </picture>
+</a>
