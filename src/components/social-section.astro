@@ -1,8 +1,18 @@
 ---
-import Link from './link.astro';
+
 ---
 
-SOCIALS:
-- <Link name="GitHub" url="https://github.com/shadcn-labs" />
-- <Link name="X" url="https://x.com/shadcnlabs" />
-- <Link name="Bluesky" url="https://bsky.app/profile/shadcnlabs.bsky.social" />
+<section class="view-container">
+  <h2>SOCIALS</h2>
+  <ul class="flex items-center gap-2">
+    <li><a target="_blank" href="https://github.com/shadcn-labs">GitHub</a></li>
+    <span>•</span>
+    <li><a target="_blank" href="https://x.com/shadcnlabs">X</a></li>
+    <span>•</span>
+    <li>
+      <a target="_blank" href="https://bsky.app/profile/shadcnlabs.bsky.social"
+        >Bluesky</a
+      >
+    </li>
+  </ul>
+</section>

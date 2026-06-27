@@ -1,37 +1,32 @@
 ---
-import Head from '../components/head.astro';
-import Header from '../components/header.astro';
-import AsciiDivider from '../components/ascii-divider.astro';
-import InfoSection from '../components/info-section.astro';
-import ProjectSection from '../components/project-section.astro';
-import TeamSection from '../components/team-section.astro';
-import SocialSection from '../components/social-section.astro';
-import '../styles/global.css';
+import Head from "../components/head.astro";
+import Header from "../components/header.astro";
+import AsciiDivider from "../components/ascii-divider.astro";
+import ProjectSection from "../components/project-section.astro";
+import TeamSection from "../components/team-section.astro";
+import SocialSection from "../components/social-section.astro";
+import "../styles/global.css";
 ---
 
 <html lang="en">
-	<head>
-		<Head />
-	</head>
-	<body>
-		<pre style="margin: 0;"><code><Header />
+  <head>
+    <Head />
+  </head>
+  <body
+    class="bg-background text-foreground font-mono text-xs leading-5 p-[30px] sm:p-[40px] dark:scheme-dark"
+  >
+    <Header />
 
-<AsciiDivider />
+    <AsciiDivider />
 
-<InfoSection title="CONTACT" value="PAWARANIKET508@GMAIL.COM" />
-<InfoSection title="LOCATION" value="INDIA" />
-<InfoSection title="STATUS" value="ONLINE" />
+    <ProjectSection />
 
-<AsciiDivider />
+    <AsciiDivider />
 
-<ProjectSection />
+    <TeamSection />
 
-<AsciiDivider />
+    <AsciiDivider />
 
-<TeamSection />
-
-<AsciiDivider />
-
-<SocialSection /></code></pre>
-	</body>
+    <SocialSection />
+  </body>
 </html>

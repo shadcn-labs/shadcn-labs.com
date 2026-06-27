@@ -1,5 +1,6 @@
 ---
-import Analytics from '@vercel/analytics/astro';
+import { Font } from "astro:assets";
+import Analytics from "@vercel/analytics/astro";
 ---
 
 <meta charset="utf-8" />
@@ -7,4 +8,5 @@ import Analytics from '@vercel/analytics/astro';
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
 <title>Shadcn Labs</title>
+<Font cssVariable="--font-geist-mono" preload />
 <Analytics />

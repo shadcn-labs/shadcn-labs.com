@@ -1,6 +1,7 @@
 // @ts-check
 import vercel from "@astrojs/vercel";
-import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig, fontProviders } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,5 +10,16 @@ export default defineConfig({
       enabled: false,
     },
   }),
+  fonts: [
+    {
+      cssVariable: "--font-geist-mono",
+      fallbacks: ["monospace"],
+      name: "Geist Mono",
+      provider: fontProviders.fontsource(),
+    },
+  ],
   output: "static",
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
