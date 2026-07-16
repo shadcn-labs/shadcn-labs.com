@@ -28,8 +28,13 @@ export const PROJECTS = [
   {
     description:
       "customizable and production-ready AI agent recipes, built on Eve and Flue",
-    isNew: true,
     name: "agentcn",
     url: "https://agentcn.run",
+  },
+  {
+    description: "CSS-in-JS port of shadcn/ui, built on StyleX",
+    isNew: true,
+    name: "shadcn-cssinjs",
+    url: "https://shadcn-cssinjs.com",
   },
 ];
