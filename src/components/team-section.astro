@@ -1,10 +1,12 @@
 ---
-
+import { TEAM } from "@/constants/team";
 ---
 
 <section class="view-container">
   <h2>TEAM</h2>
   <ul>
-    <li><a target="_blank" href="https://aniketpawar.com">Aniket Pawar</a></li>
+    {TEAM.map((member) => (
+      <li><a target="_blank" href={member.url}>{member.name}</a></li>
+    ))}
   </ul>
 </section>

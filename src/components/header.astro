@@ -1,5 +1,5 @@
 ---
-
+import { LINKS } from "@/constants/links";
 ---
 
 <header class="view-container">
@@ -8,5 +8,5 @@
     <p class="text-primary">Pushing the limits of the shadcn/ui ecosystem.</p>
     <p class="text-muted-foreground text-[10px]">© Shadcn Labs 2026</p>
   </div>
-  <a href="mailto:pawaraniket508@gmail.com">pawaraniket508@gmail.com</a>
+  <a href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a>
 </header>

@@ -1,38 +1,23 @@
 ---
-
+import { PROJECTS } from "@/constants/projects";
 ---
 
 <section class="view-container">
   <h2>PROJECTS</h2>
   <ul class="space-y-1">
-    <li>
-      <a target="_blank" href="https://startercn.vercel.app">startercn</a><br />
-      shadcn/ui registry template with docs, landing page, and agent support
-    </li>
-    <li>
-      <a target="_blank" href="https://www.skills.sh/shadcn-labs/skills"
-        >skills</a
-      ><br />
-      agent skills for shadcn registries & more
-    </li>
-    <li>
-      <a target="_blank" href="https://termcn.dev">termcn</a><br />
-      terminal UI components for React, built on Ink and OpenTUI
-    </li>
-    <li>
-      <a target="_blank" href="https://framecn.dev">framecn</a><br />
-      video components for React, built on Editframe
-    </li>
-    <li>
-      <a target="_blank" href="https://ogimagecn.com">ogimagecn</a><br />
-      open graph image components for React, built on Satori
-    </li>
-    <li>
-      <span class="inline-flex items-center gap-2">
-        <a target="_blank" href="https://agentcn.run">agentcn</a>
-        <img src="/new.gif" alt="new" class="h-6 w-auto align-middle" />
-      </span><br />
-      customizable and production-ready AI agent recipes, built on Eve and Flue
-    </li>
+    {PROJECTS.map((project) => (
+      <li>
+        {project.isNew ? (
+          <span class="inline-flex items-center gap-2">
+            <a target="_blank" href={project.url}>{project.name}</a>
+            <img src="/new.gif" alt="new" class="h-6 w-auto align-middle" />
+          </span>
+        ) : (
+          <a target="_blank" href={project.url}>{project.name}</a>
+        )}
+        <br />
+        {project.description}
+      </li>
+    ))}
   </ul>
 </section>
