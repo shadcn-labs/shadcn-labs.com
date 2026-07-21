@@ -24,6 +24,8 @@
 | [framecn](https://framecn.dev)                     | Video components for React, built on Editframe                            | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/framecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/framecn)     |
 | [ogimagecn](https://ogimagecn.com)                 | Open Graph image components for React, built on Satori                    | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/ogimagecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/ogimagecn) |
 | [agentcn](https://agentcn.run)                     | Customizable and production-ready AI agent recipes, built on Eve and Flue | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/agentcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/agentcn)     |
+| [shadcn-cssinjs](https://shadcn-cssinjs.com)       | CSS-in-JS port of shadcn/ui, built on StyleX                              | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadcn-cssinjs.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadcn-cssinjs) |
+| [mcpcn](https://mcpcn.dev)                         | ChatGPT/Claude/MCP app UI components for React, built on Base UI          | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/mcpcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/mcpcn)         |
 
 ## Contributing
 
