@@ -33,8 +33,14 @@ export const PROJECTS = [
   },
   {
     description: "CSS-in-JS port of shadcn/ui, built on StyleX",
-    isNew: true,
     name: "shadcn-cssinjs",
     url: "https://shadcn-cssinjs.com",
+  },
+  {
+    description:
+      "ChatGPT/Claude/MCP app UI components for React, built on Base UI",
+    isNew: true,
+    name: "mcpcn",
+    url: "https://mcpcn.dev",
   },
 ];
