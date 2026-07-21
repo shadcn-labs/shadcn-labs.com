@@ -1,17 +1,85 @@
 ---
 import { Font } from "astro:assets";
+import { SEO } from "astro-seo";
 import Analytics from "@vercel/analytics/astro";
+import { SITE } from "../constants/site";
+import { SOCIALS } from "../constants/social";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  canonical?: string;
+  ogType?: "website" | "article";
+  noindex?: boolean;
+  nofollow?: boolean;
+}
+
+const {
+  title = SITE.NAME,
+  description = SITE.DESCRIPTION.LONG,
+  image = SITE.OG_IMAGE,
+  imageAlt = SITE.OG_IMAGE_ALT,
+  canonical = new URL(Astro.url.pathname, SITE.URL).href,
+  ogType = "website",
+  noindex = false,
+  nofollow = false,
+} = Astro.props;
+
+const isHome = Astro.url.pathname === "/";
+const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
 ---
 
 <meta charset="utf-8" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
-<meta property="og:image" content="/og.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="/og.png" />
-<title>Shadcn Labs</title>
+<meta name="theme-color" content="#070708" />
+
+<SEO
+  title={pageTitle}
+  description={description}
+  canonical={canonical}
+  noindex={noindex}
+  nofollow={nofollow}
+  openGraph={{
+    basic: { title: pageTitle, type: ogType, image, url: canonical },
+    image: { alt: imageAlt, width: 1200, height: 630, type: "image/png" },
+    optional: { siteName: SITE.NAME, locale: SITE.LOCALE, description },
+  }}
+  twitter={{
+    card: "summary_large_image",
+    site: SITE.AUTHOR.TWITTER,
+    title: pageTitle,
+    description,
+    image,
+    imageAlt,
+  }}
+  extend={{
+    meta: [
+      {
+        name: "robots",
+        content:
+          "max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
+    ],
+  }}
+/>
+
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.NAME,
+    url: SITE.URL,
+    logo: `${SITE.URL}/favicon.svg`,
+    description: SITE.DESCRIPTION.SHORT,
+    sameAs: SOCIALS.map((s) => s.url),
+  })}
+/>
+
 <Font cssVariable="--font-geist-mono" preload />
 <Analytics />
