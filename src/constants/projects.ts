@@ -39,8 +39,14 @@ export const PROJECTS = [
   {
     description:
       "ChatGPT/Claude/MCP app UI components for React, built on Base UI",
-    isNew: true,
     name: "mcpcn",
     url: "https://mcpcn.dev",
+  },
+  {
+    description:
+      "email components for React, built on React Email, MJML React and JSX Email",
+    isNew: true,
+    name: "emailcn",
+    url: "https://emailcn.run",
   },
 ];
