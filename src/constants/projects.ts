@@ -45,8 +45,14 @@ export const PROJECTS = [
   {
     description:
       "email components for React, built on React Email, MJML React and JSX Email",
-    isNew: true,
     name: "emailcn",
     url: "https://emailcn.run",
+  },
+  {
+    description:
+      "PDF components for React, built on Takumi and Forme",
+    isNew: true,
+    name: "pdfcn",
+    url: "https://pdfcn.dev",
   },
 ];
