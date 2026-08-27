@@ -50,8 +50,13 @@ export const PROJECTS = [
   },
   {
     description: "PDF components for React, built on Takumi and Forme",
-    isNew: true,
     name: "pdfcn",
     url: "https://pdfcn.dev",
+  },
+  {
+    description: "rich text editor components for React, built on Tiptap",
+    isNew: true,
+    name: "editorcn",
+    url: "https://editorcn.vercel.app",
   },
 ];

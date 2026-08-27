@@ -28,6 +28,7 @@
 | [mcpcn](https://mcpcn.dev)                         | ChatGPT/Claude/MCP app UI components for React, built on Base UI           | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/mcpcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/mcpcn)                   |
 | [emailcn](https://emailcn.run)                     | email components for React, built on React Email, MJML React and JSX Email | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/emailcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/emailcn)               |
 | [pdfcn](https://pdfcn.dev)                         | PDF components for React, built on Takumi and Forme                        | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/pdfcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/pdfcn)                   |
+| [editorcn](https://editorcn.vercel.app)            | Rich text editor components for React, built on Tiptap                     | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/editorcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/editorcn)             |
 
 ## Contributing
 
