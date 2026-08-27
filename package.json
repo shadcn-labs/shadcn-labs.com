@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "pnpm brand:zip && astro build",
+    "brand:zip": "bash scripts/brand-zip.sh",
     "preview": "astro preview",
     "astro": "astro",
     "check": "ultracite check",
