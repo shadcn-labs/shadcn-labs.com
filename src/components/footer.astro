@@ -1,0 +1,71 @@
+---
+import { Image } from "astro:assets";
+---
+
+<footer class="w-full mt-8">
+  <Image
+    src="https://yffrvzi8zwbljfuj.public.blob.vercel-storage.com/shadcn-labs/footer.png"
+    alt="Shadcn Labs Footer"
+    inferSize
+    loading="lazy"
+    class="w-full h-auto"
+  />
+</footer>
+
+<div
+  id="blur-overlay"
+  class="fixed bottom-0 left-0 right-0 h-32 pointer-events-none z-50 transition-none"
+  style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); mask-image: linear-gradient(to top, black 0%, transparent 100%); -webkit-mask-image: linear-gradient(to top, black 0%, transparent 100%);"
+>
+</div>
+
+<script>
+  const initBlurEffect = () => {
+    const overlay = document.querySelector<HTMLElement>("#blur-overlay");
+    if (!overlay) {
+      return;
+    }
+
+    const maxBlur = 20;
+    const triggerDistance = 300;
+
+    const updateBlur = () => {
+      const { scrollHeight } = document.documentElement;
+      const { scrollTop } = document.documentElement;
+      const { clientHeight } = document.documentElement;
+      const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
+
+      if (distanceFromBottom <= 0) {
+        overlay.style.backdropFilter = "blur(0px)";
+        overlay.style.setProperty("-webkit-backdrop-filter", "blur(0px)");
+        overlay.style.opacity = "0";
+      } else if (distanceFromBottom < triggerDistance) {
+        const progress = distanceFromBottom / triggerDistance;
+        const blurAmount = maxBlur * progress;
+        overlay.style.backdropFilter = `blur(${blurAmount}px)`;
+        overlay.style.setProperty(
+          "-webkit-backdrop-filter",
+          `blur(${blurAmount}px)`,
+        );
+        overlay.style.opacity = String(progress);
+      } else {
+        overlay.style.backdropFilter = `blur(${maxBlur}px)`;
+        overlay.style.setProperty(
+          "-webkit-backdrop-filter",
+          `blur(${maxBlur}px)`,
+        );
+        overlay.style.opacity = "1";
+      }
+    };
+
+    window.addEventListener("scroll", updateBlur, { passive: true });
+    window.addEventListener("resize", updateBlur, { passive: true });
+    updateBlur();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initBlurEffect);
+  } else {
+    initBlurEffect();
+  }
+</script>

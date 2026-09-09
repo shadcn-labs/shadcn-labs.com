@@ -51,5 +51,5 @@
 }
 
 @utility view-container {
-  @apply mx-auto max-w-xl space-y-2;
+  @apply mx-auto max-w-2xl space-y-2 px-7.5 sm:px-10;
 }

@@ -19,6 +19,7 @@
     "@vercel/analytics": "^2.0.1",
     "astro": "^6.4.7",
     "astro-seo": "^1.1.0",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {

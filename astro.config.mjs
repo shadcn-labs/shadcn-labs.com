@@ -18,6 +18,17 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
     },
   ],
+  image: {
+    remotePatterns: [
+      {
+        hostname: "**.public.blob.vercel-storage.com",
+        protocol: "https",
+      },
+    ],
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+    },
+  },
   output: "static",
   vite: {
     plugins: [tailwindcss()],
