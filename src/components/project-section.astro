@@ -1,23 +1,7 @@
 ---
-import { PROJECTS } from "@/constants/projects";
+import { ProjectList } from "@/components/project-list";
 ---
 
 <section class="view-container">
-  <h2>PROJECTS</h2>
-  <ul class="space-y-1">
-    {PROJECTS.map((project) => (
-      <li>
-        {project.isNew ? (
-          <span class="inline-flex items-center gap-2">
-            <a target="_blank" href={project.url}>{project.name}</a>
-            <img src="/new.gif" alt="new" class="h-6 w-auto align-middle" />
-          </span>
-        ) : (
-          <a target="_blank" href={project.url}>{project.name}</a>
-        )}
-        <br />
-        {project.description}
-      </li>
-    ))}
-  </ul>
+  <ProjectList client:load />
 </section>
