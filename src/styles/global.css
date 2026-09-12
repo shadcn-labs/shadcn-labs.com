@@ -46,7 +46,7 @@
   }
 
   a {
-    @apply text-link underline hover:text-link-hover;
+    @apply text-link hover:text-link-hover underline;
   }
 }
 

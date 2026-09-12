@@ -55,8 +55,13 @@ export const PROJECTS = [
   },
   {
     description: "rich text editor components for React, built on Tiptap",
-    isNew: true,
     name: "editorcn",
     url: "https://editorcn.vercel.app",
+  },
+  {
+    description: "shader components for React, built on vgpu and TypeGPU",
+    isNew: true,
+    name: "shadercn",
+    url: "https://shadercn.run",
   },
 ];

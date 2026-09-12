@@ -1,5 +1,7 @@
 ---
 import { LINKS } from "@/constants/links";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
 ---
 
 <section class="view-container">
@@ -7,7 +9,7 @@ import { LINKS } from "@/constants/links";
   <p>
     Sponsor the whole ecosystem and get prominent placement on all of our
     projects. Currently priced at $249/month. Interested? <a
-      href={LINKS.FOUNDER_X}
+      href={addQueryParams(LINKS.FOUNDER_X, UTM_PARAMS)}
       target="_blank">DM me on X</a
     >.
   </p>

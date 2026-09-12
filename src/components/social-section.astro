@@ -1,5 +1,7 @@
 ---
 import { SOCIALS } from "@/constants/social";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
 ---
 
 <section class="view-container">
@@ -8,7 +10,7 @@ import { SOCIALS } from "@/constants/social";
     {SOCIALS.map((social, index) => (
       <>
         {index > 0 && <span>•</span>}
-        <li><a target="_blank" href={social.url}>{social.name}</a></li>
+        <li><a target="_blank" href={addQueryParams(social.url, UTM_PARAMS)}>{social.name}</a></li>
       </>
     ))}
   </ul>

@@ -1,12 +1,14 @@
 ---
 import { TEAM } from "@/constants/team";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
 ---
 
 <section class="view-container">
   <h2>TEAM</h2>
   <ul>
     {TEAM.map((member) => (
-      <li><a target="_blank" href={member.url}>{member.name}</a></li>
+      <li><a target="_blank" href={addQueryParams(member.url, UTM_PARAMS)}>{member.name}</a></li>
     ))}
   </ul>
 </section>
