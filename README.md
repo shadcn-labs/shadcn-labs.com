@@ -29,6 +29,7 @@
 | [emailcn](https://emailcn.run) | email components for React, built on React Email, MJML React and JSX Email | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/emailcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/emailcn) |
 | [pdfcn](https://pdfcn.dev) | PDF components for React, built on Takumi and Forme | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/pdfcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/pdfcn) |
 | [editorcn](https://editorcn.vercel.app) | Rich text editor components for React, built on Tiptap | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/editorcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/editorcn) |
+| [shadercn](https://shadercn.run) | shader components for React, built on vgpu and TypeGPU | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadercn) |
 
 ## Contributing
 
