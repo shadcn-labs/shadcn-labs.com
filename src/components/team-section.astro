@@ -4,11 +4,22 @@ import { UTM_PARAMS } from "@/constants/site";
 import { addQueryParams } from "@/lib/url";
 ---
 
-<section class="view-container">
-  <h2>TEAM</h2>
-  <ul>
-    {TEAM.map((member) => (
-      <li><a target="_blank" href={addQueryParams(member.url, UTM_PARAMS)}>{member.name}</a></li>
-    ))}
+<section id="team" class="view-container scroll-mt-10">
+  <h2>
+    <a href="#team" class="text-foreground no-underline hover:underline">TEAM</a
+    >
+  </h2>
+  <ul class="space-y-1">
+    {
+      TEAM.map((member) => (
+        <li>
+          <a target="_blank" href={addQueryParams(member.url, UTM_PARAMS)}>
+            {member.name}
+          </a>
+          <br />
+          {member.description}
+        </li>
+      ))
+    }
   </ul>
 </section>
