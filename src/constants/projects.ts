@@ -60,8 +60,18 @@ export const PROJECTS = [
   },
   {
     description: "shader components for React, built on vgpu and TypeGPU",
-    isNew: true,
     name: "shadercn",
     url: "https://shadercn.run",
+  },
+  {
+    description:
+      "Chrome extension to inspect and extract shadcn-style theme tokens from any website",
+    name: "inspectcn",
+    url: "https://github.com/shadcn-labs/inspectcn",
+  },
+  {
+    description: "animated shadcn components for React, built on Motion",
+    name: "shadcn-animated",
+    url: "https://shadcn-animated.vercel.app/",
   },
 ];

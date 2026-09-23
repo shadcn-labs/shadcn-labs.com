@@ -9,4 +9,14 @@ export const TEAM = [
     name: "Abdullah Mukadam",
     url: "https://www.abdullahmukadam.fun",
   },
+  {
+    description: "Creator and Maintainer of inspectcn",
+    name: "Arham Khan",
+    url: "https://arham.cc/",
+  },
+  {
+    description: "Creator and Maintainer of shadcn-animated",
+    name: "Sopo Imnaishvili",
+    url: "https://sopo.dev/",
+  },
 ];
