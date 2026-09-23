@@ -14,9 +14,4 @@ export const TEAM = [
     name: "Arham Khan",
     url: "https://arham.cc/",
   },
-  {
-    description: "Creator and Maintainer of shadcn-animated",
-    name: "Sopo Imnaishvili",
-    url: "https://sopo.dev/",
-  },
 ];

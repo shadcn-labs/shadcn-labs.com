@@ -69,9 +69,4 @@ export const PROJECTS = [
     name: "inspectcn",
     url: "https://github.com/shadcn-labs/inspectcn",
   },
-  {
-    description: "animated shadcn components for React, built on Motion",
-    name: "shadcn-animated",
-    url: "https://shadcn-animated.vercel.app/",
-  },
 ];
