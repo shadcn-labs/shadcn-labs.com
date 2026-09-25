@@ -13,6 +13,12 @@ export default defineConfig({
   }),
   fonts: [
     {
+      cssVariable: "--font-geist-sans",
+      fallbacks: ["sans-serif"],
+      name: "Geist Sans",
+      provider: fontProviders.fontsource(),
+    },
+    {
       cssVariable: "--font-geist-mono",
       fallbacks: ["monospace"],
       name: "Geist Mono",

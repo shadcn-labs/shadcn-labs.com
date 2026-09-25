@@ -29,9 +29,7 @@ const formatDate = (value: string): string =>
 
   <section class="view-container scroll-mt-10" id="issues">
     <h2>
-      <a href="#issues" class="text-foreground no-underline hover:underline"
-        >OPEN ISSUES</a
-      >
+      <a href="#issues" class="text-foreground">OPEN ISSUES</a>
     </h2>
 
     {
@@ -50,8 +48,9 @@ const formatDate = (value: string): string =>
         <p>No open issues right now. Check back soon.</p>
       ) : (
         <p>
-          {total} open issue{total === 1 ? "" : "s"} across the labs. Issues
-          marked <span class="text-primary">good first issue</span> or{" "}
+          <span class="font-mono">{total}</span> open issue
+          {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
+          <span class="text-primary">good first issue</span> or{" "}
           <span class="text-primary">help wanted</span> are a great place to
           start.
         </p>
@@ -64,8 +63,8 @@ const formatDate = (value: string): string =>
           <h3 class="pt-4">
             <a target="_blank" href={addQueryParams(group.url, UTM_PARAMS)}>
               {group.name}
-            </a>
-            <span> [{group.count}]</span>
+            </a>{" "}
+            <span class="font-mono">[{group.count}]</span>
           </h3>
           <ul class="space-y-1">
             {group.issues.map((issue) => (

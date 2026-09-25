@@ -22,12 +22,12 @@ export const ProjectList = () => {
     filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
+    <>
+      <div className="mb-1 flex items-center justify-between">
         <h2>PROJECTS</h2>
         <ProjectFilter value={filter} onChange={setFilter} counts={counts} />
       </div>
-      <ul className="space-y-1">
+      <ul className="space-y-2">
         {filteredProjects.map((project) => (
           <li key={project.name}>
             {project.isNew ? (
@@ -51,6 +51,6 @@ export const ProjectList = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
