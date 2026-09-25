@@ -1,0 +1,107 @@
+---
+import AsciiDivider from "@/components/ascii-divider.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { PROJECTS } from "@/constants/projects";
+import { UTM_PARAMS } from "@/constants/site";
+import { getIssuesByRepo } from "@/lib/github";
+import { addQueryParams } from "@/lib/url";
+
+const groups = await getIssuesByRepo();
+const total = groups?.reduce((sum, group) => sum + group.count, 0) ?? 0;
+const listed = new Set(groups?.map((group) => group.name));
+const idleProjects = PROJECTS.filter(
+  (project) => !listed.has(project.name),
+).map((project) => project.name);
+
+const formatDate = (value: string): string =>
+  new Date(value).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+---
+
+<BaseLayout
+  title="Open Issues"
+  description="Every open issue across Shadcn Labs projects — find a repo, pick an issue, and start contributing."
+>
+  <AsciiDivider />
+
+  <section class="view-container scroll-mt-10" id="issues">
+    <h2>
+      <a href="#issues" class="text-foreground no-underline hover:underline"
+        >OPEN ISSUES</a
+      >
+    </h2>
+
+    {
+      groups === null ? (
+        <p>
+          Could not load issues right now. See
+          <a
+            target="_blank"
+            href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
+          >
+            github.com/shadcn-labs
+          </a>
+          .
+        </p>
+      ) : total === 0 ? (
+        <p>No open issues right now. Check back soon.</p>
+      ) : (
+        <p>
+          {total} open issue{total === 1 ? "" : "s"} across the labs. Issues
+          marked <span class="text-primary">good first issue</span> or{" "}
+          <span class="text-primary">help wanted</span> are a great place to
+          start.
+        </p>
+      )
+    }
+
+    {
+      groups?.map((group) => (
+        <>
+          <h3 class="pt-4">
+            <a target="_blank" href={addQueryParams(group.url, UTM_PARAMS)}>
+              {group.name}
+            </a>
+            <span> [{group.count}]</span>
+          </h3>
+          <ul class="space-y-1">
+            {group.issues.map((issue) => (
+              <li>
+                <a
+                  target="_blank"
+                  href={addQueryParams(issue.html_url, UTM_PARAMS)}
+                >
+                  #{issue.number} {issue.title}
+                </a>
+                <br />
+                {issue.labels.length > 0 && (
+                  <>
+                    <span class="text-primary">
+                      [{issue.labels.map((label) => label.name).join(", ")}]
+                    </span>
+                    <br />
+                  </>
+                )}
+                <span class="text-muted-foreground">
+                  opened {formatDate(issue.created_at)} · {issue.comments}{" "}
+                  comment{issue.comments === 1 ? "" : "s"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      ))
+    }
+
+    {
+      idleProjects.length > 0 && (
+        <p class="text-muted-foreground pt-4">
+          No open issues: {idleProjects.join(", ")}.
+        </p>
+      )
+    }
+  </section>
+</BaseLayout>

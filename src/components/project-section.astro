@@ -1,4 +1,5 @@
 ---
+import { ArrowRight } from "@lucide/astro";
 import { PROJECTS } from "@/constants/projects";
 import { UTM_PARAMS } from "@/constants/site";
 import { addQueryParams } from "@/lib/url";
@@ -32,4 +33,11 @@ import { addQueryParams } from "@/lib/url";
       ))
     }
   </ul>
+  <p class="text-muted-foreground pt-2">
+    Want to contribute?
+    <a href="/issues" class="inline-flex items-center gap-1">
+      Browse open issues
+      <ArrowRight size={14} aria-hidden="true" />
+    </a>
+  </p>
 </section>

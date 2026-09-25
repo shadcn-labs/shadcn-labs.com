@@ -1,3 +1,5 @@
+import { ROUTES } from "./routes";
+
 export const FALLBACK_SITE_ORIGIN = "https://pdfcn.dev" as const;
 
 const getBaseUrl = () => {
@@ -39,3 +41,10 @@ export const META_THEME_COLORS = {
 export const UTM_PARAMS = {
   utm_source: new URL(baseUrl).hostname,
 };
+
+export const NAV = [
+  { href: ROUTES.HOME, label: "home" },
+  { href: ROUTES.ABOUT, label: "about" },
+  // { href: ROUTES.CONTACT, label: "contact" },
+  { href: ROUTES.BRAND, label: "brand" },
+];

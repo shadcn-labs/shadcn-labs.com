@@ -2,13 +2,13 @@
 import { Image } from "astro:assets";
 ---
 
-<footer class="w-full mt-8">
+<footer class="w-full mt-8 overflow-hidden">
   <Image
     src="https://yffrvzi8zwbljfuj.public.blob.vercel-storage.com/shadcn-labs/footer.png"
     alt="Shadcn Labs Footer"
     inferSize
     loading="lazy"
-    class="w-full h-auto"
+    class="w-[calc(100%+2rem)] max-w-none -mx-4 -mb-4"
   />
 </footer>
 
