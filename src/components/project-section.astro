@@ -1,7 +1,15 @@
 ---
+import { ArrowRight } from "@lucide/astro";
 import { ProjectList } from "@/components/project-list";
 ---
 
-<section class="view-container">
+<section id="projects" class="view-container scroll-mt-10">
   <ProjectList client:load />
+  <p class="text-muted-foreground pt-2">
+    Want to contribute?
+    <a href="/issues" class="inline-flex items-center gap-1">
+      Browse open issues
+      <ArrowRight size={14} aria-hidden="true" />
+    </a>
+  </p>
 </section>

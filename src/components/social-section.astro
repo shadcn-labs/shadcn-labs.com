@@ -1,15 +1,27 @@
 ---
 import { SOCIALS } from "@/constants/social";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
 ---
 
-<section class="view-container">
-  <h2>SOCIALS</h2>
+<section id="socials" class="view-container scroll-mt-10">
+  <h2>
+    <a href="#socials" class="text-foreground no-underline hover:underline"
+      >SOCIALS</a
+    >
+  </h2>
   <ul class="flex items-center gap-2">
-    {SOCIALS.map((social, index) => (
-      <>
-        {index > 0 && <span>•</span>}
-        <li><a target="_blank" href={social.url}>{social.name}</a></li>
-      </>
-    ))}
+    {
+      SOCIALS.map((social, index) => (
+        <>
+          {index > 0 && <span>•</span>}
+          <li>
+            <a target="_blank" href={addQueryParams(social.url, UTM_PARAMS)}>
+              {social.name}
+            </a>
+          </li>
+        </>
+      ))
+    }
   </ul>
 </section>

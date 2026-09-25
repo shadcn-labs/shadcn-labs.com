@@ -1,42 +1,21 @@
 ---
-import Head from "@/components/head.astro";
-import Header from "@/components/header.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
 import ProjectSection from "@/components/project-section.astro";
-import TeamSection from "@/components/team-section.astro";
 import SocialSection from "@/components/social-section.astro";
 import SponsorSection from "@/components/sponsor-section.astro";
-import Footer from "@/components/footer.astro";
-import "@/styles/global.css";
 ---
 
-<html lang="en">
-  <head>
-    <Head />
-  </head>
-  <body
-    class="bg-background text-foreground font-mono text-xs leading-5 dark:scheme-dark"
-  >
-    <Header />
+<BaseLayout>
+  <AsciiDivider />
 
-    <main>
-      <AsciiDivider />
+  <ProjectSection />
 
-      <ProjectSection />
+  <AsciiDivider />
 
-      <AsciiDivider />
+  <SponsorSection />
 
-      <TeamSection />
+  <AsciiDivider />
 
-      <AsciiDivider />
-
-      <SponsorSection />
-
-      <AsciiDivider />
-
-      <SocialSection />
-    </main>
-
-    <Footer />
-  </body>
-</html>
+  <SocialSection />
+</BaseLayout>

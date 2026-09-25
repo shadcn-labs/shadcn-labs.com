@@ -18,7 +18,14 @@ export const ProjectFilter = ({
   onChange,
   counts,
 }: ProjectFilterProps) => (
-  <Select value={value} onValueChange={onChange}>
+  <Select
+    value={value}
+    onValueChange={(next) => {
+      if (next !== null) {
+        onChange(next);
+      }
+    }}
+  >
     <SelectTrigger className="text-muted-foreground hover:text-foreground h-auto border-none bg-transparent p-0 transition-colors">
       <SelectValue />
     </SelectTrigger>
@@ -36,6 +43,10 @@ export const ProjectFilter = ({
       </SelectItem>
       <SelectItem value="ports">
         ports <span className="text-muted-foreground ml-1">{counts.ports}</span>
+      </SelectItem>
+      <SelectItem value="skills">
+        skills{" "}
+        <span className="text-muted-foreground ml-1">{counts.skills}</span>
       </SelectItem>
     </SelectContent>
   </Select>

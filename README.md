@@ -29,6 +29,7 @@
 | [emailcn](https://emailcn.run) | email components for React, built on React Email, MJML React and JSX Email | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/emailcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/emailcn) |
 | [pdfcn](https://pdfcn.dev) | PDF components for React, built on Takumi and Forme | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/pdfcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/pdfcn) |
 | [editorcn](https://editorcn.vercel.app) | Rich text editor components for React, built on Tiptap | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/editorcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/editorcn) |
+| [shadercn](https://shadercn.run) | shader components for React, built on vgpu and TypeGPU | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadercn) |
 
 ## Contributing
 
@@ -48,8 +49,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 <a href="https://www.star-history.com/?repos=shadcn-labs%2Fshadcn-labs.com&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&theme=dark&legend=top-left&sealed_token=XKWrspha3gAjFudQU-OwB8pJtihdxgWRZ4Ar97V1d1b1hndCpgpjUMnHbV1qzF7qZQYsxhlKf1jKgDx9P52ueTR7h8JuJlLOY7kZWwvhqSN3hDEK0k5PFWVuKA6-hmbBDxy390_xP2RcIuiQzAOzNDSw9MQL8SRiEMVPy92VqucPSlLOB2RodJTP5eTq" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&legend=top-left&sealed_token=XKWrspha3gAjFudQU-OwB8pJtihdxgWRZ4Ar97V1d1b1hndCpgpjUMnHbV1qzF7qZQYsxhlKf1jKgDx9P52ueTR7h8JuJlLOY7kZWwvhqSN3hDEK0k5PFWVuKA6-hmbBDxy390_xP2RcIuiQzAOzNDSw9MQL8SRiEMVPy92VqucPSlLOB2RodJTP5eTq" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&legend=top-left&sealed_token=XKWrspha3gAjFudQU-OwB8pJtihdxgWRZ4Ar97V1d1b1hndCpgpjUMnHbV1qzF7qZQYsxhlKf1jKgDx9P52ueTR7h8JuJlLOY7kZWwvhqSN3hDEK0k5PFWVuKA6-hmbBDxy390_xP2RcIuiQzAOzNDSw9MQL8SRiEMVPy92VqucPSlLOB2RodJTP5eTq" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=shadcn-labs/shadcn-labs.com&type=date&legend=top-left" />
  </picture>
 </a>

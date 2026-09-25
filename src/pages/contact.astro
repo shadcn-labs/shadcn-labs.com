@@ -1,0 +1,81 @@
+---
+import { CornerDownLeft } from "@lucide/astro";
+import AsciiDivider from "@/components/ascii-divider.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { LINKS } from "@/constants/links";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
+
+const fieldClass =
+  "w-full rounded-xl border border-border bg-foreground/5 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground";
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Shadcn Labs — send a message or reach us by email and X."
+>
+  <AsciiDivider />
+
+  <section id="contact" class="view-container scroll-mt-10">
+    <h2>
+      <a href="#contact" class="text-foreground no-underline hover:underline"
+        >CONTACT</a
+      >
+    </h2>
+    <p class="text-muted-foreground">
+      Send a message using the form, or reach out directly.
+    </p>
+
+    <form
+      action={`https://formsubmit.co/${LINKS.EMAIL}`}
+      method="POST"
+      class="flex flex-col gap-4 pt-2"
+    >
+      <div class="flex flex-col gap-4 sm:flex-row">
+        <input
+          type="text"
+          name="name"
+          placeholder="John Doe"
+          required
+          class={fieldClass}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="john@doe.com"
+          required
+          class={fieldClass}
+        />
+      </div>
+      <textarea
+        name="message"
+        placeholder="Enter your message"
+        rows={6}
+        required
+        class={fieldClass}></textarea>
+      <div class="flex items-center justify-between gap-4">
+        <button
+          type="submit"
+          class="cursor-pointer rounded-full border border-border bg-foreground/5 px-5 py-2.5 text-sm hover:bg-foreground/10"
+        >
+          Send message
+        </button>
+        <span class="text-muted-foreground text-sm">
+          or
+          <span class="inline-flex items-center gap-1 text-foreground">
+            <CornerDownLeft size={14} aria-hidden="true" />
+            Enter
+          </span>
+          to send
+        </span>
+      </div>
+    </form>
+
+    <p class="pt-4">
+      Or email <a href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> or <a
+        target="_blank"
+        href={addQueryParams(LINKS.FOUNDER_X_DM, UTM_PARAMS)}>DM us on X</a
+      >.
+    </p>
+  </section>
+</BaseLayout>

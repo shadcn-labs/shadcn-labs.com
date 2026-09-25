@@ -14,6 +14,7 @@ export const ProjectList = () => {
     all: PROJECTS.length,
     ports: PROJECTS.filter((p) => p.category === "ports").length,
     registries: PROJECTS.filter((p) => p.category === "registries").length,
+    skills: PROJECTS.filter((p) => p.category === "skills").length,
     templates: PROJECTS.filter((p) => p.category === "templates").length,
   };
 

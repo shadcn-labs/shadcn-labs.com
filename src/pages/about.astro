@@ -1,0 +1,53 @@
+---
+import AsciiDivider from "@/components/ascii-divider.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
+import TeamSection from "@/components/team-section.astro";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
+---
+
+<BaseLayout
+  title="About"
+  description="Shadcn Labs creates open-source tools that extend what’s possible with the shadcn/ui ecosystem."
+>
+  <AsciiDivider />
+
+  <section id="about" class="view-container scroll-mt-10">
+    <h2>
+      <a href="#about" class="text-foreground no-underline hover:underline"
+        >ABOUT</a
+      >
+    </h2>
+    <p>
+      At Shadcn Labs, we create open-source tools that extend what’s possible
+      with the shadcn/ui ecosystem.
+    </p>
+    <p>
+      We’re an independent org exploring new primitives for developers and AI
+      agents to build on — from terminal UIs and shaders to email, PDF, editors,
+      and beyond. Everything we make is free, open source, and shaped by the
+      community. Found a bug, have an idea, or <a href="/issues"
+        >want to contribute</a
+      >? Jump in.
+    </p>
+    <p>
+      Building from <a
+        href={addQueryParams(
+          `https://www.google.com/maps/search/mumbai%2C%2BIndia/?hl=en`,
+          UTM_PARAMS,
+        )}
+        target="_blank">Mumbai, India</a
+      > for the world.
+    </p>
+    <p class="text-muted-foreground">
+      Not endorsed by or affiliated with <a
+        target="_blank"
+        href={addQueryParams("https://shadcn.com/", UTM_PARAMS)}>shadcn</a
+      >.
+    </p>
+  </section>
+
+  <AsciiDivider />
+
+  <TeamSection />
+</BaseLayout>
