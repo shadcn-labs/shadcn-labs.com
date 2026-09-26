@@ -1,5 +1,6 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
+import { Badge } from "@/components/ui/badge";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { PROJECTS } from "@/constants/projects";
 import { UTM_PARAMS } from "@/constants/site";
@@ -50,8 +51,8 @@ const formatDate = (value: string): string =>
         <p>
           <span class="font-mono">{total}</span> open issue
           {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
-          <span class="text-highlight">good first issue</span> or{" "}
-          <span class="text-highlight">help wanted</span> are a great place to
+          <Badge variant="secondary">good first issue</Badge> or{" "}
+          <Badge variant="secondary">help wanted</Badge> are a great place to
           start.
         </p>
       )
@@ -66,7 +67,7 @@ const formatDate = (value: string): string =>
             </a>{" "}
             <span class="font-mono">[{group.count}]</span>
           </h3>
-          <ul class="space-y-1">
+          <ul class="space-y-2">
             {group.issues.map((issue) => (
               <li>
                 <a
@@ -78,8 +79,12 @@ const formatDate = (value: string): string =>
                 <br />
                 {issue.labels.length > 0 && (
                   <>
-                    <span class="text-highlight">
-                      [{issue.labels.map((label) => label.name).join(", ")}]
+                    <span class="inline-flex flex-wrap items-center gap-1.5">
+                      {issue.labels.map((label) => (
+                        <Badge key={label.name} variant="secondary">
+                          {label.name}
+                        </Badge>
+                      ))}
                     </span>
                     <br />
                   </>

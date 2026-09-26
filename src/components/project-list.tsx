@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { PROJECTS } from "@/constants/projects";
 import type { ProjectCategory } from "@/constants/projects";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
 
 export const ProjectList = () => {
   const [filter, setFilter] = useState<ProjectCategory | "all">("all");
@@ -86,22 +88,18 @@ export const ProjectList = () => {
       <ul className="space-y-2">
         {filteredProjects.map((project) => (
           <li key={project.name}>
-            {project.isNew ? (
-              <span className="inline-flex items-center gap-2">
-                <a target="_blank" href={project.url}>
-                  {project.name}
-                </a>
+            <span className="inline-flex items-center gap-2">
+              <a target="_blank" href={addQueryParams(project.url, UTM_PARAMS)}>
+                {project.name}
+              </a>
+              {project.isNew ? (
                 <img
                   src="/new.gif"
                   alt="new"
                   className="h-6 w-auto align-middle"
                 />
-              </span>
-            ) : (
-              <a target="_blank" href={project.url}>
-                {project.name}
-              </a>
-            )}
+              ) : null}
+            </span>
             <br />
             {project.description}
           </li>
