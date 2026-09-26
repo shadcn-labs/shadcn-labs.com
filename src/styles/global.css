@@ -147,7 +147,7 @@
 }
 
 @utility view-container {
-  @apply mx-auto max-w-2xl space-y-2 px-7.5 sm:px-10;
+  @apply mx-auto max-w-2xl scroll-mt-6 space-y-2 px-7.5 sm:px-10;
 }
 
 @utility view-container-title {
