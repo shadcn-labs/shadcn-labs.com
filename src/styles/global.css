@@ -127,6 +127,19 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Tweet theme — site palette instead of react-tweet's blue-tinted dark theme */
+html .react-tweet-theme {
+  max-width: none;
+  --tweet-bg-color: transparent;
+  --tweet-bg-color-hover: var(--muted);
+  --tweet-border: 1px solid var(--border);
+  --tweet-color-blue-primary: var(--link);
+  --tweet-color-blue-primary-hover: var(--link-hover);
+  --tweet-font-color: var(--foreground);
+  --tweet-font-color-secondary: var(--muted-foreground);
+  --tweet-font-family: var(--font-geist-sans);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

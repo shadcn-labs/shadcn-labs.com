@@ -1,0 +1,125 @@
+---
+import { EmbeddedTweet } from "react-tweet";
+import { getTweet } from "react-tweet/api";
+import "react-tweet/theme.css";
+import AsciiDivider from "@/components/ascii-divider.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
+import {
+  PRESS_NEWSLETTERS,
+  PRESS_TWEETS,
+  PRESS_VIDEOS,
+} from "@/constants/press";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
+
+const tweets = await Promise.all(
+  PRESS_TWEETS.map(async (id) => {
+    try {
+      return { id, tweet: (await getTweet(id)) ?? null };
+    } catch {
+      return { id, tweet: null };
+    }
+  }),
+);
+---
+
+<BaseLayout
+  title="Press"
+  description="Shadcn Labs in the wild — videos, newsletter features, and posts from the community."
+>
+  <AsciiDivider />
+
+  <section id="videos" class="view-container">
+    <h2>
+      <a href="#videos" class="view-container-title">VIDEOS</a>
+    </h2>
+    <ul class="space-y-6 py-2">
+      {
+        PRESS_VIDEOS.map((video) => (
+          <li class="overflow-hidden rounded-lg border border-border">
+            <iframe
+              src={`https://www.embedlite.com/embed/${video.id}${video.start ? `?start=${video.start}` : ""}`}
+              title={video.title}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              class="aspect-video w-full"
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="newsletters" class="view-container">
+    <h2>
+      <a href="#newsletters" class="view-container-title">NEWSLETTERS</a>
+    </h2>
+    <ul class="space-y-3 py-2">
+      {
+        PRESS_NEWSLETTERS.map((item) => {
+          const domain = item.faviconDomain ?? new URL(item.url).hostname;
+
+          return (
+            <li>
+              <a
+                href={addQueryParams(item.url, UTM_PARAMS)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block rounded-lg border border-border p-4 text-foreground transition-colors hover:bg-muted/50 hover:no-underline hover:text-foreground"
+              >
+                <span class="flex items-center gap-2 text-muted-foreground text-xs">
+                  <img
+                    src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+                    alt=""
+                    width="20"
+                    height="20"
+                    loading="lazy"
+                    class="size-5 rounded-sm"
+                  />
+                  {item.publisher}
+                </span>
+                <span class="mt-1.5 block font-medium text-foreground">
+                  {item.title}
+                </span>
+                <span class="mt-0.5 block text-muted-foreground text-sm">
+                  {item.description}
+                </span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="posts" class="view-container">
+    <h2>
+      <a href="#posts" class="view-container-title">POSTS</a>
+    </h2>
+    <ul class="space-y-4 py-2">
+      {
+        tweets.map(({ id, tweet }) => (
+          <li class="[--tweet-container-margin:0rem]">
+            {tweet ? (
+              <EmbeddedTweet tweet={tweet} />
+            ) : (
+              <a
+                href={`https://x.com/i/status/${id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block rounded-lg border border-border p-4 text-foreground transition-colors hover:bg-muted/50 hover:no-underline hover:text-foreground"
+              >
+                View post on X →
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
