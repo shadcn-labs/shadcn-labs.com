@@ -50,8 +50,8 @@ const formatDate = (value: string): string =>
         <p>
           <span class="font-mono">{total}</span> open issue
           {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
-          <span class="text-primary">good first issue</span> or{" "}
-          <span class="text-primary">help wanted</span> are a great place to
+          <span class="text-highlight">good first issue</span> or{" "}
+          <span class="text-highlight">help wanted</span> are a great place to
           start.
         </p>
       )
@@ -78,7 +78,7 @@ const formatDate = (value: string): string =>
                 <br />
                 {issue.labels.length > 0 && (
                   <>
-                    <span class="text-primary">
+                    <span class="text-highlight">
                       [{issue.labels.map((label) => label.name).join(", ")}]
                     </span>
                     <br />

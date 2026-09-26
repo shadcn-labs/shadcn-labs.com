@@ -16,6 +16,7 @@
   --color-ring: var(--ring);
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
+  --color-highlight: var(--highlight);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -54,7 +55,8 @@
 :root {
   --background: #f5f4ef;
   --foreground: #111;
-  --primary: #f06292;
+  --primary: oklch(0.205 0 0);
+  --highlight: #f06292;
   --border: #e5e5e5;
   --ring: #111;
   --muted-foreground: oklch(0.556 0 0);
@@ -91,12 +93,13 @@
 .dark {
   --background: #1c1a12;
   --foreground: #f5f4ef;
-  --primary: #f06292;
+  --primary: oklch(0.922 0 0);
+  --highlight: #f06292;
   --border: #333;
   --ring: #f5f4ef;
   --muted-foreground: oklch(0.708 0 0);
-  --link: #2563eb;
-  --link-hover: #1d4ed8;
+  --link: #60a5fa;
+  --link-hover: #93c5fd;
   --card: #1c1a12;
   --card-foreground: #f5f4ef;
   --popover: #1c1a12;

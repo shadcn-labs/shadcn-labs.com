@@ -40,7 +40,7 @@ export const ModeToggle = () => {
         <MoonIcon className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
         <span className="sr-only">Toggle theme</span>
       </TooltipTrigger>
-      <TooltipContent>{isDark ? "Go Light" : "Go Dark"}</TooltipContent>
+      <TooltipContent>{isDark ? "Delight" : "Go Dark"}</TooltipContent>
     </Tooltip>
   );
 };

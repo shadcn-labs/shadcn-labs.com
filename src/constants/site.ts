@@ -45,6 +45,5 @@ export const UTM_PARAMS = {
 export const NAV = [
   { href: ROUTES.HOME, label: "home" },
   { href: ROUTES.ABOUT, label: "about" },
-  // { href: ROUTES.CONTACT, label: "contact" },
-  { href: ROUTES.BRAND, label: "brand" },
+  { href: ROUTES.CONTACT, label: "contact" },
 ];
