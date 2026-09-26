@@ -43,6 +43,10 @@ export const PRESS_VIDEOS: PressVideo[] = [
     title:
       "GitHub Trending Today #31: wterm, openduck, termcn, GHFS, tegaki, xata, weft, Snapframe, lite-edit",
   },
+  {
+    id: "zfieeZJNEyE",
+    title: "shadcn for Open Graph Images? This Registry is Beautiful",
+  },
 ];
 
 export const PRESS_NEWSLETTERS: PressNewsletter[] = [
@@ -79,4 +83,10 @@ export const PRESS_TWEETS: string[] = [
   "2088183823381225517",
   "2102194871708856683",
   "2088193913064399131",
+  "2075558867883450806",
+  "2082728426948227502",
+  "2052128256824951081",
+  "2067852539228225842",
+  "2099701982181085654",
+  "2068582704812028233",
 ];
