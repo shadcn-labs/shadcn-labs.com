@@ -89,7 +89,7 @@
 }
 
 .dark {
-  --background: #070708;
+  --background: #1c1a12;
   --foreground: #f5f4ef;
   --primary: #f06292;
   --border: #333;
@@ -97,15 +97,15 @@
   --muted-foreground: oklch(0.708 0 0);
   --link: #2563eb;
   --link-hover: #1d4ed8;
-  --card: #070708;
+  --card: #1c1a12;
   --card-foreground: #f5f4ef;
-  --popover: #070708;
+  --popover: #1c1a12;
   --popover-foreground: #f5f4ef;
   --primary-foreground: oklch(0.205 0 0);
-  --secondary: #17171a;
+  --secondary: #27251b;
   --secondary-foreground: #f5f4ef;
-  --muted: #17171a;
-  --accent: #17171a;
+  --muted: #27251b;
+  --accent: #27251b;
   --accent-foreground: #f5f4ef;
   --destructive: oklch(0.704 0.191 22.216);
   --input: #333;
@@ -147,8 +147,6 @@
   @apply mx-auto max-w-2xl space-y-2 px-7.5 sm:px-10;
 }
 
-/* Dropdown popups: padding around the whole menu (items stay flush) */
-[data-slot="select-content"],
-[data-slot="context-menu-content"] {
-  padding: 0.375rem;
+@utility view-container-title {
+  @apply text-foreground tracking-[-0.03em];
 }

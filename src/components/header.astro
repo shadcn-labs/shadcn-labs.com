@@ -1,6 +1,7 @@
 ---
 import { NAV } from "@/constants/site";
 import { BrandContextMenu } from "@/components/brand-context-menu";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const { pathname } = Astro.url;
 ---
@@ -42,9 +43,11 @@ const { pathname } = Astro.url;
       </h1>
     </BrandContextMenu>
     <p class="text-primary">Pushing the limits of the shadcn/ui ecosystem.</p>
-    <p class="text-muted-foreground text-xs">© Shadcn Labs 2026</p>
+    <p class="text-muted-foreground text-xs">
+      © Shadcn Labs <span class="font-mono">{new Date().getFullYear()}</span>
+    </p>
   </div>
-  <nav class="flex gap-4">
+  <nav class="mt-6 flex items-center gap-4">
     {
       NAV.map((item) => (
         <a
@@ -55,5 +58,8 @@ const { pathname } = Astro.url;
         </a>
       ))
     }
+    <div class="ml-auto">
+      <ModeToggle client:load />
+    </div>
   </nav>
 </header>

@@ -2,6 +2,7 @@
 import Head from "@/components/head.astro";
 import Header from "@/components/header.astro";
 import Footer from "@/components/footer.astro";
+import { Toaster } from "@/components/ui/sonner";
 import "@/styles/global.css";
 
 interface Props {
@@ -15,6 +16,33 @@ const { title, description } = Astro.props;
 <html lang="en">
   <head>
     <Head title={title} description={description} />
+
+    <script is:inline>
+      const getThemePreference = () => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+      const isDark = getThemePreference() === "dark";
+      document.documentElement.classList.toggle("dark", isDark);
+
+      if (typeof localStorage !== "undefined") {
+        const observer = new MutationObserver(() => {
+          const nowDark = document.documentElement.classList.contains("dark");
+          localStorage.setItem("theme", nowDark ? "dark" : "light");
+        });
+        observer.observe(document.documentElement, {
+          attributeFilter: ["class"],
+          attributes: true,
+        });
+      }
+    </script>
   </head>
   <body class="bg-background text-foreground font-sans dark:scheme-dark">
     <Header />
@@ -24,5 +52,7 @@ const { title, description } = Astro.props;
     </main>
 
     <Footer />
+
+    <Toaster client:load />
   </body>
 </html>
