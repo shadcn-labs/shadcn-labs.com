@@ -35,7 +35,7 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
-<meta name="theme-color" content="#070708" />
+<meta name="theme-color" content="#1c1a12" />
 
 <SEO
   title={pageTitle}
@@ -81,5 +81,6 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
   })}
 />
 
+<Font cssVariable="--font-geist-sans" preload />
 <Font cssVariable="--font-geist-mono" preload />
 <Analytics />

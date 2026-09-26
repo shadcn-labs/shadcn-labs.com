@@ -1,4 +1,5 @@
 // @ts-check
+import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
@@ -11,6 +12,12 @@ export default defineConfig({
     },
   }),
   fonts: [
+    {
+      cssVariable: "--font-geist-sans",
+      fallbacks: ["sans-serif"],
+      name: "Geist Sans",
+      provider: fontProviders.fontsource(),
+    },
     {
       cssVariable: "--font-geist-mono",
       fallbacks: ["monospace"],
@@ -29,6 +36,7 @@ export default defineConfig({
       entrypoint: "astro/assets/services/sharp",
     },
   },
+  integrations: [react()],
   output: "static",
   vite: {
     plugins: [tailwindcss()],

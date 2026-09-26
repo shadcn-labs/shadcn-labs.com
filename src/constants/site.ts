@@ -34,7 +34,7 @@ export const SITE = {
 };
 
 export const META_THEME_COLORS = {
-  dark: "#070708",
+  dark: "#1c1a12",
   light: "#f5f4ef",
 };
 
@@ -45,6 +45,5 @@ export const UTM_PARAMS = {
 export const NAV = [
   { href: ROUTES.HOME, label: "home" },
   { href: ROUTES.ABOUT, label: "about" },
-  // { href: ROUTES.CONTACT, label: "contact" },
-  { href: ROUTES.BRAND, label: "brand" },
+  { href: ROUTES.CONTACT, label: "contact" },
 ];

@@ -1,5 +1,6 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
+import { Badge } from "@/components/ui/badge";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { PROJECTS } from "@/constants/projects";
 import { UTM_PARAMS } from "@/constants/site";
@@ -27,11 +28,9 @@ const formatDate = (value: string): string =>
 >
   <AsciiDivider />
 
-  <section class="view-container scroll-mt-10" id="issues">
+  <section class="view-container" id="issues">
     <h2>
-      <a href="#issues" class="text-foreground no-underline hover:underline"
-        >OPEN ISSUES</a
-      >
+      <a href="#issues" class="view-container-title">OPEN ISSUES</a>
     </h2>
 
     {
@@ -50,9 +49,10 @@ const formatDate = (value: string): string =>
         <p>No open issues right now. Check back soon.</p>
       ) : (
         <p>
-          {total} open issue{total === 1 ? "" : "s"} across the labs. Issues
-          marked <span class="text-primary">good first issue</span> or{" "}
-          <span class="text-primary">help wanted</span> are a great place to
+          <span class="font-mono">{total}</span> open issue
+          {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
+          <Badge variant="secondary">good first issue</Badge> or{" "}
+          <Badge variant="secondary">help wanted</Badge> are a great place to
           start.
         </p>
       )
@@ -64,10 +64,10 @@ const formatDate = (value: string): string =>
           <h3 class="pt-4">
             <a target="_blank" href={addQueryParams(group.url, UTM_PARAMS)}>
               {group.name}
-            </a>
-            <span> [{group.count}]</span>
+            </a>{" "}
+            <span class="font-mono">[{group.count}]</span>
           </h3>
-          <ul class="space-y-1">
+          <ul class="space-y-2">
             {group.issues.map((issue) => (
               <li>
                 <a
@@ -79,8 +79,12 @@ const formatDate = (value: string): string =>
                 <br />
                 {issue.labels.length > 0 && (
                   <>
-                    <span class="text-primary">
-                      [{issue.labels.map((label) => label.name).join(", ")}]
+                    <span class="inline-flex flex-wrap items-center gap-1.5">
+                      {issue.labels.map((label) => (
+                        <Badge key={label.name} variant="secondary">
+                          {label.name}
+                        </Badge>
+                      ))}
                     </span>
                     <br />
                   </>

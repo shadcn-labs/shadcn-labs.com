@@ -111,7 +111,7 @@ export const getIssuesByRepo = async (): Promise<RepoIssues[] | null> => {
             b.created_at.localeCompare(a.created_at)
         ),
         name,
-        url: `https://github.com/shadcn-labs/${name}`,
+        url: `https://github.com/shadcn-labs/${name}/issues`,
       }))
       .toSorted((a, b) => b.count - a.count);
   } catch {

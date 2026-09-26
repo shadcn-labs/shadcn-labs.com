@@ -4,22 +4,21 @@ import { UTM_PARAMS } from "@/constants/site";
 import { addQueryParams } from "@/lib/url";
 ---
 
-<section id="sponsor-us" class="view-container scroll-mt-10">
+<section id="sponsor-us" class="view-container">
   <h2>
-    <a href="#sponsor-us" class="text-foreground no-underline hover:underline"
-      >SPONSOR US</a
-    >
+    <a href="#sponsor-us" class="view-container-title">SPONSOR US</a>
   </h2>
   <p>
     Sponsor the whole ecosystem and get prominent placement on all of our
-    projects. Currently priced at $499/month. Interested? <a
+    projects. Currently priced at <span class="font-mono">$499</span>/month.
+    Interested? <a
       href={addQueryParams(LINKS.FOUNDER_X_DM, UTM_PARAMS)}
       target="_blank">DM us on X</a
     >.
   </p>
   <p class="text-muted-foreground">
-    50K+ visitors per month across all of our projects<span class="text-primary"
-      >*</span
+    <span class="font-mono">50K+</span> visitors per month across all of our projects<span
+      class="text-highlight">*</span
     >
   </p>
 </section>

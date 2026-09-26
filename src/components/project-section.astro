@@ -1,40 +1,12 @@
 ---
 import { ArrowRight } from "@lucide/astro";
-import { PROJECTS } from "@/constants/projects";
-import { UTM_PARAMS } from "@/constants/site";
-import { addQueryParams } from "@/lib/url";
+import { ProjectList } from "@/components/project-list";
 ---
 
-<section id="projects" class="view-container scroll-mt-10">
-  <h2>
-    <a href="#projects" class="text-foreground no-underline hover:underline"
-      >PROJECTS</a
-    >
-  </h2>
-  <ul class="space-y-1">
-    {
-      PROJECTS.map((project) => (
-        <li>
-          {project.isNew ? (
-            <span class="inline-flex items-center gap-2">
-              <a target="_blank" href={addQueryParams(project.url, UTM_PARAMS)}>
-                {project.name}
-              </a>
-              <img src="/new.gif" alt="new" class="h-6 w-auto align-middle" />
-            </span>
-          ) : (
-            <a target="_blank" href={addQueryParams(project.url, UTM_PARAMS)}>
-              {project.name}
-            </a>
-          )}
-          <br />
-          {project.description}
-        </li>
-      ))
-    }
-  </ul>
+<section id="projects" class="view-container">
+  <ProjectList client:load />
   <p class="text-muted-foreground pt-2">
-    Want to contribute?
+    Want to contribute?{" "}
     <a href="/issues" class="inline-flex items-center gap-1">
       Browse open issues
       <ArrowRight size={14} aria-hidden="true" />
