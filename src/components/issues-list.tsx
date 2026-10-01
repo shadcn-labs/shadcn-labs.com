@@ -7,6 +7,7 @@ import { IssueCollapsible } from "@/components/issue-collapsible";
 import { IssueListItem } from "@/components/issue-list-item";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Empty, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
 import {
@@ -238,99 +239,102 @@ export const IssuesList = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Select
-            value={selectedRepo}
-            onValueChange={(val) => {
-              if (val !== null) {
-                setSelectedRepo(val);
-              }
-            }}
+        <Select
+          value={selectedRepo}
+          onValueChange={(val) => {
+            if (val !== null) {
+              setSelectedRepo(val);
+            }
+          }}
+        >
+          <SelectTrigger
+            size="default"
+            className="w-full sm:w-[130px]"
+            aria-label="Filter by repository"
           >
-            <SelectTrigger
-              size="default"
-              className="w-full sm:w-[220px]"
-              aria-label="Filter by repository"
-            >
-              <SelectValue placeholder="All projects" />
-            </SelectTrigger>
-            <SelectContent className="min-w-[200px]">
-              <SelectGroup>
-                <SelectItem value="all">
-                  All projects{" "}
-                  <span className="text-muted-foreground ml-1 font-mono">
-                    [{total}]
+            <SelectValue placeholder="All projects" />
+          </SelectTrigger>
+          <SelectContent className="min-w-[200px]">
+            <SelectGroup>
+              <SelectItem value="all">
+                <span className="min-w-0 truncate" title="All projects">
+                  All projects
+                </span>
+                <span className="text-muted-foreground ml-1 shrink-0 font-mono">
+                  [{total}]
+                </span>
+              </SelectItem>
+              {groups?.map((group) => (
+                <SelectItem key={group.name} value={group.name}>
+                  <span className="min-w-0 truncate" title={group.name}>
+                    {group.name}
+                  </span>
+                  <span className="text-muted-foreground ml-1 shrink-0 font-mono">
+                    [{group.count}]
                   </span>
                 </SelectItem>
-                {groups?.map((group) => (
-                  <SelectItem key={group.name} value={group.name}>
-                    {group.name}{" "}
-                    <span className="text-muted-foreground ml-1 font-mono">
-                      [{group.count}]
-                    </span>
-                  </SelectItem>
-                ))}
-                {idleProjects.map((projectName) => (
-                  <SelectItem key={projectName} value={projectName}>
-                    {projectName}{" "}
-                    <span className="text-muted-foreground ml-1 font-mono">
-                      [0]
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          {hasActiveFilter && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleClear}
-              className="text-muted-foreground hover:text-foreground shrink-0 cursor-pointer"
-            >
-              Reset
-            </Button>
-          )}
-        </div>
+              ))}
+              {idleProjects.map((projectName) => (
+                <SelectItem key={projectName} value={projectName}>
+                  <span className="min-w-0 truncate" title={projectName}>
+                    {projectName}
+                  </span>
+                  <span className="text-muted-foreground ml-1 shrink-0 font-mono">
+                    [0]
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Live Count / Stats */}
-      <p aria-live="polite" className="text-muted-foreground">
-        {hasActiveFilter ? (
-          <>
-            Showing{" "}
-            <span className="text-foreground font-mono">
-              {visibleIssuesCount}
-            </span>{" "}
-            of <span className="text-foreground font-mono">{total}</span> open
-            issue{total === 1 ? "" : "s"} across the labs.
-          </>
-        ) : (
-          <>
-            <span className="text-foreground font-mono">{total}</span> open
-            issue
-            {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
-            <Badge variant="secondary">good first issue</Badge> or{" "}
-            <Badge variant="secondary">help wanted</Badge> are a great place to
-            start.
-          </>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <p aria-live="polite" className="text-muted-foreground">
+          {hasActiveFilter ? (
+            <>
+              Showing{" "}
+              <span className="text-foreground font-mono">
+                {visibleIssuesCount}
+              </span>{" "}
+              of <span className="text-foreground font-mono">{total}</span> open
+              issue{total === 1 ? "" : "s"} across the labs.
+            </>
+          ) : (
+            <>
+              <span className="text-foreground font-mono">{total}</span> open
+              issue
+              {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
+              <Badge variant="secondary">good first issue</Badge> or{" "}
+              <Badge variant="secondary">help wanted</Badge> are a great place
+              to start.
+            </>
+          )}
+        </p>
+
+        {hasActiveFilter && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClear}
+            className="text-muted-foreground hover:text-foreground shrink-0"
+          >
+            Reset
+          </Button>
         )}
-      </p>
+      </div>
 
       {/* Issues Grouped by Repo */}
       {filteredGroups.length === 0 ? (
-        <div className="text-muted-foreground rounded-lg border border-dashed py-8 text-center">
-          <p>No issues match your search.</p>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleClear}
-            className="mt-3 cursor-pointer"
-          >
+        <Empty className="border">
+          <EmptyHeader>
+            <EmptyTitle>No issues match your search.</EmptyTitle>
+          </EmptyHeader>
+          <Button variant="outline" size="sm" onClick={handleClear}>
             Clear filters
           </Button>
-        </div>
+        </Empty>
       ) : (
         <div className="space-y-6">
           {filteredGroups.map((group) => {

@@ -146,6 +146,11 @@ html .react-tweet-theme {
     @apply border-border outline-ring/50;
   }
 
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
   html {
     scroll-behavior: smooth;
     overscroll-behavior-y: none;
