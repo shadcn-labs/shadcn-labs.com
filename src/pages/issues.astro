@@ -1,8 +1,5 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
-import IssueListItem from "@/components/issue-list-item.astro";
-import { IssueCollapsible } from "@/components/issue-collapsible";
-import { Badge } from "@/components/ui/badge";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { PROJECTS } from "@/constants/projects";
 import { UTM_PARAMS } from "@/constants/site";
@@ -12,6 +9,7 @@ import {
   getIssuesByRepo,
 } from "@/lib/github";
 import { addQueryParams } from "@/lib/url";
+import { IssuesList } from "@/components/issues-list";
 
 // Rendered on demand so the edge cache can serve it for minutes at a time
 // instead of freezing a snapshot into the build.
@@ -99,53 +97,12 @@ const formatUpdatedAt = (value: string): string =>
       ) : total === 0 ? (
         <p>No open issues right now. Check back soon.</p>
       ) : (
-        <p>
-          <span class="font-mono">{total}</span> open issue
-          {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
-          <Badge variant="secondary">good first issue</Badge> or{" "}
-          <Badge variant="secondary">help wanted</Badge> are a great place to
-          start.
-        </p>
-      )
-    }
-
-    {
-      groups?.map((group) => {
-        const initialIssues = group.issues.slice(0, 5);
-        const remainingIssues = group.issues.slice(5);
-        const remainingCount = remainingIssues.length;
-
-        return (
-          <>
-            <h3 class="pt-4">
-              <a target="_blank" href={addQueryParams(group.url, UTM_PARAMS)}>
-                {group.name}
-              </a>{" "}
-              <span class="font-mono">[{group.count}]</span>
-            </h3>
-            <ul class="space-y-2">
-              {initialIssues.map((issue) => (
-                <IssueListItem issue={issue} />
-              ))}
-            </ul>
-
-            {remainingCount > 0 && (
-              <IssueCollapsible client:visible count={remainingCount}>
-                {remainingIssues.map((issue) => (
-                  <IssueListItem issue={issue} />
-                ))}
-              </IssueCollapsible>
-            )}
-          </>
-        );
-      })
-    }
-
-    {
-      idleProjects.length > 0 && (
-        <p class="text-muted-foreground pt-4">
-          No open issues: {idleProjects.join(", ")}.
-        </p>
+        <IssuesList
+          client:load
+          groups={groups}
+          idleProjects={idleProjects}
+          total={total}
+        />
       )
     }
   </section>
