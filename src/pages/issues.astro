@@ -52,6 +52,9 @@ const formatUpdatedAt = (value: string): string =>
     timeZone: "UTC",
     timeZoneName: "short",
   });
+
+const initialQuery = Astro.url.searchParams.get("q") ?? "";
+const initialRepo = Astro.url.searchParams.get("repo") ?? "";
 ---
 
 <BaseLayout
@@ -102,6 +105,8 @@ const formatUpdatedAt = (value: string): string =>
           groups={groups}
           idleProjects={idleProjects}
           total={total}
+          initialQuery={initialQuery}
+          initialRepo={initialRepo}
         />
       )
     }

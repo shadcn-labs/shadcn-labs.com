@@ -1,7 +1,7 @@
 "use client";
 
 import { Search, X } from "lucide-react";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useId, useMemo } from "react";
 
 import { IssueCollapsible } from "@/components/issue-collapsible";
 import { IssueListItem } from "@/components/issue-list-item";
@@ -19,6 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UTM_PARAMS } from "@/constants/site";
+import { useHotkey } from "@/hooks/use-hotkey";
+import { useSearchFilter } from "@/hooks/use-search-filter";
 import type { GitHubIssue, RepoIssues } from "@/lib/github";
 import { addQueryParams } from "@/lib/url";
 
@@ -26,6 +28,8 @@ interface IssuesListProps {
   groups: RepoIssues[] | null;
   idleProjects: string[];
   total: number;
+  initialQuery?: string;
+  initialRepo?: string;
 }
 
 const INITIAL_VISIBLE = 5;
@@ -34,96 +38,32 @@ export const IssuesList = ({
   groups,
   idleProjects,
   total,
+  initialQuery = "",
+  initialRepo = "",
 }: IssuesListProps) => {
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const searchInputId = useId();
 
-  // Search and filter state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
-  const [selectedRepo, setSelectedRepo] = useState<string>("all");
-  const [isHydrated, setIsHydrated] = useState(false);
+  const {
+    inputRef: searchInputRef,
+    query: searchQuery,
+    setQuery: setSearchQuery,
+    normalizedQuery,
+    filter: selectedRepo,
+    setFilter: setSelectedRepo,
+    hasActiveFilter,
+    clear: handleClear,
+    clearQuery: handleClearQuery,
+    handleInputKeyDown,
+  } = useSearchFilter({
+    filterParam: "repo",
+    initialFilter: initialRepo,
+    initialQuery,
+  });
 
-  // Read URL query params on initial mount
-  useEffect(() => {
-    setIsHydrated(true);
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const qParam = params.get("q");
-    const repoParam = params.get("repo");
-
-    if (qParam) {
-      setSearchQuery(qParam);
-      setDebouncedQuery(qParam);
-    }
-    if (repoParam) {
-      setSelectedRepo(repoParam);
-    }
-  }, []);
-
-  // Debounce search query by 150ms
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 150);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  // Sync state to URL search parameters
-  useEffect(() => {
-    if (!isHydrated || typeof window === "undefined") {
-      return;
-    }
-
-    const url = new URL(window.location.href);
-    const trimmed = debouncedQuery.trim();
-
-    if (trimmed) {
-      url.searchParams.set("q", trimmed);
-    } else {
-      url.searchParams.delete("q");
-    }
-
-    if (selectedRepo && selectedRepo !== "all") {
-      url.searchParams.set("repo", selectedRepo);
-    } else {
-      url.searchParams.delete("repo");
-    }
-
-    const nextSearch = url.searchParams.toString();
-    const nextUrl = nextSearch ? `${url.pathname}?${nextSearch}` : url.pathname;
-
-    if (nextUrl !== `${window.location.pathname}${window.location.search}`) {
-      window.history.replaceState(null, "", nextUrl);
-    }
-  }, [debouncedQuery, selectedRepo, isHydrated]);
-
-  // Keyboard shortcut: '/' to focus search, 'Escape' to clear
-  useEffect(() => {
-    const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.key === "/" &&
-        document.activeElement !== searchInputRef.current &&
-        !["INPUT", "TEXTAREA", "SELECT"].includes(
-          document.activeElement?.tagName || ""
-        )
-      ) {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-      }
-    };
-
-    window.addEventListener("keydown", handleGlobalKeyDown);
-    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, []);
-
-  // Filter matching
-  const normalizedQuery = debouncedQuery.trim().toLowerCase();
-  const hasActiveFilter = Boolean(normalizedQuery || selectedRepo !== "all");
+  useHotkey("/", (event) => {
+    event.preventDefault();
+    searchInputRef.current?.focus();
+  });
 
   const matchesIssue = (issue: GitHubIssue): boolean => {
     if (!normalizedQuery) {
@@ -150,6 +90,17 @@ export const IssuesList = ({
       l.name.toLowerCase().includes(normalizedQuery)
     );
   };
+
+  const selectItems = useMemo(() => {
+    const items: Record<string, string> = { all: "All projects" };
+    for (const group of groups ?? []) {
+      items[group.name] = group.name;
+    }
+    for (const projectName of idleProjects) {
+      items[projectName] = projectName;
+    }
+    return items;
+  }, [groups, idleProjects]);
 
   const filteredGroups = useMemo(() => {
     if (!groups) {
@@ -179,13 +130,6 @@ export const IssuesList = ({
     0
   );
 
-  const handleClear = () => {
-    setSearchQuery("");
-    setDebouncedQuery("");
-    setSelectedRepo("all");
-    searchInputRef.current?.focus();
-  };
-
   return (
     <div className="space-y-4">
       {/* Controls Bar */}
@@ -205,27 +149,14 @@ export const IssuesList = ({
             placeholder="Search by title, #number, or label..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                if (searchQuery) {
-                  setSearchQuery("");
-                  setDebouncedQuery("");
-                } else {
-                  searchInputRef.current?.blur();
-                }
-              }
-            }}
+            onKeyDown={handleInputKeyDown}
             className="pr-10 pl-9"
           />
           <div className="absolute top-1/2 right-2.5 flex -translate-y-1/2 items-center">
             {searchQuery ? (
               <button
                 type="button"
-                onClick={() => {
-                  setSearchQuery("");
-                  setDebouncedQuery("");
-                  searchInputRef.current?.focus();
-                }}
+                onClick={handleClearQuery}
                 className="text-muted-foreground hover:text-foreground cursor-pointer rounded p-0.5 transition-colors"
                 aria-label="Clear search input"
               >
@@ -241,6 +172,7 @@ export const IssuesList = ({
 
         <Select
           value={selectedRepo}
+          items={selectItems}
           onValueChange={(val) => {
             if (val !== null) {
               setSelectedRepo(val);
