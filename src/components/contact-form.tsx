@@ -118,7 +118,7 @@ export const ContactForm = () => (
         htmlFor="contact-no-emails"
         className="text-muted-foreground font-normal"
       >
-        {"Don't send me emails about shadcnlabs things"}
+        {"Don't send me emails about Shadcn Labs"}
       </Label>
     </div>
 

@@ -8,6 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useHotkey } from "@/hooks/use-hotkey";
 
 export const ModeToggle = () => {
   const [isDark, setIsDark] = useState(false);
@@ -24,6 +25,8 @@ export const ModeToggle = () => {
     }
     document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
+
+  useHotkey("d", () => setIsDark((dark) => !dark));
 
   return (
     <TooltipProvider>

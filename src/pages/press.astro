@@ -3,6 +3,7 @@ import { EmbeddedTweet } from "react-tweet";
 import { getTweet } from "react-tweet/api";
 import "react-tweet/theme.css";
 import AsciiDivider from "@/components/ascii-divider.astro";
+import PressShowMore from "@/components/press-show-more.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 import {
   PRESS_NEWSLETTERS,
@@ -11,6 +12,8 @@ import {
 } from "@/constants/press";
 import { UTM_PARAMS } from "@/constants/site";
 import { addQueryParams } from "@/lib/url";
+
+const INITIAL_VISIBLE = 5;
 
 const tweets = await Promise.all(
   PRESS_TWEETS.map(async (id) => {
@@ -33,19 +36,31 @@ const tweets = await Promise.all(
     <h2>
       <a href="#videos" class="view-container-title">VIDEOS</a>
     </h2>
-    <ul class="space-y-4">
+    <ul class="space-y-4" id="press-videos-list">
       {
-        PRESS_VIDEOS.map((video) => (
-          <li class="overflow-hidden rounded-lg border border-border">
-            <iframe
-              src={`https://www.embedlite.com/embed/${video.id}${video.start ? `?start=${video.start}` : ""}`}
-              title={video.title}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              class="aspect-video w-full"
-            />
-          </li>
+        PRESS_VIDEOS.map((video, index) => (
+          <>
+            {index === INITIAL_VISIBLE && (
+              <PressShowMore
+                count={PRESS_VIDEOS.length - INITIAL_VISIBLE}
+                listId="press-videos-list"
+                unit="video"
+              />
+            )}
+            <li
+              class="overflow-hidden rounded-lg border border-border"
+              hidden={index >= INITIAL_VISIBLE}
+            >
+              <iframe
+                src={`https://www.embedlite.com/embed/${video.id}${video.start ? `?start=${video.start}` : ""}`}
+                title={video.title}
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                class="aspect-video w-full"
+              />
+            </li>
+          </>
         ))
       }
     </ul>
@@ -57,38 +72,47 @@ const tweets = await Promise.all(
     <h2>
       <a href="#newsletters" class="view-container-title">NEWSLETTERS</a>
     </h2>
-    <ul class="space-y-4">
+    <ul class="space-y-4" id="press-newsletters-list">
       {
-        PRESS_NEWSLETTERS.map((item) => {
+        PRESS_NEWSLETTERS.map((item, index) => {
           const domain = item.faviconDomain ?? new URL(item.url).hostname;
 
           return (
-            <li>
-              <a
-                href={addQueryParams(item.url, UTM_PARAMS)}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="block rounded-lg border border-border p-4 text-foreground transition-colors hover:bg-muted/50 hover:no-underline hover:text-foreground"
-              >
-                <span class="flex items-center gap-2 text-muted-foreground text-xs">
-                  <img
-                    src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
-                    alt=""
-                    width="20"
-                    height="20"
-                    loading="lazy"
-                    class="size-5 rounded-sm"
-                  />
-                  {item.publisher}
-                </span>
-                <span class="mt-1.5 block font-medium text-foreground">
-                  {item.title}
-                </span>
-                <span class="mt-0.5 block text-muted-foreground text-sm">
-                  {item.description}
-                </span>
-              </a>
-            </li>
+            <>
+              {index === INITIAL_VISIBLE && (
+                <PressShowMore
+                  count={PRESS_NEWSLETTERS.length - INITIAL_VISIBLE}
+                  listId="press-newsletters-list"
+                  unit="newsletter"
+                />
+              )}
+              <li hidden={index >= INITIAL_VISIBLE}>
+                <a
+                  href={addQueryParams(item.url, UTM_PARAMS)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block rounded-lg border border-border p-4 text-foreground transition-colors hover:bg-muted/50 hover:no-underline hover:text-foreground"
+                >
+                  <span class="flex items-center gap-2 text-muted-foreground text-xs">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+                      alt=""
+                      width="20"
+                      height="20"
+                      loading="lazy"
+                      class="size-5 rounded-sm"
+                    />
+                    {item.publisher}
+                  </span>
+                  <span class="mt-1.5 block font-medium text-foreground">
+                    {item.title}
+                  </span>
+                  <span class="mt-0.5 block text-muted-foreground text-sm">
+                    {item.description}
+                  </span>
+                </a>
+              </li>
+            </>
           );
         })
       }
@@ -101,23 +125,32 @@ const tweets = await Promise.all(
     <h2>
       <a href="#posts" class="view-container-title">POSTS</a>
     </h2>
-    <ul class="space-y-4">
+    <ul class="space-y-4" id="press-posts-list">
       {
-        tweets.map(({ id, tweet }) => (
-          <li>
-            {tweet ? (
-              <EmbeddedTweet tweet={tweet} />
-            ) : (
-              <a
-                href={`https://x.com/i/status/${id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="block rounded-lg border border-border p-4 text-foreground transition-colors hover:bg-muted/50 hover:no-underline hover:text-foreground"
-              >
-                View post on X →
-              </a>
+        tweets.map(({ id, tweet }, index) => (
+          <>
+            {index === INITIAL_VISIBLE && (
+              <PressShowMore
+                count={tweets.length - INITIAL_VISIBLE}
+                listId="press-posts-list"
+                unit="post"
+              />
             )}
-          </li>
+            <li hidden={index >= INITIAL_VISIBLE}>
+              {tweet ? (
+                <EmbeddedTweet tweet={tweet} />
+              ) : (
+                <a
+                  href={`https://x.com/i/status/${id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block rounded-lg border border-border p-4 text-foreground transition-colors hover:bg-muted/50 hover:no-underline hover:text-foreground"
+                >
+                  View post on X →
+                </a>
+              )}
+            </li>
+          </>
         ))
       }
     </ul>
