@@ -9,14 +9,21 @@ import "@/styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex, nofollow } = Astro.props;
 ---
 
 <html lang="en">
   <head>
-    <Head title={title} description={description} />
+    <Head
+      title={title}
+      description={description}
+      noindex={noindex}
+      nofollow={nofollow}
+    />
 
     <script is:inline>
       const getThemePreference = () => {
