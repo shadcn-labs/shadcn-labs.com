@@ -98,13 +98,11 @@ interface Period {
   since: string;
   until: string;
 }
-interface Credentials {
-  teamId: string;
-  token: string;
-}
 interface ListedProject {
   id: string;
   name: string;
+  /** Vercel team that owns the project; every query for it is scoped to this team. */
+  teamId: string;
 }
 /** Raw query rows for one project in one refresh. */
 interface ProjectRows {
@@ -145,20 +143,21 @@ const readRateLimit = (response: Response): void => {
 const vercelFetch = async (
   path: string,
   params: Record<string, string>,
-  credentials: Credentials
+  token: string,
+  teamId: string
 ): Promise<Row> => {
   if (Date.now() < cooldownUntil) {
     throw new VercelRequestError(429, "Vercel rate limit cooldown");
   }
   const url = new URL(path, API_URL);
-  url.searchParams.set("teamId", credentials.teamId);
+  url.searchParams.set("teamId", teamId);
   for (const [key, value] of Object.entries(params)) {
     url.searchParams.set(key, value);
   }
   const response = await fetch(url, {
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${credentials.token}`,
+      Authorization: `Bearer ${token}`,
     },
     signal: AbortSignal.timeout(15_000),
   });
@@ -184,15 +183,17 @@ const metric = (row: Row, name: string): number => {
   return value;
 };
 
-/** Every project in the team, following Vercel's `until` cursor. */
+/** Every project in a team, following Vercel's `until` cursor. */
 const fetchProjectPages = async (
-  credentials: Credentials,
+  token: string,
+  teamId: string,
   until?: string
 ): Promise<Row[]> => {
   const body = await vercelFetch(
     "/v9/projects",
     { limit: "100", ...(until ? { until } : {}) },
-    credentials
+    token,
+    teamId
   );
   if (!Array.isArray(body.projects)) {
     throw new TypeError("Vercel returned an invalid project list");
@@ -210,44 +211,82 @@ const fetchProjectPages = async (
   }
   return [
     ...(body.projects as Row[]),
-    ...(await fetchProjectPages(credentials, cursor)),
+    ...(await fetchProjectPages(token, teamId, cursor)),
   ];
 };
 
-/** Listed projects that exist in the team with Web Analytics enabled. */
-const listProjects = async (
-  credentials: Credentials
-): Promise<ListedProject[]> => {
-  const found = new Map<string, ListedProject>();
-  for (const project of await fetchProjectPages(credentials)) {
-    const analytics = project.webAnalytics as Row | null | undefined;
-    if (typeof project.id !== "string" || !analytics?.enabledAt) {
-      continue;
+/**
+ * A team's projects, or none when the token cannot see the team yet (for
+ * example before an invite is accepted), so one missing team never blanks the
+ * others. Any other failure still fails the refresh.
+ */
+const fetchTeamProjects = async (
+  token: string,
+  teamId: string
+): Promise<Row[]> => {
+  try {
+    return await fetchProjectPages(token, teamId);
+  } catch (error) {
+    if (
+      error instanceof VercelRequestError &&
+      [401, 403, 404].includes(error.status)
+    ) {
+      console.warn(
+        `[vercel-analytics] Team ${teamId} is not accessible (HTTP ${error.status}); skipping its projects.`
+      );
+      return [];
     }
-    const targets = project.targets as
-      | { production?: { alias?: unknown } | null }
-      | null
-      | undefined;
-    const aliases = Array.isArray(targets?.production?.alias)
-      ? (targets.production.alias as unknown[])
-          .filter((alias): alias is string => typeof alias === "string")
-          .map((alias) => alias.replace(/^www\./u, ""))
-      : [];
-    const listed = ANALYTICS_PROJECTS.find(
-      (entry) =>
-        entry.name === project.name ||
-        aliases.includes(new URL(entry.url).hostname.replace(/^www\./u, ""))
-    );
-    if (listed) {
-      found.set(listed.name, { id: project.id, name: listed.name });
+    throw error;
+  }
+};
+
+/**
+ * Listed projects with Web Analytics enabled, across every configured team.
+ * If two teams have a match for the same listed project, the team listed first
+ * in VERCEL_TEAM_IDS wins.
+ */
+const listProjects = async (
+  token: string,
+  teamIds: string[]
+): Promise<ListedProject[]> => {
+  const teams = await Promise.all(
+    teamIds.map(async (teamId) => ({
+      projects: await fetchTeamProjects(token, teamId),
+      teamId,
+    }))
+  );
+  const found = new Map<string, ListedProject>();
+  for (const { projects, teamId } of teams) {
+    for (const project of projects) {
+      const analytics = project.webAnalytics as Row | null | undefined;
+      if (typeof project.id !== "string" || !analytics?.enabledAt) {
+        continue;
+      }
+      const targets = project.targets as
+        | { production?: { alias?: unknown } | null }
+        | null
+        | undefined;
+      const aliases = Array.isArray(targets?.production?.alias)
+        ? (targets.production.alias as unknown[])
+            .filter((alias): alias is string => typeof alias === "string")
+            .map((alias) => alias.replace(/^www\./u, ""))
+        : [];
+      const listed = ANALYTICS_PROJECTS.find(
+        (entry) =>
+          entry.name === project.name ||
+          aliases.includes(new URL(entry.url).hostname.replace(/^www\./u, ""))
+      );
+      if (listed && !found.has(listed.name)) {
+        found.set(listed.name, { id: project.id, name: listed.name, teamId });
+      }
     }
   }
   return [...found.values()];
 };
 
 const aggregate = async (
-  credentials: Credentials,
-  projectId: string,
+  token: string,
+  project: ListedProject,
   period: Period,
   by: string
 ): Promise<Row[]> => {
@@ -257,12 +296,13 @@ const aggregate = async (
       by,
       filter: "environment eq 'production'",
       limit: "100",
-      projectId,
+      projectId: project.id,
       since: `${period.since}T00:00:00.000Z`,
       // A bare date is rounded to the hour; keep the entire last day.
       until: `${period.until}T23:59:59.999Z`,
     },
-    credentials
+    token,
+    project.teamId
   );
   if (
     !Array.isArray(body.data) ||
@@ -311,13 +351,20 @@ const top = (
 
 const refresh = async (): Promise<AnalyticsSnapshot> => {
   const token = getSecret("VERCEL_TOKEN");
-  const teamId = getSecret("VERCEL_TEAM_ID");
-  if (!token || !teamId) {
-    throw new Error("VERCEL_TOKEN and VERCEL_TEAM_ID must be set");
+  // Comma-separated; the token's account must be a member of every team.
+  const teamIds = [
+    ...new Set(
+      (getSecret("VERCEL_TEAM_IDS") ?? "")
+        .split(",")
+        .map((teamId) => teamId.trim())
+        .filter(Boolean)
+    ),
+  ];
+  if (!token || teamIds.length === 0) {
+    throw new Error("VERCEL_TOKEN and VERCEL_TEAM_IDS must be set");
   }
-  const credentials = { teamId, token };
 
-  const projects = await listProjects(credentials);
+  const projects = await listProjects(token, teamIds);
   if (projects.length === 0) {
     throw new Error("No listed project has Web Analytics enabled");
   }
@@ -349,11 +396,11 @@ const refresh = async (): Promise<AnalyticsSnapshot> => {
   // previous snapshot is served instead.
   const loadProject = async (project: ListedProject): Promise<ProjectRows> => {
     const [current, before, days, countries, referrers] = await Promise.all([
-      aggregate(credentials, project.id, period, "environment"),
-      aggregate(credentials, project.id, previous, "environment"),
-      aggregate(credentials, project.id, period, "day"),
-      aggregate(credentials, project.id, period, "country"),
-      aggregate(credentials, project.id, period, "referrerHostname"),
+      aggregate(token, project, period, "environment"),
+      aggregate(token, project, previous, "environment"),
+      aggregate(token, project, period, "day"),
+      aggregate(token, project, period, "country"),
+      aggregate(token, project, period, "referrerHostname"),
     ]);
     return { before, countries, current, days, project, referrers };
   };
