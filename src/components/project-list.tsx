@@ -30,11 +30,11 @@ export const ProjectList = () => {
     filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
   return (
-    <>
-      <div className="mb-1 flex items-center justify-between">
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
         <h2>
           <a href="#projects" className="view-container-title">
-            PROJECTS
+            Projects
           </a>
         </h2>
         <Select
@@ -85,7 +85,7 @@ export const ProjectList = () => {
           </SelectContent>
         </Select>
       </div>
-      <ul className="space-y-2">
+      <ul className="space-y-3">
         {filteredProjects.map((project) => (
           <li key={project.name}>
             <span className="inline-flex items-center gap-2">
@@ -100,11 +100,12 @@ export const ProjectList = () => {
                 />
               ) : null}
             </span>
-            <br />
-            {project.description}
+            <p className="text-muted-foreground text-sm">
+              {project.description}
+            </p>
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };

@@ -280,7 +280,7 @@ export const IssuesList = ({
 
             return (
               <div key={group.name} className="space-y-2">
-                <h3 className="pt-2">
+                <h3>
                   <a
                     target="_blank"
                     href={addQueryParams(group.url, UTM_PARAMS)}

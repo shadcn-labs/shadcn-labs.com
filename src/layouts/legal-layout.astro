@@ -21,9 +21,9 @@ const { description, heading, id, title, updated } = Astro.props;
 
   <section
     id={id}
-    class="view-container [&_h3]:text-foreground [&_h3]:pt-4 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5"
+    class="view-container [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5"
   >
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex items-baseline justify-between gap-4">
       <h2>
         <a href={`#${id}`} class="view-container-title">{heading}</a>
       </h2>

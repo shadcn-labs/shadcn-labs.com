@@ -155,10 +155,20 @@ html .react-tweet-theme {
   html {
     scroll-behavior: smooth;
     overscroll-behavior-y: none;
+    scrollbar-width: thin;
+    scrollbar-color: gray transparent;
   }
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  h2 {
+    @apply text-foreground text-xl font-medium tracking-[-0.02em];
+  }
+
+  h3 {
+    @apply text-foreground font-medium;
   }
 
   a {
@@ -166,12 +176,37 @@ html .react-tweet-theme {
   }
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Primary tint behind the text; text keeps its own color (foreground, link,
+   muted), which stays readable on the light tint in both themes. */
+::selection {
+  background-color: color-mix(in oklab, var(--primary) 30%, transparent);
+}
+
+/* Vertical rhythm: 12px between blocks; an h3 opens a sub-group with 24px above
+   and 8px below. Grouped h3s outside direct children set their own spacing. */
 @utility view-container {
-  @apply mx-auto max-w-2xl scroll-mt-6 space-y-2 px-4;
+  @apply mx-auto max-w-2xl scroll-mt-6 space-y-3 px-4;
+
+  & > h3 {
+    margin-block-end: calc(var(--spacing) * 2);
+  }
+
+  & > h3:not(:first-child) {
+    margin-block-start: calc(var(--spacing) * 6);
+  }
 }
 
 @utility view-container-title {
-  @apply text-foreground tracking-[-0.03em];
+  @apply text-foreground;
 }
 
 @utility primary-gradient {

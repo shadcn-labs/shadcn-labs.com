@@ -44,10 +44,21 @@ if (Astro.cache.enabled) {
 }
 
 // Bigger tiers get bigger blocks, and every tier always keeps one open spot.
-const BLOCK_LAYOUT: Record<SponsorTierId, { grid: string; block: string; logo: string }> = {
-  diamond: { block: "h-28", grid: "grid-cols-1 sm:grid-cols-2", logo: "max-h-12" },
+const BLOCK_LAYOUT: Record<
+  SponsorTierId,
+  { grid: string; block: string; logo: string }
+> = {
+  diamond: {
+    block: "h-28",
+    grid: "grid-cols-1 sm:grid-cols-2",
+    logo: "max-h-12",
+  },
   gold: { block: "h-24", grid: "grid-cols-2 sm:grid-cols-3", logo: "max-h-9" },
-  silver: { block: "h-20", grid: "grid-cols-2 sm:grid-cols-4", logo: "max-h-7" },
+  silver: {
+    block: "h-20",
+    grid: "grid-cols-2 sm:grid-cols-4",
+    logo: "max-h-7",
+  },
 };
 
 const tierGroups = SPONSOR_TIERS.map((tier) => ({
@@ -68,11 +79,13 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
       snapshot === null ? (
         <>
           <h2>
-            <a href="#audience" class="view-container-title">AUDIENCE</a>
+            <a href="#audience" class="view-container-title">
+              Audience
+            </a>
           </h2>
           <p>
-            Audience analytics could not be loaded right now. Check back soon, or{" "}
-            <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
+            Audience analytics could not be loaded right now. Check back soon,
+            or <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
           </p>
         </>
       ) : (
@@ -85,65 +98,70 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
 
   <section id="sponsors" class="view-container">
     <h2>
-      <a href="#sponsors" class="view-container-title">SPONSORS</a>
+      <a href="#sponsors" class="view-container-title">Sponsors</a>
     </h2>
-    {
-      tierGroups.map(({ layout, sponsors, tier }) => (
-        <div class="space-y-2 pt-2">
-          <h3 class="text-muted-foreground">{tier.name}</h3>
-          <ul class:list={["grid gap-2", layout.grid]}>
-            {sponsors.map((sponsor) => (
+    <div class="space-y-6">
+      {
+        tierGroups.map(({ layout, sponsors, tier }) => (
+          <div class="space-y-2">
+            <h3>{tier.name}</h3>
+            <ul class:list={["grid gap-2", layout.grid]}>
+              {sponsors.map((sponsor) => (
+                <li>
+                  <a
+                    href={addQueryParams(sponsor.url, UTM_PARAMS)}
+                    target="_blank"
+                    rel="noopener"
+                    title={sponsor.name}
+                    class:list={[
+                      "border-border hover:bg-muted flex items-center justify-center rounded-lg border p-4 transition-colors",
+                      layout.block,
+                    ]}
+                  >
+                    <img
+                      src={sponsor.logo}
+                      alt={sponsor.name}
+                      class:list={[
+                        "w-auto max-w-full object-contain",
+                        layout.logo,
+                      ]}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </li>
+              ))}
               <li>
                 <a
-                  href={addQueryParams(sponsor.url, UTM_PARAMS)}
-                  target="_blank"
-                  rel="noopener"
-                  title={sponsor.name}
+                  href={`#tier-${tier.id}`}
+                  aria-label={`Take this spot: become a ${tier.name} sponsor`}
                   class:list={[
-                    "border-border hover:bg-muted flex items-center justify-center rounded-lg border p-4 transition-colors",
+                    "group border-border text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:border-foreground focus-visible:text-foreground flex items-center justify-center rounded-lg border border-dashed transition-colors hover:no-underline",
                     layout.block,
                   ]}
                 >
-                  <img
-                    src={sponsor.logo}
-                    alt={sponsor.name}
-                    class:list={["w-auto max-w-full object-contain", layout.logo]}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <span class="group-hover:hidden group-focus-visible:hidden">
+                    Your logo here
+                  </span>
+                  <span class="hidden group-hover:inline group-focus-visible:inline">
+                    Take this spot ❤️
+                  </span>
                 </a>
               </li>
-            ))}
-            <li>
-              <a
-                href={`#tier-${tier.id}`}
-                aria-label={`Take this spot: become a ${tier.name} sponsor`}
-                class:list={[
-                  "group border-border text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:border-foreground focus-visible:text-foreground flex items-center justify-center rounded-lg border border-dashed transition-colors hover:no-underline",
-                  layout.block,
-                ]}
-              >
-                <span class="group-hover:hidden group-focus-visible:hidden">
-                  Your logo here
-                </span>
-                <span class="hidden group-hover:inline group-focus-visible:inline">
-                  Take this spot ❤️
-                </span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      ))
-    }
+            </ul>
+          </div>
+        ))
+      }
+    </div>
   </section>
 
   <AsciiDivider />
 
   <section id="tiers" class="view-container">
     <h2>
-      <a href="#tiers" class="view-container-title">TIERS</a>
+      <a href="#tiers" class="view-container-title">Tiers</a>
     </h2>
-    <ul class="space-y-4 pt-4">
+    <ul class="space-y-4 pt-2">
       {
         SPONSOR_TIERS.map((tier) => (
           <li
@@ -163,14 +181,17 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
             <div class="flex items-baseline justify-between gap-4">
               <h3>{tier.name}</h3>
               <p>
-                <span class="font-mono text-xl">${tier.price}</span>
+                <span class="font-mono font-medium text-xl">${tier.price}</span>
                 <span class="text-muted-foreground">/mo</span>
               </p>
             </div>
             <ul class="space-y-1">
               {tier.perks.map((perk) => (
-                <li class="flex gap-2">
-                  <Check size={16} class="text-muted-foreground mt-1 shrink-0" aria-hidden="true" />
+                <li class="flex items-center gap-2">
+                  <Check
+                    class="size-4 text-muted-foreground shrink-0"
+                    aria-hidden="true"
+                  />
                   <span>{perk}</span>
                 </li>
               ))}
@@ -182,7 +203,8 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
                   variant: tier.id === "diamond" ? "default" : "outline",
                 }),
                 "hover:no-underline",
-                tier.id !== "diamond" && "text-foreground hover:text-foreground",
+                tier.id !== "diamond" &&
+                  "text-foreground hover:text-foreground",
               )}
             >
               Become a {tier.name} sponsor
@@ -199,9 +221,12 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
       <a href="https://dodopayments.com" target="_blank" rel="noopener">
         Dodo Payments</a
       >, our merchant of record. By subscribing, you agree to our{" "}
-      <a href={ROUTES.TERMS}>terms</a> and <a href={ROUTES.REFUNDS}>refund policy</a>.
-      Already a sponsor?{" "}
-      <a href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener">Manage your subscription</a>.
+      <a href={ROUTES.TERMS}>terms</a> and <a href={ROUTES.REFUNDS}
+        >refund policy</a
+      >. Already a sponsor?{" "}
+      <a href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener"
+        >Manage your subscription</a
+      >.
     </p>
   </section>
 
@@ -209,11 +234,11 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
 
   <section id="questions" class="view-container">
     <h2>
-      <a href="#questions" class="view-container-title">QUESTIONS</a>
+      <a href="#questions" class="view-container-title">Questions</a>
     </h2>
     <p>
-      Need a custom package? Happy to put something together that fits how
-      your team wants to show up.{" "}
+      Need a custom package? Happy to put something together that fits how your
+      team wants to show up.{" "}
       <a href={SPONSORSHIP_CONTACT_URL} class="inline-flex items-center gap-1">
         Get in touch
         <ArrowRight size={14} aria-hidden="true" />

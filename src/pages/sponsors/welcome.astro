@@ -50,12 +50,12 @@ const view: View =
 const tier = checkout.kind === "confirmed" ? checkout.tier : undefined;
 
 const TITLES: Record<View, string> = {
-  active: "WELCOME ABOARD",
-  attention: "PAYMENT NEEDS ATTENTION",
-  failed: "PAYMENT DIDN'T GO THROUGH",
-  "not-found": "CHECKOUT NOT FOUND",
-  pending: "PAYMENT PROCESSING",
-  unavailable: "ALMOST THERE",
+  active: "Welcome aboard",
+  attention: "Payment needs attention",
+  failed: "Payment didn't go through",
+  "not-found": "Checkout not found",
+  pending: "Payment processing",
+  unavailable: "Almost there",
 };
 
 const primaryLink = cn(buttonVariants(), "hover:no-underline");
@@ -83,7 +83,7 @@ const outlineLink = cn(
             Thank you for sponsoring Shadcn Labs. Your{" "}
             <span class="text-primary">{tier.name}</span> sponsorship is active.
           </p>
-          <h3 class="text-muted-foreground pt-2">What happens next</h3>
+          <h3>What happens next</h3>
           <ol class="list-decimal space-y-1 pl-5">
             <li>
               Send us your logo (SVG or PNG), the link you want, and your brand

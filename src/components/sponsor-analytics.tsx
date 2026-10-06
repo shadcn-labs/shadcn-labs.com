@@ -135,11 +135,11 @@ export const SponsorAnalytics = ({
     ...snapshot.projects.map((project) => project.visitors)
   );
   return (
-    <div className="space-y-2">
-      <div className="mb-1 flex items-center justify-between">
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
         <h2>
           <a href="#audience" className="view-container-title">
-            AUDIENCE
+            Audience
           </a>
         </h2>
         <Select
@@ -178,7 +178,7 @@ export const SponsorAnalytics = ({
         </Select>
       </div>
 
-      <dl className="grid grid-cols-2 gap-4 pt-2">
+      <dl className="grid grid-cols-2 gap-4">
         {summary.stats.map((stat) => (
           <div key={stat.label}>
             <dt className="text-muted-foreground">{stat.label}</dt>
@@ -221,48 +221,50 @@ export const SponsorAnalytics = ({
         </EChartsLineChart.Line>
       </EChartsLineChart>
 
-      <h3 className="text-muted-foreground pt-4">By project</h3>
-      <ul className="space-y-1">
-        {snapshot.projects.map((project) => {
-          const active = selected === project.name;
-          const dimmed = selected !== ALL_PROJECTS && !active;
-          return (
-            <li key={project.name}>
-              <button
-                type="button"
-                aria-pressed={active}
-                onClick={() =>
-                  setSelected(active ? ALL_PROJECTS : project.name)
-                }
-                className={`relative flex w-full cursor-pointer justify-between gap-4 rounded-sm px-2 py-0.5 text-left transition-opacity ${dimmed ? "opacity-50 hover:opacity-100" : ""}`}
-              >
-                <span
-                  className={`absolute inset-y-0 left-0 rounded-sm ${active ? "bg-primary/20" : "bg-muted"}`}
-                  style={{
-                    width: `${(project.visitors / projectPeak) * 100}%`,
-                  }}
-                  aria-hidden="true"
-                />
-                <span className="relative">{project.name}</span>
-                <span
-                  className="relative font-mono"
-                  title={`${project.pageviews.toLocaleString("en-US")} pageviews`}
+      <div className="space-y-2 pt-3">
+        <h3>By project</h3>
+        <ul className="space-y-1">
+          {snapshot.projects.map((project) => {
+            const active = selected === project.name;
+            const dimmed = selected !== ALL_PROJECTS && !active;
+            return (
+              <li key={project.name}>
+                <button
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() =>
+                    setSelected(active ? ALL_PROJECTS : project.name)
+                  }
+                  className={`relative flex w-full cursor-pointer justify-between gap-4 rounded-sm px-2 py-0.5 text-left transition-opacity ${dimmed ? "opacity-50 hover:opacity-100" : ""}`}
                 >
-                  {compact.format(project.visitors)}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+                  <span
+                    className={`absolute inset-y-0 left-0 rounded-sm ${active ? "bg-primary/20" : "bg-muted"}`}
+                    style={{
+                      width: `${(project.visitors / projectPeak) * 100}%`,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <span className="relative">{project.name}</span>
+                  <span
+                    className="relative font-mono"
+                    title={`${project.pageviews.toLocaleString("en-US")} pageviews`}
+                  >
+                    {compact.format(project.visitors)}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
-      <div className="grid grid-cols-1 gap-x-6 gap-y-2 pt-2 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-6 pt-3 sm:grid-cols-2">
         {[
           { rows: summary.countries, title: "Top countries" },
           { rows: summary.referrers, title: "Top referrers" },
         ].map((list) => (
-          <div key={list.title} className="space-y-1">
-            <h3 className="text-muted-foreground pt-2">{list.title}</h3>
+          <div key={list.title} className="space-y-2">
+            <h3>{list.title}</h3>
             {list.rows.length === 0 ? (
               <p className="text-muted-foreground">No data yet.</p>
             ) : (

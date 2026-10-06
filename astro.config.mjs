@@ -24,12 +24,16 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
       name: "Geist Sans",
       provider: fontProviders.fontsource(),
+      // Astro only loads 400 by default; 500 (headings, buttons) and 700
+      // (prices) would otherwise render as 400 or faux bold.
+      weights: [400, 500, 600, 700],
     },
     {
       cssVariable: "--font-geist-mono",
       fallbacks: ["monospace"],
       name: "Geist Mono",
       provider: fontProviders.fontsource(),
+      weights: [400, 700],
     },
   ],
   image: {

@@ -64,9 +64,9 @@ const initialRepo = Astro.url.searchParams.get("repo") ?? "";
   <AsciiDivider />
 
   <section class="view-container" id="issues">
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-baseline gap-4">
       <h2>
-        <a href="#issues" class="view-container-title">OPEN ISSUES</a>
+        <a href="#issues" class="view-container-title">Open issues</a>
       </h2>
       {
         fetchedAt && (

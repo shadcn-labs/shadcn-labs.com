@@ -26,7 +26,7 @@ const buttonVariants = cva(
       },
       variant: {
         default:
-          "primary-gradient hover:text-primary-foreground border-0! bg-clip-border! font-[575] hover:brightness-105",
+          "primary-gradient hover:text-primary-foreground border-0! bg-clip-border! hover:brightness-105",
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         ghost:
