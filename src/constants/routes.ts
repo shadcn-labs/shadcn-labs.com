@@ -9,5 +9,6 @@ export const ROUTES = {
   PRIVACY: "/privacy",
   REFUNDS: "/refunds",
   SPONSORS: "/sponsors",
+  SPONSORS_WELCOME: "/sponsors/welcome",
   TERMS: "/terms",
 };

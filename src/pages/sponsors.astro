@@ -8,6 +8,7 @@ import { ROUTES } from "@/constants/routes";
 import {
   SPONSORS,
   SPONSOR_TIERS,
+  SPONSOR_PORTAL_URL,
   SPONSORSHIP_CONTACT_URL,
   sponsorCheckoutUrl,
 } from "@/constants/sponsors";
@@ -142,10 +143,6 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
     <h2>
       <a href="#tiers" class="view-container-title">TIERS</a>
     </h2>
-    <p class="text-muted-foreground">
-      Monthly subscriptions, cancel anytime. Every tier covers all Shadcn Labs
-      projects.
-    </p>
     <ul class="space-y-4 pt-4">
       {
         SPONSOR_TIERS.map((tier) => (
@@ -203,6 +200,8 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
         Dodo Payments</a
       >, our merchant of record. By subscribing, you agree to our{" "}
       <a href={ROUTES.TERMS}>terms</a> and <a href={ROUTES.REFUNDS}>refund policy</a>.
+      Already a sponsor?{" "}
+      <a href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener">Manage your subscription</a>.
     </p>
   </section>
 

@@ -8,7 +8,7 @@ export interface SponsorTier {
   name: string;
   /** Monthly price in USD. Mirrors the Dodo product; Dodo prices are immutable. */
   price: number;
-  /** Dodo Payments product, live mode, brand "Shadcn Labs" (brnd_0Np8Qij4f66tbqS6feAxJ). */
+  /** Dodo Payments product, live mode, under SPONSOR_BRAND_ID. */
   productId: string;
   /** Mirrors the Dodo product description; update both together. */
   perks: string[];
@@ -22,6 +22,17 @@ export interface Sponsor {
   /** Path under /public or an absolute URL. */
   logo: string;
 }
+
+/** Dodo brand "Shadcn Labs"; the welcome page ignores every other brand. */
+export const SPONSOR_BRAND_ID = "brnd_0Np8Qij4f66tbqS6feAxJ";
+
+/**
+ * Dodo's hosted customer portal (static link): sponsors sign in with their
+ * checkout email to update payment methods, download invoices, or cancel.
+ * It never expires; sign-in emails are only sent in live mode.
+ */
+export const SPONSOR_PORTAL_URL =
+  "https://customer.dodopayments.com/login/bus_kihd1B1zgCtzCIhethwDQ";
 
 /** Highest tier first: the sponsors page lists both tiers and sponsors in this order. */
 export const SPONSOR_TIERS: SponsorTier[] = [
@@ -78,7 +89,11 @@ export const SPONSORS: Sponsor[] = [];
 /** Contact form preset used for custom packages and post-checkout logo handoff. */
 export const SPONSORSHIP_CONTACT_URL = `${ROUTES.CONTACT}?inquiry=sponsorship`;
 
-/** Dodo static payment link; `redirect_url` is required by Dodo. */
+/**
+ * Dodo static payment link. `redirect_url` is required; Dodo appends
+ * `subscription_id` and `status`, and the welcome page confirms the status
+ * with Dodo rather than trusting the query string.
+ */
 export const sponsorCheckoutUrl = (tier: SponsorTier): string => {
   const url = new URL(
     `https://checkout.dodopayments.com/buy/${tier.productId}`
@@ -86,7 +101,7 @@ export const sponsorCheckoutUrl = (tier: SponsorTier): string => {
   url.searchParams.set("quantity", "1");
   url.searchParams.set(
     "redirect_url",
-    new URL(SPONSORSHIP_CONTACT_URL, SITE.URL).toString()
+    new URL(ROUTES.SPONSORS_WELCOME, SITE.URL).toString()
   );
   return url.toString();
 };

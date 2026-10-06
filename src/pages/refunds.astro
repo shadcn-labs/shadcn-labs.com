@@ -1,6 +1,7 @@
 ---
 import LegalLayout from "@/layouts/legal-layout.astro";
 import { LINKS } from "@/constants/links";
+import { SPONSOR_PORTAL_URL } from "@/constants/sponsors";
 ---
 
 <LegalLayout
@@ -18,7 +19,11 @@ import { LINKS } from "@/constants/links";
 
   <h3>Cancelling</h3>
   <p>
-    Cancel at any time from the Dodo Payments customer portal, or by emailing <a
+    Cancel at any time from the <a
+      href={SPONSOR_PORTAL_URL}
+      target="_blank"
+      rel="noopener">Dodo Payments customer portal</a
+    >, or by emailing <a
       href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a
     >. Cancellation stops future renewals; your placements stay live until the
     end of the period you already paid for.
