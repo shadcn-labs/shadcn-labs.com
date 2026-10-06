@@ -237,7 +237,7 @@ export const SponsorAnalytics = ({
                 className={`relative flex w-full cursor-pointer justify-between gap-4 rounded-sm px-2 py-0.5 text-left transition-opacity ${dimmed ? "opacity-50 hover:opacity-100" : ""}`}
               >
                 <span
-                  className={`absolute inset-y-0 left-0 rounded-sm ${active ? "bg-highlight/20" : "bg-muted"}`}
+                  className={`absolute inset-y-0 left-0 rounded-sm ${active ? "bg-primary/20" : "bg-muted"}`}
                   style={{
                     width: `${(project.visitors / projectPeak) * 100}%`,
                   }}

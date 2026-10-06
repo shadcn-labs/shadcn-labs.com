@@ -16,7 +16,6 @@
   --color-ring: var(--ring);
   --color-link: var(--link);
   --color-link-hover: var(--link-hover);
-  --color-highlight: var(--highlight);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -55,12 +54,10 @@
 :root {
   --background: #f5f4ef;
   --foreground: #111;
-  --primary: oklch(0.205 0 0);
-  --highlight: #f06292;
-  /* Pink gradient for the `primary` button variant, same in both themes. */
+  --primary: #f06292;
+  /* Gradient the default button paints over --primary, same in both themes. */
   --primary-gradient-from: #f78db3;
   --primary-gradient-to: #ec407a;
-  --primary-gradient-foreground: #ffffff;
   --primary-edge: #ef5b8e;
   --border: #e5e5e5;
   --ring: #111;
@@ -71,7 +68,7 @@
   --card-foreground: #111;
   --popover: #f5f4ef;
   --popover-foreground: #111;
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: #ffffff;
   --secondary: #ebeae4;
   --secondary-foreground: #111;
   --muted: #ebeae4;
@@ -98,8 +95,7 @@
 .dark {
   --background: #1c1a12;
   --foreground: #f5f4ef;
-  --primary: oklch(0.922 0 0);
-  --highlight: #f06292;
+  --primary: #f06292;
   --border: #333;
   --ring: #f5f4ef;
   --muted-foreground: oklch(0.708 0 0);
@@ -109,7 +105,7 @@
   --card-foreground: #f5f4ef;
   --popover: #1c1a12;
   --popover-foreground: #f5f4ef;
-  --primary-foreground: oklch(0.205 0 0);
+  --primary-foreground: #ffffff;
   --secondary: #27251b;
   --secondary-foreground: #f5f4ef;
   --muted: #27251b;
@@ -183,7 +179,7 @@ html .react-tweet-theme {
     var(--primary-gradient-from),
     var(--primary-gradient-to)
   );
-  color: var(--primary-gradient-foreground);
+  color: var(--primary-foreground);
   text-shadow: 0 0.5px 0 rgb(110 0 45 / 0.32);
   @apply shadow-[inset_0_0_1px_1px_rgb(255_255_255/0.18),0_0_0_1px_rgb(0_0_0/0.08),0_2px_2px_rgb(0_0_0/0.04),0_0_0_1px_var(--primary-edge)];
 }

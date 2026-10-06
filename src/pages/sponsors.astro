@@ -154,7 +154,7 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
             class:list={[
               "relative scroll-mt-6 space-y-3 rounded-lg border p-4",
               tier.id === "diamond"
-                ? "border-(--primary-gradient-to)"
+                ? "border-primary"
                 : "border-border target:border-foreground",
             ]}
           >
@@ -182,7 +182,7 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
               href={sponsorCheckoutUrl(tier)}
               class={cn(
                 buttonVariants({
-                  variant: tier.id === "diamond" ? "primary" : "outline",
+                  variant: tier.id === "diamond" ? "default" : "outline",
                 }),
                 "hover:no-underline",
                 tier.id !== "diamond" && "text-foreground hover:text-foreground",

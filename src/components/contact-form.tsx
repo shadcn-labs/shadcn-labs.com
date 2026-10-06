@@ -1,7 +1,6 @@
 "use client";
 
 import { CornerDownLeft, Send } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -38,20 +37,13 @@ const field = "flex flex-col gap-2";
 
 type InquiryType = (typeof INQUIRY_TYPES)[number]["value"];
 
-export const ContactForm = () => {
-  const [inquiryType, setInquiryType] = useState<InquiryType>("general");
-
-  // The page is static, so `?inquiry=` (e.g. from /sponsors) is read after
-  // hydration rather than during the build-time render.
-  useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get(
-      "inquiry"
-    );
-    const match = INQUIRY_TYPES.find(({ value }) => value === requested);
-    if (match) {
-      setInquiryType(match.value);
-    }
-  }, []);
+/**
+ * `inquiry` is the raw `?inquiry=` value, read on the server so the first
+ * render already shows the right type; unknown values fall back to General.
+ */
+export const ContactForm = ({ inquiry }: { inquiry?: string | null }) => {
+  const defaultInquiryType: InquiryType =
+    INQUIRY_TYPES.find(({ value }) => value === inquiry)?.value ?? "general";
 
   return (
     <form
@@ -85,12 +77,7 @@ export const ContactForm = () => {
         <Label htmlFor="contact-inquiry">Inquiry type</Label>
         <Select
           name="inquiry_type"
-          value={inquiryType}
-          onValueChange={(value) => {
-            if (value !== null) {
-              setInquiryType(value as InquiryType);
-            }
-          }}
+          defaultValue={defaultInquiryType}
           items={INQUIRY_TYPE_LABELS}
         >
           <SelectTrigger id="contact-inquiry" className="w-full">
@@ -146,7 +133,7 @@ export const ContactForm = () => {
       </div>
 
       <div className="flex items-center justify-between gap-4">
-        <Button type="submit" variant="primary">
+        <Button type="submit">
           <Send aria-hidden="true" />
           Send message
         </Button>
