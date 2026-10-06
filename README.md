@@ -49,7 +49,7 @@ Tiers live in `src/constants/sponsors.ts` and map to monthly subscription produc
 
 Add active sponsors to `SPONSORS` in the same file. The sponsors section lists each tier's sponsors as logo blocks (larger for higher tiers) and always ends with one open "Your logo here" block that links to that tier's card.
 
-Dodo Payments is the merchant of record. The tiers section says so and links the legal pages, `/terms`, `/refunds`, and `/privacy`, which are also linked from the footer. Update their "Last updated" date whenever you change them.
+Dodo Payments is the merchant of record. The tiers section says so and links `/terms` and `/refunds`; `/privacy` covers the site itself. Update each page's "Last updated" date whenever you change it.
 
 ### Analytics
 

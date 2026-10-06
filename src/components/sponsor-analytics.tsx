@@ -111,8 +111,11 @@ const summarize = (projects: ProjectAnalytics[], dates: string[]) => {
 
 export const SponsorAnalytics = ({
   snapshot,
+  stale,
 }: {
   snapshot: AnalyticsSnapshot;
+  /** The last refresh failed and this snapshot is an older copy. */
+  stale: boolean;
 }) => {
   const [selected, setSelected] = useState<string>(ALL_PROJECTS);
 
@@ -131,21 +134,14 @@ export const SponsorAnalytics = ({
     1,
     ...snapshot.projects.map((project) => project.visitors)
   );
-  const items = {
-    [ALL_PROJECTS]: `All ${snapshot.projects.length} projects`,
-    ...Object.fromEntries(
-      snapshot.projects.map((project) => [project.name, project.name])
-    ),
-  };
-
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p>
-          Production traffic over the last{" "}
-          <span className="font-mono">{snapshot.dates.length}</span> days,
-          straight from Vercel Web Analytics.
-        </p>
+      <div className="mb-1 flex items-center justify-between">
+        <h2>
+          <a href="#audience" className="view-container-title">
+            AUDIENCE
+          </a>
+        </h2>
         <Select
           value={selected}
           onValueChange={(value) => {
@@ -153,20 +149,28 @@ export const SponsorAnalytics = ({
               setSelected(value);
             }
           }}
-          items={items}
         >
           <SelectTrigger
             size="sm"
             aria-label="Filter analytics by project"
-            className="min-w-40"
+            className="text-muted-foreground hover:text-foreground border-none bg-transparent transition-colors dark:bg-transparent dark:hover:bg-transparent"
           >
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="min-w-[160px]">
             <SelectGroup>
-              {Object.entries(items).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
+              <SelectItem value={ALL_PROJECTS}>
+                all{" "}
+                <span className="text-muted-foreground ml-1">
+                  {snapshot.projects.length}
+                </span>
+              </SelectItem>
+              {snapshot.projects.map((project) => (
+                <SelectItem key={project.name} value={project.name}>
+                  {project.name}{" "}
+                  <span className="text-muted-foreground ml-1">
+                    {compact.format(project.visitors)}
+                  </span>
                 </SelectItem>
               ))}
             </SelectGroup>
@@ -277,9 +281,22 @@ export const SponsorAnalytics = ({
         ))}
       </div>
 
+      {/* "about once an hour" mirrors ANALYTICS_CACHE_TTL_SECONDS. */}
       <p className="text-muted-foreground pt-2 text-xs">
-        Visitors are counted per project, so someone visiting two projects
-        counts twice. Pick a project above, or click one in the list, to filter.
+        Live from{" "}
+        <a
+          href="https://vercel.com/docs/analytics"
+          target="_blank"
+          rel="noopener"
+          className="text-muted-foreground hover:text-foreground underline"
+        >
+          Vercel Web Analytics
+        </a>
+        . Visitors are counted per project, so someone visiting two projects
+        counts twice. Results are cached and refreshed about once an hour, so
+        they are not real-time.
+        {stale &&
+          " Vercel did not respond to the last refresh, so this may be out of date."}
       </p>
     </div>
   );

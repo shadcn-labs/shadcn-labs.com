@@ -2,7 +2,6 @@
 import { ArrowRight, Check } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
 import { SponsorAnalytics } from "@/components/sponsor-analytics";
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { ROUTES } from "@/constants/routes";
@@ -20,6 +19,7 @@ import {
   getSponsorAnalytics,
 } from "@/lib/vercel-analytics";
 import { addQueryParams } from "@/lib/url";
+import { cn } from "@/lib/utils";
 
 // Rendered on demand so the edge cache serves fresh analytics for an hour at a
 // time instead of freezing a snapshot into the build.
@@ -42,13 +42,6 @@ if (Astro.cache.enabled) {
   );
 }
 
-const formatDay = (value: string): string =>
-  new Date(`${value}T00:00:00.000Z`).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    timeZone: "UTC",
-  });
-
 // Bigger tiers get bigger blocks, and every tier always keeps one open spot.
 const BLOCK_LAYOUT: Record<SponsorTierId, { grid: string; block: string; logo: string }> = {
   diamond: { block: "h-28", grid: "grid-cols-1 sm:grid-cols-2", logo: "max-h-12" },
@@ -70,31 +63,19 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
   <AsciiDivider />
 
   <section id="audience" class="view-container">
-    <div class="flex items-center justify-between gap-4">
-      <h2>
-        <a href="#audience" class="view-container-title">AUDIENCE</a>
-      </h2>
-      {
-        snapshot && (
-          <p class="text-muted-foreground text-right text-xs">
-            {formatDay(snapshot.dates[0] ?? "")} –{" "}
-            {formatDay(snapshot.dates.at(-1) ?? "")}
-            {stale && (
-              <> · Vercel did not respond to the last refresh, so this may be out of date</>
-            )}
-          </p>
-        )
-      }
-    </div>
-
     {
       snapshot === null ? (
-        <p>
-          Audience analytics could not be loaded right now. Check back soon, or{" "}
-          <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
-        </p>
+        <>
+          <h2>
+            <a href="#audience" class="view-container-title">AUDIENCE</a>
+          </h2>
+          <p>
+            Audience analytics could not be loaded right now. Check back soon, or{" "}
+            <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
+          </p>
+        </>
       ) : (
-        <SponsorAnalytics snapshot={snapshot} client:load />
+        <SponsorAnalytics snapshot={snapshot} stale={stale} client:load />
       )
     }
   </section>
@@ -165,18 +146,25 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
       Monthly subscriptions, cancel anytime. Every tier covers all Shadcn Labs
       projects.
     </p>
-    <ul class="space-y-4 pt-2">
+    <ul class="space-y-4 pt-4">
       {
         SPONSOR_TIERS.map((tier) => (
           <li
             id={`tier-${tier.id}`}
-            class="border-border target:border-foreground scroll-mt-6 space-y-3 rounded-lg border p-4"
+            class:list={[
+              "relative scroll-mt-6 space-y-3 rounded-lg border p-4",
+              tier.id === "diamond"
+                ? "border-(--primary-gradient-to)"
+                : "border-border target:border-foreground",
+            ]}
           >
+            {tier.id === "diamond" && (
+              <span class="primary-gradient absolute -top-2.5 left-4 rounded-full px-2 py-0.5 text-xs leading-none font-medium">
+                most impact
+              </span>
+            )}
             <div class="flex items-baseline justify-between gap-4">
-              <h3 class="flex items-center gap-2">
-                {tier.name}
-                {tier.id === "diamond" && <Badge variant="secondary">recommended</Badge>}
-              </h3>
+              <h3>{tier.name}</h3>
               <p>
                 <span class="font-mono text-xl">${tier.price}</span>
                 <span class="text-muted-foreground">/mo</span>
@@ -192,13 +180,13 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
             </ul>
             <a
               href={sponsorCheckoutUrl(tier)}
-              class={buttonVariants({
-                className:
-                  tier.id === "diamond"
-                    ? "hover:text-primary-foreground hover:no-underline"
-                    : "text-foreground hover:text-foreground hover:no-underline",
-                variant: tier.id === "diamond" ? "default" : "outline",
-              })}
+              class={cn(
+                buttonVariants({
+                  variant: tier.id === "diamond" ? "primary" : "outline",
+                }),
+                "hover:no-underline",
+                tier.id !== "diamond" && "text-foreground hover:text-foreground",
+              )}
             >
               Become a {tier.name} sponsor
               <ArrowRight aria-hidden="true" />
@@ -207,13 +195,14 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
         ))
       }
     </ul>
-    <p class="text-muted-foreground pt-2 text-xs">
+    <p
+      class="text-muted-foreground pt-2 text-xs [&_a]:text-muted-foreground [&_a]:underline [&_a:hover]:text-foreground"
+    >
       Payments are processed by{" "}
-      <a href="https://dodopayments.com" target="_blank" rel="noopener">Dodo Payments</a>,
-      our merchant of record, which handles billing, sales tax, and invoices. By
-      subscribing you agree to our <a href={ROUTES.TERMS}>terms</a>,{" "}
-      <a href={ROUTES.REFUNDS}>refund policy</a>, and{" "}
-      <a href={ROUTES.PRIVACY}>privacy policy</a>.
+      <a href="https://dodopayments.com" target="_blank" rel="noopener">
+        Dodo Payments</a
+      >, our merchant of record. By subscribing, you agree to our{" "}
+      <a href={ROUTES.TERMS}>terms</a> and <a href={ROUTES.REFUNDS}>refund policy</a>.
     </p>
   </section>
 
@@ -224,7 +213,8 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
       <a href="#questions" class="view-container-title">QUESTIONS</a>
     </h2>
     <p>
-      Questions, or need a custom package?{" "}
+      Need a custom package? Happy to put something together that fits how
+      your team wants to show up.{" "}
       <a href={SPONSORSHIP_CONTACT_URL} class="inline-flex items-center gap-1">
         Get in touch
         <ArrowRight size={14} aria-hidden="true" />

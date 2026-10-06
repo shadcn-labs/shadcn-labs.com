@@ -146,7 +146,7 @@ export const ContactForm = () => {
       </div>
 
       <div className="flex items-center justify-between gap-4">
-        <Button type="submit">
+        <Button type="submit" variant="primary">
           <Send aria-hidden="true" />
           Send message
         </Button>

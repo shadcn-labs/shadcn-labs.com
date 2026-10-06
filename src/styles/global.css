@@ -57,6 +57,11 @@
   --foreground: #111;
   --primary: oklch(0.205 0 0);
   --highlight: #f06292;
+  /* Pink gradient for the `primary` button variant, same in both themes. */
+  --primary-gradient-from: #f78db3;
+  --primary-gradient-to: #ec407a;
+  --primary-gradient-foreground: #ffffff;
+  --primary-edge: #ef5b8e;
   --border: #e5e5e5;
   --ring: #111;
   --muted-foreground: oklch(0.556 0 0);
@@ -171,4 +176,14 @@ html .react-tweet-theme {
 
 @utility view-container-title {
   @apply text-foreground tracking-[-0.03em];
+}
+
+@utility primary-gradient {
+  background-image: linear-gradient(
+    var(--primary-gradient-from),
+    var(--primary-gradient-to)
+  );
+  color: var(--primary-gradient-foreground);
+  text-shadow: 0 0.5px 0 rgb(110 0 45 / 0.32);
+  @apply shadow-[inset_0_0_1px_1px_rgb(255_255_255/0.18),0_0_0_1px_rgb(0_0_0/0.08),0_2px_2px_rgb(0_0_0/0.04),0_0_0_1px_var(--primary-edge)];
 }
