@@ -1,0 +1,42 @@
+---
+import AsciiDivider from "@/components/ascii-divider.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { LINKS } from "@/constants/links";
+import { ROUTES } from "@/constants/routes";
+
+interface Props {
+  description: string;
+  heading: string;
+  id: string;
+  title: string;
+  /** Human-readable date of the last material change. */
+  updated: string;
+}
+
+const { description, heading, id, title, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <AsciiDivider />
+
+  <section
+    id={id}
+    class="view-container [&_h3]:text-foreground [&_h3]:pt-4 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5"
+  >
+    <div class="flex items-center justify-between gap-4">
+      <h2>
+        <a href={`#${id}`} class="view-container-title">{heading}</a>
+      </h2>
+      <p class="text-muted-foreground text-xs">Last updated {updated}</p>
+    </div>
+
+    <slot />
+
+    <h3>Contact</h3>
+    <p>
+      Questions about this page? Email <a href={`mailto:${LINKS.EMAIL}`}
+        >{LINKS.EMAIL}</a
+      > or use the <a href={ROUTES.CONTACT}>contact form</a>.
+    </p>
+  </section>
+</BaseLayout>

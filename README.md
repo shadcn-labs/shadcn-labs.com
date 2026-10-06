@@ -45,11 +45,17 @@ Tiers live in `src/constants/sponsors.ts` and map to monthly subscription produc
 | Gold    | $499/mo | `pdt_0Np8R90EdARmakSoI7chr` |
 | Silver  | $199/mo | `pdt_0Np8R8ys1qvogPdS6LXXI` |
 
-"Become a sponsor" buttons are Dodo static payment links (`https://checkout.dodopayments.com/buy/<product>`), so no Dodo API key is needed at runtime. After payment Dodo redirects to the sponsorship contact form so the sponsor can send their logo and link. Dodo prices cannot be edited: to change a price, create a new product and update `productId` and `price`. Keep each tier's `perks` in sync with the product description in Dodo. Add active sponsors to `SPONSORS` in the same file.
+"Become a sponsor" buttons are Dodo static payment links (`https://checkout.dodopayments.com/buy/<product>`), so no Dodo API key is needed at runtime. After payment Dodo redirects to the sponsorship contact form so the sponsor can send their logo and link. Dodo prices cannot be edited: to change a price, create a new product and update `productId` and `price`. Keep each tier's `perks` in sync with the product description in Dodo.
+
+Add active sponsors to `SPONSORS` in the same file. The sponsors section lists each tier's sponsors as logo blocks (larger for higher tiers) and always ends with one open "Your logo here" block that links to that tier's card.
+
+Dodo Payments is the merchant of record. The tiers section says so and links the legal pages, `/terms`, `/refunds`, and `/privacy`, which are also linked from the footer. Update their "Last updated" date whenever you change them.
 
 ### Analytics
 
 The analytics block shows production traffic for the last 30 whole UTC days across projects listed in `src/constants/projects.ts` (excluding `skills`, which points to the external skills.sh directory), matched to Vercel projects by name or production domain. Listed projects without Web Analytics enabled in the team are skipped. Visitors are summed per project, not deduplicated across projects.
+
+The snapshot holds per-project totals, daily series, and top countries and referrers, so the project filter (`src/components/sponsor-analytics.tsx`) recomputes everything in the browser without another Vercel query. The chart is the [EvilCharts](https://evilcharts.com) ECharts line chart, vendored in `src/components/evilcharts/` and excluded from lint so `shadcn add @evilcharts/echarts-line-chart` can update it.
 
 Data comes from the [Vercel Web Analytics API](https://vercel.com/docs/analytics/web-analytics-api) in `src/lib/vercel-analytics.ts`. A refresh costs one project-list request plus five queries per project, fetched one project at a time (at most five requests in flight). Rate limiting is layered:
 

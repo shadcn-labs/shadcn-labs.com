@@ -1,9 +1,6 @@
 ---
 import { ArrowRight } from "@lucide/astro";
 import { ROUTES } from "@/constants/routes";
-import { SPONSOR_TIERS } from "@/constants/sponsors";
-
-const startingPrice = Math.min(...SPONSOR_TIERS.map((tier) => tier.price));
 ---
 
 <section id="sponsor-us" class="view-container">
@@ -11,12 +8,14 @@ const startingPrice = Math.min(...SPONSOR_TIERS.map((tier) => tier.price));
     <a href="#sponsor-us" class="view-container-title">SPONSOR US</a>
   </h2>
   <p>
-    Sponsor the whole ecosystem and get placement across all of our projects.
-    Tiers start at <span class="font-mono">${startingPrice}</span>/month.
+    Sponsor the whole ecosystem and get placement across all of our projects:
+    the registries, templates, and ports that developers building with
+    shadcn/ui use every day, plus their docs, READMEs, and community.
   </p>
-  <p class="text-muted-foreground">
+  <p class="text-muted-foreground pt-2">
+    Become a sponsor?{" "}
     <a href={ROUTES.SPONSORS} class="inline-flex items-center gap-1">
-      See live audience analytics and sponsorship tiers
+      See stats and tiers
       <ArrowRight size={14} aria-hidden="true" />
     </a>
   </p>

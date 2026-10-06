@@ -1,0 +1,97 @@
+---
+import LegalLayout from "@/layouts/legal-layout.astro";
+import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
+---
+
+<LegalLayout
+  id="terms"
+  heading="TERMS OF SERVICE"
+  title="Terms of Service"
+  description="Terms for using shadcn-labs.com and buying a Shadcn Labs sponsorship."
+  updated="October 6, 2026"
+>
+  <p>
+    These terms cover your use of shadcn-labs.com and any sponsorship you buy
+    from Shadcn Labs ("we", "us"), operated by {SITE.AUTHOR.NAME}. By using the
+    site or subscribing to a sponsorship tier, you agree to them.
+  </p>
+
+  <h3>Open-source projects</h3>
+  <p>
+    Our registries, templates, and ports are free and open source. Each project
+    is governed by the license in its own repository, not by these terms, and is
+    provided "as is" without warranty.
+  </p>
+
+  <h3>Merchant of record</h3>
+  <p>
+    Sponsorships are sold through <a
+      href="https://dodopayments.com"
+      target="_blank"
+      rel="noopener">Dodo Payments</a
+    >, our merchant of record. Dodo Payments processes your payment, collects
+    applicable sales tax or VAT, issues your invoices, and appears on your
+    statement. Your purchase is also subject to Dodo Payments' own terms. We
+    never see or store your full card details.
+  </p>
+
+  <h3>Sponsorships</h3>
+  <ul>
+    <li>
+      Each tier is a monthly subscription billed in advance, in US dollars, at
+      the price shown on the <a href={ROUTES.SPONSORS}>sponsors page</a> when
+      you subscribe. It renews every month until you cancel.
+    </li>
+    <li>
+      The perks for each tier are listed on the sponsors page. We deliver
+      placements as soon as we have your logo, link, and name, usually within a
+      few business days of payment.
+    </li>
+    <li>
+      Placement order within a tier, logo size, and layout are at our
+      discretion and may change as the sites change.
+    </li>
+    <li>
+      You may cancel at any time. Cancellation takes effect at the end of the
+      current billing period; your placements stay up until then. Refunds are
+      covered by the <a href={ROUTES.REFUNDS}>refund policy</a>.
+    </li>
+    <li>
+      We may change tier prices or perks for future billing periods. We will
+      tell active sponsors by email before a change applies to them.
+    </li>
+  </ul>
+
+  <h3>Your content</h3>
+  <p>
+    You confirm that you have the right to use the logo, name, and link you send
+    us, and you allow us to display them across our sites, repositories, and
+    social posts for the length of your sponsorship. We may decline or remove
+    any sponsor or content that is illegal, misleading, malicious, or harmful to
+    our community. If we remove an active sponsorship for that reason, we refund
+    the unused part of the current billing period.
+  </p>
+
+  <h3>Acceptable use</h3>
+  <p>
+    Do not attempt to disrupt the site, abuse the contact form, or access data
+    you are not entitled to.
+  </p>
+
+  <h3>Liability</h3>
+  <p>
+    The site and sponsorships are provided "as is". We do not guarantee any
+    specific traffic, clicks, or conversions; audience analytics show past
+    traffic only. To the extent the law allows, our total liability for any
+    claim related to a sponsorship is limited to the amount you paid for it in
+    the three months before the claim.
+  </p>
+
+  <h3>Changes</h3>
+  <p>
+    We may update these terms. The date at the top shows the latest version;
+    continuing to use the site or keeping an active sponsorship after a change
+    means you accept it.
+  </p>
+</LegalLayout>

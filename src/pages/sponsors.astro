@@ -1,15 +1,18 @@
 ---
 import { ArrowRight, Check } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
+import { SponsorAnalytics } from "@/components/sponsor-analytics";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import BaseLayout from "@/layouts/base-layout.astro";
+import { ROUTES } from "@/constants/routes";
 import {
   SPONSORS,
   SPONSOR_TIERS,
   SPONSORSHIP_CONTACT_URL,
   sponsorCheckoutUrl,
 } from "@/constants/sponsors";
+import type { SponsorTierId } from "@/constants/sponsors";
 import { UTM_PARAMS } from "@/constants/site";
 import {
   ANALYTICS_CACHE_TTL_SECONDS,
@@ -39,17 +42,6 @@ if (Astro.cache.enabled) {
   );
 }
 
-const compact = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 1,
-  notation: "compact",
-});
-
-const change = (current: number, previous: number): string | null => {
-  if (previous === 0) {return null;}
-  const percent = Math.round(((current - previous) / previous) * 100);
-  return `${percent > 0 ? "+" : ""}${percent}%`;
-};
-
 const formatDay = (value: string): string =>
   new Date(`${value}T00:00:00.000Z`).toLocaleDateString("en-US", {
     day: "numeric",
@@ -57,43 +49,18 @@ const formatDay = (value: string): string =>
     timeZone: "UTC",
   });
 
-const stats = snapshot
-  ? [
-      {
-        change: change(snapshot.visitors, snapshot.previous.visitors),
-        label: "visitors",
-        value: snapshot.visitors,
-      },
-      {
-        change: change(snapshot.pageviews, snapshot.previous.pageviews),
-        label: "pageviews",
-        value: snapshot.pageviews,
-      },
-    ]
-  : [];
+// Bigger tiers get bigger blocks, and every tier always keeps one open spot.
+const BLOCK_LAYOUT: Record<SponsorTierId, { grid: string; block: string; logo: string }> = {
+  diamond: { block: "h-28", grid: "grid-cols-1 sm:grid-cols-2", logo: "max-h-12" },
+  gold: { block: "h-24", grid: "grid-cols-2 sm:grid-cols-3", logo: "max-h-9" },
+  silver: { block: "h-20", grid: "grid-cols-2 sm:grid-cols-4", logo: "max-h-7" },
+};
 
-// Daily visitors as an SVG polyline; 100 x 24 user units, stretched to fit.
-const peak = Math.max(1, ...(snapshot?.trend.map((day) => day.visitors) ?? []));
-const points =
-  snapshot?.trend
-    .map(
-      (day, index, days) =>
-        `${((index / Math.max(days.length - 1, 1)) * 100).toFixed(2)},${(24 - (day.visitors / peak) * 22).toFixed(2)}`,
-    )
-    .join(" ") ?? "";
-
-const lists = snapshot
-  ? [
-      { rows: snapshot.countries, title: "Top countries" },
-      { rows: snapshot.referrers, title: "Top referrers" },
-    ]
-  : [];
-const projectPeak = Math.max(1, ...(snapshot?.projects.map((row) => row.visitors) ?? []));
-
-const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
+const tierGroups = SPONSOR_TIERS.map((tier) => ({
+  layout: BLOCK_LAYOUT[tier.id],
   sponsors: SPONSORS.filter((sponsor) => sponsor.tier === tier.id),
   tier,
-})).filter((group) => group.sponsors.length > 0);
+}));
 ---
 
 <BaseLayout
@@ -110,8 +77,11 @@ const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
       {
         snapshot && (
           <p class="text-muted-foreground text-right text-xs">
-            {formatDay(snapshot.since)} – {formatDay(snapshot.until)}
-            {stale && <> · Vercel did not respond to the last refresh, so this may be out of date</>}
+            {formatDay(snapshot.dates[0] ?? "")} –{" "}
+            {formatDay(snapshot.dates.at(-1) ?? "")}
+            {stale && (
+              <> · Vercel did not respond to the last refresh, so this may be out of date</>
+            )}
           </p>
         )
       }
@@ -124,98 +94,7 @@ const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
           <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
         </p>
       ) : (
-        <>
-          <p>
-            Production traffic across{" "}
-            <span class="font-mono">{snapshot.projects.length}</span> Shadcn Labs
-            projects over the last <span class="font-mono">30</span> days, straight
-            from Vercel Web Analytics.
-          </p>
-
-          <dl class="grid grid-cols-2 gap-4 pt-2">
-            {stats.map((stat) => (
-              <div>
-                <dt class="text-muted-foreground">{stat.label}</dt>
-                <dd class="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
-                  <span
-                    class="font-mono text-2xl tracking-tight"
-                    title={stat.value.toLocaleString("en-US")}
-                  >
-                    {compact.format(stat.value)}
-                  </span>
-                  {stat.change && (
-                    <span class="text-muted-foreground font-mono text-xs">
-                      {stat.change} vs prior 30 days
-                    </span>
-                  )}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <figure class="pt-2">
-            <svg
-              viewBox="0 0 100 24"
-              preserveAspectRatio="none"
-              class="text-foreground h-16 w-full overflow-visible"
-              role="img"
-              aria-label="Daily visitors over the last 30 days"
-            >
-              <polygon points={`0,24 ${points} 100,24`} fill="currentColor" opacity="0.08" />
-              <polyline
-                points={points}
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linejoin="round"
-                vector-effect="non-scaling-stroke"
-              />
-            </svg>
-            <figcaption class="text-muted-foreground flex justify-between text-xs">
-              <span>{formatDay(snapshot.since)}</span>
-              <span>daily visitors</span>
-              <span>{formatDay(snapshot.until)}</span>
-            </figcaption>
-          </figure>
-
-          <h3 class="text-muted-foreground pt-4">By project</h3>
-          <ul class="space-y-1">
-            {snapshot.projects.map((row) => (
-              <li class="relative flex justify-between gap-4 px-2 py-0.5">
-                <span
-                  class="bg-muted absolute inset-y-0 left-0 rounded-sm"
-                  style={{ width: `${(row.visitors / projectPeak) * 100}%` }}
-                  aria-hidden="true"
-                />
-                <span class="relative">{row.name}</span>
-                <span class="relative font-mono" title={`${row.pageviews.toLocaleString("en-US")} pageviews`}>
-                  {compact.format(row.visitors)}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div class="grid grid-cols-1 gap-x-6 gap-y-2 pt-2 sm:grid-cols-2">
-            {lists.map((list) => (
-              <div class="space-y-1">
-                <h3 class="text-muted-foreground pt-2">{list.title}</h3>
-                <ul class="space-y-1">
-                  {list.rows.map((row) => (
-                    <li class="flex justify-between gap-4">
-                      <span class="truncate">{row.name}</span>
-                      <span class="font-mono">{compact.format(row.visitors)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <p class="text-muted-foreground pt-2 text-xs">
-            Visitors are counted per project, so someone visiting two projects counts
-            twice.
-          </p>
-        </>
+        <SponsorAnalytics snapshot={snapshot} client:load />
       )
     }
   </section>
@@ -227,38 +106,52 @@ const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
       <a href="#sponsors" class="view-container-title">SPONSORS</a>
     </h2>
     {
-      sponsorsByTier.length === 0 ? (
-        <p>
-          No sponsors yet. <a href="#tiers">Your logo could be the first one here</a>.
-        </p>
-      ) : (
-        sponsorsByTier.map((group) => (
-          <div class="space-y-2 pt-2">
-            <h3 class="text-muted-foreground">{group.tier.name}</h3>
-            <ul class="flex flex-wrap items-center gap-6">
-              {group.sponsors.map((sponsor) => (
-                <li>
-                  <a
-                    href={addQueryParams(sponsor.url, UTM_PARAMS)}
-                    target="_blank"
-                    rel="sponsored noopener"
-                    class="inline-flex items-center gap-2"
-                  >
-                    <img
-                      src={sponsor.logo}
-                      alt=""
-                      class={group.tier.id === "diamond" ? "h-10 w-auto" : "h-7 w-auto"}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    {sponsor.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      )
+      tierGroups.map(({ layout, sponsors, tier }) => (
+        <div class="space-y-2 pt-2">
+          <h3 class="text-muted-foreground">{tier.name}</h3>
+          <ul class:list={["grid gap-2", layout.grid]}>
+            {sponsors.map((sponsor) => (
+              <li>
+                <a
+                  href={addQueryParams(sponsor.url, UTM_PARAMS)}
+                  target="_blank"
+                  rel="noopener"
+                  title={sponsor.name}
+                  class:list={[
+                    "border-border hover:bg-muted flex items-center justify-center rounded-lg border p-4 transition-colors",
+                    layout.block,
+                  ]}
+                >
+                  <img
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    class:list={["w-auto max-w-full object-contain", layout.logo]}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href={`#tier-${tier.id}`}
+                aria-label={`Take this spot: become a ${tier.name} sponsor`}
+                class:list={[
+                  "group border-border text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:border-foreground focus-visible:text-foreground flex items-center justify-center rounded-lg border border-dashed transition-colors hover:no-underline",
+                  layout.block,
+                ]}
+              >
+                <span class="group-hover:hidden group-focus-visible:hidden">
+                  Your logo here
+                </span>
+                <span class="hidden group-hover:inline group-focus-visible:inline">
+                  Take this spot ❤️
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      ))
     }
   </section>
 
@@ -275,7 +168,10 @@ const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
     <ul class="space-y-4 pt-2">
       {
         SPONSOR_TIERS.map((tier) => (
-          <li id={`tier-${tier.id}`} class="border-border space-y-3 rounded-lg border p-4">
+          <li
+            id={`tier-${tier.id}`}
+            class="border-border target:border-foreground scroll-mt-6 space-y-3 rounded-lg border p-4"
+          >
             <div class="flex items-baseline justify-between gap-4">
               <h3 class="flex items-center gap-2">
                 {tier.name}
@@ -311,6 +207,14 @@ const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
         ))
       }
     </ul>
+    <p class="text-muted-foreground pt-2 text-xs">
+      Payments are processed by{" "}
+      <a href="https://dodopayments.com" target="_blank" rel="noopener">Dodo Payments</a>,
+      our merchant of record, which handles billing, sales tax, and invoices. By
+      subscribing you agree to our <a href={ROUTES.TERMS}>terms</a>,{" "}
+      <a href={ROUTES.REFUNDS}>refund policy</a>, and{" "}
+      <a href={ROUTES.PRIVACY}>privacy policy</a>.
+    </p>
   </section>
 
   <AsciiDivider />

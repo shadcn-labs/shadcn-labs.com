@@ -8,20 +8,31 @@ export interface AnalyticsRow {
   pageviews: number;
 }
 
-export interface AnalyticsSnapshot {
-  /** ISO timestamp of the refresh that produced this snapshot. */
-  fetchedAt: string;
-  /** Inclusive UTC dates (YYYY-MM-DD) of the reporting period. */
-  since: string;
-  until: string;
+export interface ProjectAnalytics {
+  name: string;
   visitors: number;
   pageviews: number;
   /** The equally long period right before `since`, for the change figures. */
   previous: { visitors: number; pageviews: number };
-  trend: { date: string; visitors: number; pageviews: number }[];
-  projects: AnalyticsRow[];
+  /** Daily values aligned with `AnalyticsSnapshot.dates`. */
+  dailyVisitors: number[];
+  dailyPageviews: number[];
+  /** Top rows for this project, so any project selection can be merged client-side. */
   countries: AnalyticsRow[];
   referrers: AnalyticsRow[];
+}
+
+/**
+ * Per-project data only: totals for any selection of projects are sums, so the
+ * page can filter by project without another Vercel query.
+ */
+export interface AnalyticsSnapshot {
+  /** ISO timestamp of the refresh that produced this snapshot. */
+  fetchedAt: string;
+  /** Every UTC date (YYYY-MM-DD) of the reporting period, oldest first. */
+  dates: string[];
+  /** Sorted by visitors, highest first. */
+  projects: ProjectAnalytics[];
 }
 
 export interface AnalyticsResult {
@@ -49,7 +60,8 @@ const API_URL = "https://api.vercel.com";
 const DAY_MS = 24 * 60 * 60 * 1000;
 const PERIOD_DAYS = 30;
 const QUERIES_PER_PROJECT = 5;
-const TOP_ROWS = 6;
+/** Enough per project that merged top rows for any selection stay accurate. */
+const TOP_ROWS_PER_PROJECT = 25;
 /** Vercel folds everything past `limit` into this bucket; it is not a value. */
 const OTHERS = "Others";
 
@@ -276,31 +288,26 @@ const sum = (rows: Row[]): { visitors: number; pageviews: number } => ({
 const isoDate = (timestamp: number): string =>
   new Date(timestamp).toISOString().slice(0, 10);
 
-/** Merges one dimension across projects into the top rows by visitors. */
+/** One project's top rows for a dimension, without Vercel's catch-all bucket. */
 const top = (
-  rowsByProject: Row[][],
+  rows: Row[],
   dimension: string,
   label: (value: string) => string
-): AnalyticsRow[] => {
-  const merged = new Map<string, AnalyticsRow>();
-  for (const row of rowsByProject.flat()) {
-    const value = row[dimension];
-    if (typeof value !== "string" || value === "" || value === OTHERS) {
-      continue;
-    }
-    const entry = merged.get(value) ?? {
-      name: label(value),
-      pageviews: 0,
-      visitors: 0,
-    };
-    entry.visitors += metric(row, "visitors");
-    entry.pageviews += metric(row, "pageviews");
-    merged.set(value, entry);
-  }
-  return [...merged.values()]
+): AnalyticsRow[] =>
+  rows
+    .filter(
+      (row) =>
+        typeof row[dimension] === "string" &&
+        row[dimension] !== "" &&
+        row[dimension] !== OTHERS
+    )
+    .map((row) => ({
+      name: label(row[dimension] as string),
+      pageviews: metric(row, "pageviews"),
+      visitors: metric(row, "visitors"),
+    }))
     .toSorted((a, b) => b.visitors - a.visitors)
-    .slice(0, TOP_ROWS);
-};
+    .slice(0, TOP_ROWS_PER_PROJECT);
 
 const refresh = async (): Promise<AnalyticsSnapshot> => {
   const token = getSecret("VERCEL_TOKEN");
@@ -361,47 +368,40 @@ const refresh = async (): Promise<AnalyticsSnapshot> => {
         ];
   const results = await loadInOrder(projects);
 
-  const trend = new Map<string, AnalyticsSnapshot["trend"][number]>();
+  const dates: string[] = [];
   for (let day = start; day <= end; day += DAY_MS) {
-    trend.set(isoDate(day), { date: isoDate(day), pageviews: 0, visitors: 0 });
-  }
-  for (const { days } of results) {
-    for (const row of days) {
-      const point =
-        typeof row.timestamp === "string"
-          ? trend.get(row.timestamp.slice(0, 10))
-          : undefined;
-      if (point) {
-        point.visitors += metric(row, "visitors");
-        point.pageviews += metric(row, "pageviews");
-      }
-    }
+    dates.push(isoDate(day));
   }
 
-  const perProject = results
-    .map(({ current, project }) => ({ name: project.name, ...sum(current) }))
+  const projectsAnalytics = results
+    .map(({ before, countries, current, days, project, referrers }) => {
+      const byDate = new Map(
+        days
+          .filter((row) => typeof row.timestamp === "string")
+          .map((row) => [String(row.timestamp).slice(0, 10), row])
+      );
+      return {
+        countries: top(countries, "country", countryName),
+        dailyPageviews: dates.map((date) => {
+          const row = byDate.get(date);
+          return row ? metric(row, "pageviews") : 0;
+        }),
+        dailyVisitors: dates.map((date) => {
+          const row = byDate.get(date);
+          return row ? metric(row, "visitors") : 0;
+        }),
+        name: project.name,
+        previous: sum(before),
+        referrers: top(referrers, "referrerHostname", (value) => value),
+        ...sum(current),
+      };
+    })
     .toSorted((a, b) => b.visitors - a.visitors);
-  const totals = sum(results.flatMap(({ current }) => current));
 
   return {
-    countries: top(
-      results.map((result) => result.countries),
-      "country",
-      countryName
-    ),
+    dates,
     fetchedAt: new Date().toISOString(),
-    pageviews: totals.pageviews,
-    previous: sum(results.flatMap(({ before }) => before)),
-    projects: perProject,
-    referrers: top(
-      results.map((result) => result.referrers),
-      "referrerHostname",
-      (value) => value
-    ),
-    since: period.since,
-    trend: [...trend.values()],
-    until: period.until,
-    visitors: totals.visitors,
+    projects: projectsAnalytics,
   };
 };
 

@@ -1,0 +1,58 @@
+---
+import LegalLayout from "@/layouts/legal-layout.astro";
+import { LINKS } from "@/constants/links";
+---
+
+<LegalLayout
+  id="refunds"
+  heading="REFUND POLICY"
+  title="Refund Policy"
+  description="Cancellation and refund policy for Shadcn Labs sponsorships."
+  updated="October 6, 2026"
+>
+  <p>
+    Sponsorships are monthly subscriptions sold through Dodo Payments, our
+    merchant of record. Approved refunds are issued by Dodo Payments to your
+    original payment method.
+  </p>
+
+  <h3>Cancelling</h3>
+  <p>
+    Cancel at any time from the Dodo Payments customer portal, or by emailing <a
+      href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a
+    >. Cancellation stops future renewals; your placements stay live until the
+    end of the period you already paid for.
+  </p>
+
+  <h3>When you get a full refund</h3>
+  <ul>
+    <li>
+      You ask within 7 days of your first payment and your placements have not
+      gone live yet.
+    </li>
+    <li>You were charged more than once for the same period.</li>
+    <li>
+      We cannot deliver the perks of your tier, or we remove your sponsorship
+      under our terms (in that case, for the unused part of the period).
+    </li>
+  </ul>
+
+  <h3>When we do not refund</h3>
+  <ul>
+    <li>
+      Partial months after your placements have gone live. Cancel before the
+      next renewal instead.
+    </li>
+    <li>Renewals you did not cancel before the renewal date.</li>
+    <li>Results such as traffic, clicks, or conversions being lower than hoped.</li>
+  </ul>
+
+  <h3>How to ask</h3>
+  <p>
+    Email <a href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> with the email you
+    paid with and your invoice or subscription ID. We reply within 3 business
+    days, and approved refunds usually reach you within 5–10 business days,
+    depending on your bank. Please contact us before opening a chargeback; we
+    resolve most issues faster that way.
+  </p>
+</LegalLayout>

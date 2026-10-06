@@ -1,8 +1,27 @@
 ---
 import { Image } from "astro:assets";
+import { ROUTES } from "@/constants/routes";
+
+const LEGAL_LINKS = [
+  { href: ROUTES.TERMS, label: "terms" },
+  { href: ROUTES.REFUNDS, label: "refunds" },
+  { href: ROUTES.PRIVACY, label: "privacy" },
+];
 ---
 
 <footer class="w-full mt-8 overflow-hidden">
+  <nav
+    aria-label="Legal"
+    class="view-container text-muted-foreground flex gap-3 text-xs"
+  >
+    {
+      LEGAL_LINKS.map((link) => (
+        <a href={link.href} class="text-muted-foreground hover:text-foreground">
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
   <Image
     src="https://yffrvzi8zwbljfuj.public.blob.vercel-storage.com/shadcn-labs/footer.png"
     alt="Shadcn Labs Footer"
