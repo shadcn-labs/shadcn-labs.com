@@ -89,7 +89,11 @@ export const ProjectList = () => {
         {filteredProjects.map((project) => (
           <li key={project.name}>
             <span className="inline-flex items-center gap-2">
-              <a target="_blank" href={addQueryParams(project.url, UTM_PARAMS)}>
+              <a
+                className="link"
+                target="_blank"
+                href={addQueryParams(project.url, UTM_PARAMS)}
+              >
                 {project.name}
               </a>
               {project.isNew ? (

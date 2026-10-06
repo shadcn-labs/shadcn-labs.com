@@ -14,7 +14,7 @@ import { addQueryParams } from "@/lib/url";
         <>
           {index > 0 && <span>•</span>}
           <li>
-            <a target="_blank" href={addQueryParams(social.url, UTM_PARAMS)}>
+            <a class="link" target="_blank" href={addQueryParams(social.url, UTM_PARAMS)}>
               {social.name}
             </a>
           </li>

@@ -9,14 +9,18 @@ interface IssueListItemProps {
 
 const formatDate = (value: string): string =>
   new Date(value).toLocaleDateString("en-US", {
-    day: "numeric",
+    day: "2-digit",
     month: "short",
     year: "numeric",
   });
 
 export const IssueListItem = ({ issue }: IssueListItemProps) => (
   <li>
-    <a target="_blank" href={addQueryParams(issue.html_url, UTM_PARAMS)}>
+    <a
+      className="link"
+      target="_blank"
+      href={addQueryParams(issue.html_url, UTM_PARAMS)}
+    >
       #{issue.number} {issue.title}
     </a>
     <br />

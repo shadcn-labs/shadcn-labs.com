@@ -282,6 +282,7 @@ export const IssuesList = ({
               <div key={group.name} className="space-y-2">
                 <h3>
                   <a
+                    className="link"
                     target="_blank"
                     href={addQueryParams(group.url, UTM_PARAMS)}
                   >

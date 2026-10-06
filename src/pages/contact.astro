@@ -33,7 +33,8 @@ if (Astro.cache.enabled) {
     <ContactForm inquiry={Astro.url.searchParams.get("inquiry")} client:load />
 
     <p class="mt-6">
-      Or email <a href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> or <a
+      Or email <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> or <a
+        class="link-underline"
         target="_blank"
         href={addQueryParams(LINKS.DISCORD, UTM_PARAMS)}>join our Discord</a
       >.

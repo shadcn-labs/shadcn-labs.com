@@ -44,13 +44,11 @@ if (!listed.has("shadcn-labs.com")) {
 }
 
 const formatUpdatedAt = (value: string): string =>
-  new Date(value).toLocaleString("en-US", {
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
+  new Date(value).toLocaleDateString("en-US", {
+    day: "2-digit",
     month: "short",
     timeZone: "UTC",
-    timeZoneName: "short",
+    year: "numeric",
   });
 
 const initialQuery = Astro.url.searchParams.get("q") ?? "";
@@ -90,6 +88,7 @@ const initialRepo = Astro.url.searchParams.get("repo") ?? "";
         <p>
           Could not load issues right now. See{" "}
           <a
+            class="link-underline"
             target="_blank"
             href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
           >

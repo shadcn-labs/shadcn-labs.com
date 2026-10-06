@@ -11,7 +11,7 @@ const pathname = Astro.url.pathname.replace(/\/+$/u, "") || "/";
   <div class="space-y-1">
     <BrandContextMenu client:load>
       <h1 class="mb-1 inline-block">
-        <a href="/" class="text-foreground hover:text-foreground">
+        <a href="/" class="text-foreground">
           <span class="sr-only">Shadcn Labs</span>
           <LogoType aria-hidden="true" />
         </a>
@@ -27,7 +27,11 @@ const pathname = Astro.url.pathname.replace(/\/+$/u, "") || "/";
       NAV.map((item) => (
         <a
           href={item.href}
-          class:list={[pathname === item.href && "text-foreground"]}
+          class:list={[
+            pathname === item.href
+              ? "text-foreground"
+              : "text-muted-foreground hover:text-foreground",
+          ]}
         >
           {item.label}
         </a>

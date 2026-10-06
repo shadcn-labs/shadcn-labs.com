@@ -20,7 +20,6 @@ import {
   getSponsorAnalytics,
 } from "@/lib/vercel-analytics";
 import { addQueryParams } from "@/lib/url";
-import { cn } from "@/lib/utils";
 
 // Rendered on demand so the edge cache serves fresh analytics for an hour at a
 // time instead of freezing a snapshot into the build.
@@ -85,7 +84,7 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
           </h2>
           <p>
             Audience analytics could not be loaded right now. Check back soon,
-            or <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
+            or <a class="link-underline" href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
           </p>
         </>
       ) : (
@@ -136,7 +135,7 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
                   href={`#tier-${tier.id}`}
                   aria-label={`Take this spot: become a ${tier.name} sponsor`}
                   class:list={[
-                    "group border-border text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:border-foreground focus-visible:text-foreground flex items-center justify-center rounded-lg border border-dashed transition-colors hover:no-underline",
+                    "group border-border text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:border-foreground focus-visible:text-foreground flex items-center justify-center rounded-lg border border-dashed transition-colors",
                     layout.block,
                   ]}
                 >
@@ -198,14 +197,9 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
             </ul>
             <a
               href={sponsorCheckoutUrl(tier)}
-              class={cn(
-                buttonVariants({
-                  variant: tier.id === "diamond" ? "default" : "outline",
-                }),
-                "hover:no-underline",
-                tier.id !== "diamond" &&
-                  "text-foreground hover:text-foreground",
-              )}
+              class={buttonVariants({
+                variant: tier.id === "diamond" ? "default" : "outline",
+              })}
             >
               Become a {tier.name} sponsor
               <ArrowRight aria-hidden="true" />
@@ -215,16 +209,16 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
       }
     </ul>
     <p
-      class="text-muted-foreground pt-2 text-xs [&_a]:text-muted-foreground [&_a]:underline [&_a:hover]:text-foreground"
+      class="text-muted-foreground pt-2 text-xs"
     >
       Payments are processed by{" "}
-      <a href="https://dodopayments.com" target="_blank" rel="noopener">
+      <a class="link-underline" href="https://dodopayments.com" target="_blank" rel="noopener">
         Dodo Payments</a
       >, our merchant of record. By subscribing, you agree to our{" "}
-      <a href={ROUTES.TERMS}>terms</a> and <a href={ROUTES.REFUNDS}
+      <a class="link-underline" href={ROUTES.TERMS}>terms</a> and <a class="link-underline" href={ROUTES.REFUNDS}
         >refund policy</a
       >. Already a sponsor?{" "}
-      <a href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener"
+      <a class="link-underline" href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener"
         >Manage your subscription</a
       >.
     </p>
@@ -239,7 +233,7 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
     <p>
       Need a custom package? Happy to put something together that fits how your
       team wants to show up.{" "}
-      <a href={SPONSORSHIP_CONTACT_URL} class="inline-flex items-center gap-1">
+      <a href={SPONSORSHIP_CONTACT_URL} class="link-underline inline-flex items-center gap-1">
         Get in touch
         <ArrowRight size={14} aria-hidden="true" />
       </a>

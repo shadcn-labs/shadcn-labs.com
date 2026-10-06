@@ -26,7 +26,7 @@ interface BrandContextMenuProps {
 export const BrandContextMenu = ({ children }: BrandContextMenuProps) => (
   <ContextMenu>
     <ContextMenuTrigger>{children}</ContextMenuTrigger>
-    <ContextMenuContent className="[&_a]:text-inherit [&_a:hover]:no-underline">
+    <ContextMenuContent>
       <ContextMenuItem
         onClick={() => copySvg(getLogoMarkSVG, "Logomark as SVG")}
       >

@@ -9,7 +9,7 @@ import { SITE } from "@/constants/site";
   heading="Privacy policy"
   title="Privacy Policy"
   description="What data shadcn-labs.com collects, why, and who processes it."
-  updated="October 6, 2026"
+  updated="Oct 06, 2026"
 >
   <p>
     This policy covers shadcn-labs.com, operated by {SITE.AUTHOR.NAME} as Shadcn
@@ -19,6 +19,7 @@ import { SITE } from "@/constants/site";
   <h3>Analytics</h3>
   <p>
     We use <a
+      class="link-underline"
       href="https://vercel.com/docs/analytics/privacy-policy"
       target="_blank"
       rel="noopener">Vercel Web Analytics</a
@@ -32,6 +33,7 @@ import { SITE } from "@/constants/site";
   <p>
     When you use the contact form, your name, email, inquiry type, subject, and
     message are sent to us by email through <a
+      class="link-underline"
       href="https://formsubmit.co"
       target="_blank"
       rel="noopener">FormSubmit</a
@@ -52,6 +54,6 @@ import { SITE } from "@/constants/site";
   <h3>Your rights</h3>
   <p>
     You can ask us to access, correct, or delete the personal data we hold
-    about you by emailing <a href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a>.
+    about you by emailing <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a>.
   </p>
 </LegalLayout>

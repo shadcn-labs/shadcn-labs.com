@@ -13,7 +13,7 @@ import { addQueryParams } from "@/lib/url";
     {
       TEAM.map((member) => (
         <li>
-          <a target="_blank" href={addQueryParams(member.url, UTM_PARAMS)}>
+          <a class="link" target="_blank" href={addQueryParams(member.url, UTM_PARAMS)}>
             {member.name}
           </a>
           <p class="text-muted-foreground text-sm">{member.description}</p>
@@ -22,7 +22,7 @@ import { addQueryParams } from "@/lib/url";
     }
   </ul>
   <p class="text-muted-foreground">
-    Plus <a href={ROUTES.CONTRIBUTORS}>the rest of the contributors</a>{" "}
+    Plus <a class="link-underline" href={ROUTES.CONTRIBUTORS}>the rest of the contributors</a>{" "}
     across the org.
   </p>
 </section>

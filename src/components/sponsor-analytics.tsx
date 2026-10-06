@@ -287,10 +287,10 @@ export const SponsorAnalytics = ({
       <p className="text-muted-foreground pt-2 text-xs">
         Live from{" "}
         <a
+          className="link-underline"
           href="https://vercel.com/docs/analytics"
           target="_blank"
           rel="noopener"
-          className="text-muted-foreground hover:text-foreground underline"
         >
           Vercel Web Analytics
         </a>
