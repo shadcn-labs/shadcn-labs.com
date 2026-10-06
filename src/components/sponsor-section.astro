@@ -1,7 +1,9 @@
 ---
-import { LINKS } from "@/constants/links";
-import { UTM_PARAMS } from "@/constants/site";
-import { addQueryParams } from "@/lib/url";
+import { ArrowRight } from "@lucide/astro";
+import { ROUTES } from "@/constants/routes";
+import { SPONSOR_TIERS } from "@/constants/sponsors";
+
+const startingPrice = Math.min(...SPONSOR_TIERS.map((tier) => tier.price));
 ---
 
 <section id="sponsor-us" class="view-container">
@@ -9,16 +11,13 @@ import { addQueryParams } from "@/lib/url";
     <a href="#sponsor-us" class="view-container-title">SPONSOR US</a>
   </h2>
   <p>
-    Sponsor the whole ecosystem and get prominent placement on all of our
-    projects. Currently priced at <span class="font-mono">$499</span>/month.
-    Interested? <a
-      href={addQueryParams(LINKS.FOUNDER_X_DM, UTM_PARAMS)}
-      target="_blank">DM us on X</a
-    >.
+    Sponsor the whole ecosystem and get placement across all of our projects.
+    Tiers start at <span class="font-mono">${startingPrice}</span>/month.
   </p>
   <p class="text-muted-foreground">
-    <span class="font-mono">50K+</span> visitors per month across all of our projects<span
-      class="text-highlight">*</span
-    >
+    <a href={ROUTES.SPONSORS} class="inline-flex items-center gap-1">
+      See live audience analytics and sponsorship tiers
+      <ArrowRight size={14} aria-hidden="true" />
+    </a>
   </p>
 </section>

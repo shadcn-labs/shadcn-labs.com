@@ -1,6 +1,7 @@
 "use client";
 
 import { CornerDownLeft, Send } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,106 +36,129 @@ const INQUIRY_TYPE_LABELS = Object.fromEntries(
 
 const field = "flex flex-col gap-2";
 
-export const ContactForm = () => (
-  <form
-    action={`https://formsubmit.co/${LINKS.EMAIL}`}
-    method="POST"
-    className="flex flex-col gap-4 pt-2"
-  >
-    <div className={field}>
-      <Label htmlFor="contact-name">Name</Label>
-      <Input
-        id="contact-name"
-        type="text"
-        name="name"
-        placeholder="John Doe"
-        required
-      />
-    </div>
+type InquiryType = (typeof INQUIRY_TYPES)[number]["value"];
 
-    <div className={field}>
-      <Label htmlFor="contact-email">Email</Label>
-      <Input
-        id="contact-email"
-        type="email"
-        name="email"
-        placeholder="john@doe.com"
-        required
-      />
-    </div>
+export const ContactForm = () => {
+  const [inquiryType, setInquiryType] = useState<InquiryType>("general");
 
-    <div className={field}>
-      <Label htmlFor="contact-inquiry">Inquiry type</Label>
-      <Select
-        name="inquiry_type"
-        defaultValue="general"
-        items={INQUIRY_TYPE_LABELS}
-      >
-        <SelectTrigger id="contact-inquiry" className="w-full">
-          <SelectValue placeholder="Select an inquiry type" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {INQUIRY_TYPES.map(({ label, value }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
+  // The page is static, so `?inquiry=` (e.g. from /sponsors) is read after
+  // hydration rather than during the build-time render.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get(
+      "inquiry"
+    );
+    const match = INQUIRY_TYPES.find(({ value }) => value === requested);
+    if (match) {
+      setInquiryType(match.value);
+    }
+  }, []);
 
-    <div className={field}>
-      <Label htmlFor="contact-subject">Subject</Label>
-      <Input
-        id="contact-subject"
-        type="text"
-        name="subject"
-        placeholder="General: Brief description of your inquiry"
-        required
-      />
-    </div>
+  return (
+    <form
+      action={`https://formsubmit.co/${LINKS.EMAIL}`}
+      method="POST"
+      className="flex flex-col gap-4 pt-2"
+    >
+      <div className={field}>
+        <Label htmlFor="contact-name">Name</Label>
+        <Input
+          id="contact-name"
+          type="text"
+          name="name"
+          placeholder="John Doe"
+          required
+        />
+      </div>
 
-    <div className={field}>
-      <Label htmlFor="contact-message">Message</Label>
-      <Textarea
-        id="contact-message"
-        name="message"
-        placeholder="Hi, this is my message"
-        className="min-h-36"
-        required
-      />
-    </div>
+      <div className={field}>
+        <Label htmlFor="contact-email">Email</Label>
+        <Input
+          id="contact-email"
+          type="email"
+          name="email"
+          placeholder="john@doe.com"
+          required
+        />
+      </div>
 
-    <div className="flex items-center gap-2">
-      <Checkbox
-        id="contact-no-emails"
-        name="no_emails"
-        value="yes"
-        uncheckedValue="no"
-      />
-      <Label
-        htmlFor="contact-no-emails"
-        className="text-muted-foreground font-normal"
-      >
-        {"Don't send me emails about Shadcn Labs"}
-      </Label>
-    </div>
+      <div className={field}>
+        <Label htmlFor="contact-inquiry">Inquiry type</Label>
+        <Select
+          name="inquiry_type"
+          value={inquiryType}
+          onValueChange={(value) => {
+            if (value !== null) {
+              setInquiryType(value as InquiryType);
+            }
+          }}
+          items={INQUIRY_TYPE_LABELS}
+        >
+          <SelectTrigger id="contact-inquiry" className="w-full">
+            <SelectValue placeholder="Select an inquiry type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {INQUIRY_TYPES.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
 
-    <div className="flex items-center justify-between gap-4">
-      <Button type="submit">
-        <Send aria-hidden="true" />
-        Send message
-      </Button>
-      <span className="text-muted-foreground inline-flex items-center gap-1 text-sm">
-        or
-        <Kbd>
-          <CornerDownLeft size={14} aria-hidden="true" />
-          Enter
-        </Kbd>
-        to send
-      </span>
-    </div>
-  </form>
-);
+      <div className={field}>
+        <Label htmlFor="contact-subject">Subject</Label>
+        <Input
+          id="contact-subject"
+          type="text"
+          name="subject"
+          placeholder="General: Brief description of your inquiry"
+          required
+        />
+      </div>
+
+      <div className={field}>
+        <Label htmlFor="contact-message">Message</Label>
+        <Textarea
+          id="contact-message"
+          name="message"
+          placeholder="Hi, this is my message"
+          className="min-h-36"
+          required
+        />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id="contact-no-emails"
+          name="no_emails"
+          value="yes"
+          uncheckedValue="no"
+        />
+        <Label
+          htmlFor="contact-no-emails"
+          className="text-muted-foreground font-normal"
+        >
+          {"Don't send me emails about Shadcn Labs"}
+        </Label>
+      </div>
+
+      <div className="flex items-center justify-between gap-4">
+        <Button type="submit">
+          <Send aria-hidden="true" />
+          Send message
+        </Button>
+        <span className="text-muted-foreground inline-flex items-center gap-1 text-sm">
+          or
+          <Kbd>
+            <CornerDownLeft size={14} aria-hidden="true" />
+            Enter
+          </Kbd>
+          to send
+        </span>
+      </div>
+    </form>
+  );
+};

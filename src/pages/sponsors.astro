@@ -1,0 +1,330 @@
+---
+import { ArrowRight, Check } from "@lucide/astro";
+import AsciiDivider from "@/components/ascii-divider.astro";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import BaseLayout from "@/layouts/base-layout.astro";
+import {
+  SPONSORS,
+  SPONSOR_TIERS,
+  SPONSORSHIP_CONTACT_URL,
+  sponsorCheckoutUrl,
+} from "@/constants/sponsors";
+import { UTM_PARAMS } from "@/constants/site";
+import {
+  ANALYTICS_CACHE_TTL_SECONDS,
+  ANALYTICS_FAILURE_CACHE_TTL_SECONDS,
+  getSponsorAnalytics,
+} from "@/lib/vercel-analytics";
+import { addQueryParams } from "@/lib/url";
+
+// Rendered on demand so the edge cache serves fresh analytics for an hour at a
+// time instead of freezing a snapshot into the build.
+export const prerender = false;
+
+const { snapshot, stale } = await getSponsorAnalytics();
+
+// Set after the fetch: a failed or stale page gets a short TTL so it recovers
+// soon, while a good one is served from the edge for the full TTL plus a day of
+// stale-while-revalidate, so Vercel is queried roughly once an hour at most.
+if (Astro.cache.enabled) {
+  Astro.cache.set(
+    stale
+      ? { maxAge: ANALYTICS_FAILURE_CACHE_TTL_SECONDS, tags: ["sponsors"] }
+      : {
+          maxAge: ANALYTICS_CACHE_TTL_SECONDS,
+          swr: 86_400,
+          tags: ["sponsors"],
+        },
+  );
+}
+
+const compact = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 1,
+  notation: "compact",
+});
+
+const change = (current: number, previous: number): string | null => {
+  if (previous === 0) {return null;}
+  const percent = Math.round(((current - previous) / previous) * 100);
+  return `${percent > 0 ? "+" : ""}${percent}%`;
+};
+
+const formatDay = (value: string): string =>
+  new Date(`${value}T00:00:00.000Z`).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "short",
+    timeZone: "UTC",
+  });
+
+const stats = snapshot
+  ? [
+      {
+        change: change(snapshot.visitors, snapshot.previous.visitors),
+        label: "visitors",
+        value: snapshot.visitors,
+      },
+      {
+        change: change(snapshot.pageviews, snapshot.previous.pageviews),
+        label: "pageviews",
+        value: snapshot.pageviews,
+      },
+    ]
+  : [];
+
+// Daily visitors as an SVG polyline; 100 x 24 user units, stretched to fit.
+const peak = Math.max(1, ...(snapshot?.trend.map((day) => day.visitors) ?? []));
+const points =
+  snapshot?.trend
+    .map(
+      (day, index, days) =>
+        `${((index / Math.max(days.length - 1, 1)) * 100).toFixed(2)},${(24 - (day.visitors / peak) * 22).toFixed(2)}`,
+    )
+    .join(" ") ?? "";
+
+const lists = snapshot
+  ? [
+      { rows: snapshot.countries, title: "Top countries" },
+      { rows: snapshot.referrers, title: "Top referrers" },
+    ]
+  : [];
+const projectPeak = Math.max(1, ...(snapshot?.projects.map((row) => row.visitors) ?? []));
+
+const sponsorsByTier = SPONSOR_TIERS.map((tier) => ({
+  sponsors: SPONSORS.filter((sponsor) => sponsor.tier === tier.id),
+  tier,
+})).filter((group) => group.sponsors.length > 0);
+---
+
+<BaseLayout
+  title="Sponsors"
+  description="Sponsor Shadcn Labs — reach developers across the shadcn/ui ecosystem. Live audience analytics, current sponsors, and sponsorship tiers."
+>
+  <AsciiDivider />
+
+  <section id="audience" class="view-container">
+    <div class="flex items-center justify-between gap-4">
+      <h2>
+        <a href="#audience" class="view-container-title">AUDIENCE</a>
+      </h2>
+      {
+        snapshot && (
+          <p class="text-muted-foreground text-right text-xs">
+            {formatDay(snapshot.since)} – {formatDay(snapshot.until)}
+            {stale && <> · Vercel did not respond to the last refresh, so this may be out of date</>}
+          </p>
+        )
+      }
+    </div>
+
+    {
+      snapshot === null ? (
+        <p>
+          Audience analytics could not be loaded right now. Check back soon, or{" "}
+          <a href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
+        </p>
+      ) : (
+        <>
+          <p>
+            Production traffic across{" "}
+            <span class="font-mono">{snapshot.projects.length}</span> Shadcn Labs
+            projects over the last <span class="font-mono">30</span> days, straight
+            from Vercel Web Analytics.
+          </p>
+
+          <dl class="grid grid-cols-2 gap-4 pt-2">
+            {stats.map((stat) => (
+              <div>
+                <dt class="text-muted-foreground">{stat.label}</dt>
+                <dd class="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
+                  <span
+                    class="font-mono text-2xl tracking-tight"
+                    title={stat.value.toLocaleString("en-US")}
+                  >
+                    {compact.format(stat.value)}
+                  </span>
+                  {stat.change && (
+                    <span class="text-muted-foreground font-mono text-xs">
+                      {stat.change} vs prior 30 days
+                    </span>
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <figure class="pt-2">
+            <svg
+              viewBox="0 0 100 24"
+              preserveAspectRatio="none"
+              class="text-foreground h-16 w-full overflow-visible"
+              role="img"
+              aria-label="Daily visitors over the last 30 days"
+            >
+              <polygon points={`0,24 ${points} 100,24`} fill="currentColor" opacity="0.08" />
+              <polyline
+                points={points}
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                vector-effect="non-scaling-stroke"
+              />
+            </svg>
+            <figcaption class="text-muted-foreground flex justify-between text-xs">
+              <span>{formatDay(snapshot.since)}</span>
+              <span>daily visitors</span>
+              <span>{formatDay(snapshot.until)}</span>
+            </figcaption>
+          </figure>
+
+          <h3 class="text-muted-foreground pt-4">By project</h3>
+          <ul class="space-y-1">
+            {snapshot.projects.map((row) => (
+              <li class="relative flex justify-between gap-4 px-2 py-0.5">
+                <span
+                  class="bg-muted absolute inset-y-0 left-0 rounded-sm"
+                  style={{ width: `${(row.visitors / projectPeak) * 100}%` }}
+                  aria-hidden="true"
+                />
+                <span class="relative">{row.name}</span>
+                <span class="relative font-mono" title={`${row.pageviews.toLocaleString("en-US")} pageviews`}>
+                  {compact.format(row.visitors)}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="grid grid-cols-1 gap-x-6 gap-y-2 pt-2 sm:grid-cols-2">
+            {lists.map((list) => (
+              <div class="space-y-1">
+                <h3 class="text-muted-foreground pt-2">{list.title}</h3>
+                <ul class="space-y-1">
+                  {list.rows.map((row) => (
+                    <li class="flex justify-between gap-4">
+                      <span class="truncate">{row.name}</span>
+                      <span class="font-mono">{compact.format(row.visitors)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <p class="text-muted-foreground pt-2 text-xs">
+            Visitors are counted per project, so someone visiting two projects counts
+            twice.
+          </p>
+        </>
+      )
+    }
+  </section>
+
+  <AsciiDivider />
+
+  <section id="sponsors" class="view-container">
+    <h2>
+      <a href="#sponsors" class="view-container-title">SPONSORS</a>
+    </h2>
+    {
+      sponsorsByTier.length === 0 ? (
+        <p>
+          No sponsors yet. <a href="#tiers">Your logo could be the first one here</a>.
+        </p>
+      ) : (
+        sponsorsByTier.map((group) => (
+          <div class="space-y-2 pt-2">
+            <h3 class="text-muted-foreground">{group.tier.name}</h3>
+            <ul class="flex flex-wrap items-center gap-6">
+              {group.sponsors.map((sponsor) => (
+                <li>
+                  <a
+                    href={addQueryParams(sponsor.url, UTM_PARAMS)}
+                    target="_blank"
+                    rel="sponsored noopener"
+                    class="inline-flex items-center gap-2"
+                  >
+                    <img
+                      src={sponsor.logo}
+                      alt=""
+                      class={group.tier.id === "diamond" ? "h-10 w-auto" : "h-7 w-auto"}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    {sponsor.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      )
+    }
+  </section>
+
+  <AsciiDivider />
+
+  <section id="tiers" class="view-container">
+    <h2>
+      <a href="#tiers" class="view-container-title">TIERS</a>
+    </h2>
+    <p class="text-muted-foreground">
+      Monthly subscriptions, cancel anytime. Every tier covers all Shadcn Labs
+      projects.
+    </p>
+    <ul class="space-y-4 pt-2">
+      {
+        SPONSOR_TIERS.map((tier) => (
+          <li id={`tier-${tier.id}`} class="border-border space-y-3 rounded-lg border p-4">
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="flex items-center gap-2">
+                {tier.name}
+                {tier.id === "diamond" && <Badge variant="secondary">recommended</Badge>}
+              </h3>
+              <p>
+                <span class="font-mono text-xl">${tier.price}</span>
+                <span class="text-muted-foreground">/mo</span>
+              </p>
+            </div>
+            <ul class="space-y-1">
+              {tier.perks.map((perk) => (
+                <li class="flex gap-2">
+                  <Check size={16} class="text-muted-foreground mt-1 shrink-0" aria-hidden="true" />
+                  <span>{perk}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href={sponsorCheckoutUrl(tier)}
+              class={buttonVariants({
+                className:
+                  tier.id === "diamond"
+                    ? "hover:text-primary-foreground hover:no-underline"
+                    : "text-foreground hover:text-foreground hover:no-underline",
+                variant: tier.id === "diamond" ? "default" : "outline",
+              })}
+            >
+              Become a {tier.name} sponsor
+              <ArrowRight aria-hidden="true" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="questions" class="view-container">
+    <h2>
+      <a href="#questions" class="view-container-title">QUESTIONS</a>
+    </h2>
+    <p>
+      Questions, or need a custom package?{" "}
+      <a href={SPONSORSHIP_CONTACT_URL} class="inline-flex items-center gap-1">
+        Get in touch
+        <ArrowRight size={14} aria-hidden="true" />
+      </a>
+    </p>
+  </section>
+</BaseLayout>

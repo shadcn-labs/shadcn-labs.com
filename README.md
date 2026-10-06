@@ -31,6 +31,42 @@
 | [editorcn](https://editorcn.vercel.app) | Rich text editor components for React, built on Tiptap | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/editorcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/editorcn) |
 | [shadercn](https://shadercn.run) | shader components for React, built on vgpu and TypeGPU | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadercn) |
 
+## Sponsors
+
+`/sponsors` is rendered on demand and shows, in order: live audience analytics, current sponsors, the sponsorship tiers, and a link to `/contact?inquiry=sponsorship` (the contact form preselects the inquiry type from `?inquiry=`).
+
+### Tiers and checkout
+
+Tiers live in `src/constants/sponsors.ts` and map to monthly subscription products under the **Shadcn Labs** brand (`brnd_0Np8Qij4f66tbqS6feAxJ`) in Dodo Payments live mode:
+
+| Tier    | Price   | Product                     |
+| ------- | ------- | --------------------------- |
+| Diamond | $999/mo | `pdt_0Np8R91QgiIAaXxuaKJm2` |
+| Gold    | $499/mo | `pdt_0Np8R90EdARmakSoI7chr` |
+| Silver  | $199/mo | `pdt_0Np8R8ys1qvogPdS6LXXI` |
+
+"Become a sponsor" buttons are Dodo static payment links (`https://checkout.dodopayments.com/buy/<product>`), so no Dodo API key is needed at runtime. After payment Dodo redirects to the sponsorship contact form so the sponsor can send their logo and link. Dodo prices cannot be edited: to change a price, create a new product and update `productId` and `price`. Keep each tier's `perks` in sync with the product description in Dodo. Add active sponsors to `SPONSORS` in the same file.
+
+### Analytics
+
+The analytics block shows production traffic for the last 30 whole UTC days across projects listed in `src/constants/projects.ts` (excluding `skills`, which points to the external skills.sh directory), matched to Vercel projects by name or production domain. Listed projects without Web Analytics enabled in the team are skipped. Visitors are summed per project, not deduplicated across projects.
+
+Data comes from the [Vercel Web Analytics API](https://vercel.com/docs/analytics/web-analytics-api) in `src/lib/vercel-analytics.ts`. A refresh costs one project-list request plus five queries per project, fetched one project at a time (at most five requests in flight). Rate limiting is layered:
+
+- The page is edge-cached for an hour with a day of stale-while-revalidate, so Vercel is queried roughly once an hour regardless of traffic.
+- Each server instance caches the snapshot for an hour and deduplicates concurrent refreshes.
+- The `X-RateLimit-Remaining`/`X-RateLimit-Reset` headers are tracked; a refresh that would not fit in the remaining budget is skipped, and a 429 pauses all requests until the reset time.
+- A failed refresh serves the last good snapshot, marked stale, and is not retried for five minutes. A partial snapshot is never served.
+
+Add these server-only variables to the ignored `.env` file for local development and to the Vercel project's environment variables for deployment:
+
+```dotenv
+VERCEL_TOKEN=<Vercel access token with access to the team>
+VERCEL_TEAM_ID=<team identifier>
+```
+
+Use a long-lived access token from Vercel's account settings; CLI OAuth tokens expire. Never prefix these variables with `PUBLIC_` or commit `.env`.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
