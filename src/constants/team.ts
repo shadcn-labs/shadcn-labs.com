@@ -19,4 +19,14 @@ export const TEAM = [
     name: "Abdullah Mukadam",
     url: "https://www.abdullahmukadam.fun",
   },
+  {
+    description: "Creator and Maintainer of mdxcn",
+    name: "Keshav Bagaade",
+    url: "https://www.kshv.me",
+  },
+  {
+    description: "Logo and Graphic Designer",
+    name: "Maze",
+    url: "https://remvze.com",
+  },
 ];
