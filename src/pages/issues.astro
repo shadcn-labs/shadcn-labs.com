@@ -1,58 +1,9 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
+import IssuesContent from "@/components/issues-content.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
-import { PROJECTS } from "@/constants/projects";
-import { UTM_PARAMS } from "@/constants/site";
-import {
-  FAILURE_CACHE_TTL_SECONDS,
-  ISSUES_CACHE_TTL_SECONDS,
-  getIssuesByRepo,
-} from "@/lib/github";
-import { addQueryParams } from "@/lib/url";
-import { IssuesList } from "@/components/issues-list";
 
-// Rendered on demand so the edge cache can serve it for minutes at a time
-// instead of freezing a snapshot into the build.
-export const prerender = false;
-
-const { fetchedAt, groups, stale } = await getIssuesByRepo();
-
-// Set after the fetch, so a failed page is not pinned at the edge for a full
-// TTL: no data gets FAILURE_CACHE_TTL_SECONDS, everything else gets five
-// minutes plus an hour of stale-while-revalidate.
-if (Astro.cache.enabled) {
-  Astro.cache.set(
-    groups === null
-      ? { maxAge: FAILURE_CACHE_TTL_SECONDS, tags: ["issues"] }
-      : {
-          maxAge: ISSUES_CACHE_TTL_SECONDS,
-          // Keep serving the last good copy for an hour while it revalidates,
-          // so a GitHub hiccup never takes the page down.
-          swr: 3600,
-          tags: ["issues"],
-        },
-  );
-}
-const total = groups?.reduce((sum, group) => sum + group.count, 0) ?? 0;
-const listed = new Set(groups?.map((group) => group.name));
-const idleProjects = PROJECTS.filter(
-  (project) => !listed.has(project.name),
-).map((project) => project.name);
-
-if (!listed.has("shadcn-labs.com")) {
-  idleProjects.push("shadcn-labs.com");
-}
-
-const formatUpdatedAt = (value: string): string =>
-  new Date(value).toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "short",
-    timeZone: "UTC",
-    year: "numeric",
-  });
-
-const initialQuery = Astro.url.searchParams.get("q") ?? "";
-const initialRepo = Astro.url.searchParams.get("repo") ?? "";
+export const prerender = true;
 ---
 
 <BaseLayout
@@ -62,52 +13,12 @@ const initialRepo = Astro.url.searchParams.get("repo") ?? "";
   <AsciiDivider />
 
   <section class="view-container" id="issues">
-    <div class="flex justify-between items-baseline gap-4">
-      <h2>
-        <a href="#issues" class="view-container-title">Open issues</a>
-      </h2>
-      {
-        fetchedAt && (
-          <p class="text-xs text-muted-foreground">
-            Last updated{" "}
-            <time datetime={fetchedAt}>{formatUpdatedAt(fetchedAt)}</time>
-            {stale && (
-              <>
-                {" "}
-                · GitHub did not respond to the last refresh, so this may be out
-                of date
-              </>
-            )}
-          </p>
-        )
-      }
-    </div>
+    <h2>
+      <a href="#issues" class="view-container-title">Open issues</a>
+    </h2>
 
-    {
-      groups === null ? (
-        <p>
-          Could not load issues right now. See{" "}
-          <a
-            class="link-underline"
-            target="_blank"
-            href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
-          >
-            github.com/shadcn-labs
-          </a>
-          .
-        </p>
-      ) : total === 0 ? (
-        <p>No open issues right now. Check back soon.</p>
-      ) : (
-        <IssuesList
-          client:load
-          groups={groups}
-          idleProjects={idleProjects}
-          total={total}
-          initialQuery={initialQuery}
-          initialRepo={initialRepo}
-        />
-      )
-    }
+    <IssuesContent server:defer>
+      <p slot="fallback" role="status">Loading open issues…</p>
+    </IssuesContent>
   </section>
 </BaseLayout>

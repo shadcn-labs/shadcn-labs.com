@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import { Badge } from "@/components/ui/badge";
+import { UTM_PARAMS } from "@/constants/site";
+import {
+  CONTRIBUTORS_CACHE_TTL_SECONDS,
+  FAILURE_CACHE_TTL_SECONDS,
+  getContributors,
+} from "@/lib/github";
+import { addQueryParams } from "@/lib/url";
+
+const contributors = await getContributors();
+
+// Cache only the public island response, with a short retry TTL for failed loads.
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+Astro.response.headers.set(
+  "CDN-Cache-Control",
+  contributors === null
+    ? `public, s-maxage=${FAILURE_CACHE_TTL_SECONDS}`
+    : `public, s-maxage=${CONTRIBUTORS_CACHE_TTL_SECONDS}, stale-while-revalidate=${CONTRIBUTORS_CACHE_TTL_SECONDS}`,
+);
+
+const total = contributors?.length ?? 0;
+const commits =
+  contributors?.reduce((sum, person) => sum + person.contributions, 0) ?? 0;
+const repoCount = new Set(contributors?.flatMap((person) => person.repos)).size;
+---
+
+{
+  contributors === null ? (
+    <p>
+      Could not load contributors right now. See{" "}
+      <a
+        class="link-underline"
+        target="_blank"
+        href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
+      >
+        github.com/shadcn-labs
+      </a>
+      .
+    </p>
+  ) : total === 0 ? (
+    <p>No contributors to show right now. Check back soon.</p>
+  ) : (
+    <p>
+      <span class="font-mono">{total}</span>{" "}
+      {total === 1 ? "person has" : "people have"} contributed{" "}
+      <span class="font-mono">{commits}</span> commits across{" "}
+      <span class="font-mono">{repoCount}</span> repos. Grab an{" "}
+      <a class="link-underline" href="/issues">open issue</a> and add yourself to the list.
+    </p>
+  )
+}
+
+{
+  total > 0 && (
+    <ul class="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+      {contributors?.map((person) => (
+        <li class="flex items-start gap-3">
+          <Image
+            src={person.avatarUrl}
+            alt=""
+            class="mt-0.5 size-8 shrink-0 rounded-full"
+            decoding="async"
+            height={96}
+            loading="lazy"
+            width={96}
+          />
+          <div class="min-w-0">
+            <a
+              class="link"
+              target="_blank"
+              href={addQueryParams(person.htmlUrl, UTM_PARAMS)}
+            >
+              @{person.login}
+            </a>
+            <br />
+            <span class="text-muted-foreground inline-flex flex-wrap items-center gap-1.5 text-sm">
+              <span class="font-mono">{person.contributions}</span>{" "}
+              {person.contributions === 1 ? "commit" : "commits"} in{" "}
+              <Badge variant="secondary">
+                <span class="font-mono">{person.repos.length}</span>
+                {person.repos.length === 1 ? "repo" : "repos"}
+              </Badge>
+            </span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}

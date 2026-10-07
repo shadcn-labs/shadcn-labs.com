@@ -12,9 +12,8 @@ export default defineConfig({
       enabled: false,
     },
   }),
-  // Serves the on-demand routes (src/pages/issues.astro and
-  // src/pages/contributors.astro) from the Vercel edge, so GitHub is hit at
-  // most once per TTL no matter how many people load the pages.
+  // Query-aware contact shells are cached at the edge; deferred public data
+  // components set their own CDN cache headers.
   cache: {
     provider: cacheVercel(),
   },
@@ -53,6 +52,10 @@ export default defineConfig({
   },
   integrations: [react()],
   output: "static",
+  prefetch: {
+    defaultStrategy: "hover",
+    prefetchAll: true,
+  },
   vite: {
     plugins: [tailwindcss()],
     resolve: {
