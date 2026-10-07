@@ -1,40 +1,9 @@
 ---
-import { Image } from "astro:assets";
 import AsciiDivider from "@/components/ascii-divider.astro";
-import { Badge } from "@/components/ui/badge";
+import ContributorsContent from "@/components/contributors-content.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
-import { UTM_PARAMS } from "@/constants/site";
-import {
-  CONTRIBUTORS_CACHE_TTL_SECONDS,
-  FAILURE_CACHE_TTL_SECONDS,
-  getContributors,
-} from "@/lib/github";
-import { addQueryParams } from "@/lib/url";
 
-// Rendered on demand so the edge cache can serve it for a full hour instead of
-// freezing a snapshot into the build.
-export const prerender = false;
-
-const contributors = await getContributors();
-
-// Set after the fetch: an error page must not sit in the edge cache for an
-// hour, but it still needs a short TTL so retries do not burn the API budget.
-if (Astro.cache.enabled) {
-  Astro.cache.set(
-    contributors === null
-      ? { maxAge: FAILURE_CACHE_TTL_SECONDS, tags: ["contributors"] }
-      : {
-          maxAge: CONTRIBUTORS_CACHE_TTL_SECONDS,
-          swr: CONTRIBUTORS_CACHE_TTL_SECONDS,
-          tags: ["contributors"],
-        },
-  );
-}
-
-const total = contributors?.length ?? 0;
-const commits =
-  contributors?.reduce((sum, person) => sum + person.contributions, 0) ?? 0;
-const repoCount = new Set(contributors?.flatMap((person) => person.repos)).size;
+export const prerender = true;
 ---
 
 <BaseLayout
@@ -48,68 +17,8 @@ const repoCount = new Set(contributors?.flatMap((person) => person.repos)).size;
       <a href="#contributors" class="view-container-title">Contributors</a>
     </h2>
 
-    {
-      contributors === null ? (
-        <p>
-          Could not load contributors right now. See{" "}
-          <a
-            class="link-underline"
-            target="_blank"
-            href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
-          >
-            github.com/shadcn-labs
-          </a>
-          .
-        </p>
-      ) : total === 0 ? (
-        <p>No contributors to show right now. Check back soon.</p>
-      ) : (
-        <p>
-          <span class="font-mono">{total}</span>{" "}
-          {total === 1 ? "person has" : "people have"} contributed{" "}
-          <span class="font-mono">{commits}</span> commits across{" "}
-          <span class="font-mono">{repoCount}</span> repos. Grab an{" "}
-          <a class="link-underline" href="/issues">open issue</a> and add yourself to the list.
-        </p>
-      )
-    }
-
-    {
-      total > 0 && (
-        <ul class="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
-          {contributors?.map((person) => (
-            <li class="flex items-start gap-3">
-              <Image
-                src={person.avatarUrl}
-                alt=""
-                class="mt-0.5 size-8 shrink-0 rounded-full"
-                decoding="async"
-                height={96}
-                loading="lazy"
-                width={96}
-              />
-              <div class="min-w-0">
-                <a
-                  class="link"
-                  target="_blank"
-                  href={addQueryParams(person.htmlUrl, UTM_PARAMS)}
-                >
-                  @{person.login}
-                </a>
-                <br />
-                <span class="text-muted-foreground inline-flex flex-wrap items-center gap-1.5 text-sm">
-                  <span class="font-mono">{person.contributions}</span>{" "}
-                  {person.contributions === 1 ? "commit" : "commits"} in{" "}
-                  <Badge variant="secondary">
-                    <span class="font-mono">{person.repos.length}</span>
-                    {person.repos.length === 1 ? "repo" : "repos"}
-                  </Badge>
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    <ContributorsContent server:defer>
+      <p slot="fallback" role="status">Loading contributors…</p>
+    </ContributorsContent>
   </section>
 </BaseLayout>

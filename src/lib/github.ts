@@ -324,8 +324,8 @@ const snapshotCache = new Map<string, CachedIssues>();
  * Open issues across the org, grouped by repo, plus the time the data was
  * actually fetched so the page can show how stale it is.
  *
- * Cached in-process for ISSUES_CACHE_TTL_SECONDS. The route wrapping this also
- * sets an edge cache, so a cache hit never reaches GitHub at all. If a refresh
+ * Cached in-process for ISSUES_CACHE_TTL_SECONDS. The server island also
+ * sets an edge cache, so an edge hit never reaches GitHub at all. If a refresh
  * fails we keep serving the last good snapshot rather than blanking the page,
  * and remember the failure for FAILURE_CACHE_TTL_SECONDS so the retries do not
  * stack up while GitHub is down.
@@ -451,7 +451,7 @@ const loadContributors = async (org: string): Promise<Contributor[] | null> => {
  * across repos. Bots and coding agents are filtered out.
  *
  * There is no aggregate endpoint on the GitHub REST API, so this costs one
- * request per repo. The route that calls this caches its response for
+ * request per repo. The server island caches its response for
  * CONTRIBUTORS_CACHE_TTL_SECONDS, and this in-process memo is a second layer
  * that keeps a warm server from re-fetching inside that window. Failures are
  * memoized too, for FAILURE_CACHE_TTL_SECONDS, so a rate-limited burst cannot

@@ -458,8 +458,8 @@ let inflight: Promise<AnalyticsResult> | undefined;
 /**
  * Production traffic across the listed projects for the last 30 whole UTC
  * days. Cached in-process for ANALYTICS_CACHE_TTL_SECONDS and deduplicated
- * while a refresh is running; the page wrapping this also sets an edge cache,
- * so a cache hit never reaches Vercel. A failed refresh keeps serving the last
+ * while a refresh is running; the server island also sets an edge cache,
+ * so an edge hit never reaches Vercel. A failed refresh keeps serving the last
  * good snapshot marked stale and is not retried for
  * ANALYTICS_FAILURE_CACHE_TTL_SECONDS.
  */

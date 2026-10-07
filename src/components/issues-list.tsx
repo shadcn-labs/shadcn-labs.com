@@ -28,8 +28,6 @@ interface IssuesListProps {
   groups: RepoIssues[] | null;
   idleProjects: string[];
   total: number;
-  initialQuery?: string;
-  initialRepo?: string;
 }
 
 const INITIAL_VISIBLE = 5;
@@ -38,10 +36,14 @@ export const IssuesList = ({
   groups,
   idleProjects,
   total,
-  initialQuery = "",
-  initialRepo = "",
 }: IssuesListProps) => {
   const searchInputId = useId();
+  // The public server island cannot read the enclosing page's query string.
+  // This client-only list initializes filters before the hook synchronizes the URL.
+  const initialParams = useMemo(
+    () => new URLSearchParams(window.location.search),
+    []
+  );
 
   const {
     inputRef: searchInputRef,
@@ -56,8 +58,8 @@ export const IssuesList = ({
     handleInputKeyDown,
   } = useSearchFilter({
     filterParam: "repo",
-    initialFilter: initialRepo,
-    initialQuery,
+    initialFilter: initialParams.get("repo") ?? "",
+    initialQuery: initialParams.get("q") ?? "",
   });
 
   useHotkey("/", (event) => {

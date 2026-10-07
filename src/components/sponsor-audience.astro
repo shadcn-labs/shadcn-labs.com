@@ -1,0 +1,32 @@
+---
+import { SponsorAnalytics } from "@/components/sponsor-analytics";
+import { SPONSORSHIP_CONTACT_URL } from "@/constants/sponsors";
+import {
+  ANALYTICS_CACHE_TTL_SECONDS,
+  ANALYTICS_FAILURE_CACHE_TTL_SECONDS,
+  getSponsorAnalytics,
+} from "@/lib/vercel-analytics";
+
+const { snapshot, stale } = await getSponsorAnalytics();
+
+// Cache the island response, not the static sponsors page. Browsers revalidate
+// against the CDN so an outdated snapshot does not persist in a private cache.
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+Astro.response.headers.set(
+  "CDN-Cache-Control",
+  stale
+    ? `public, s-maxage=${ANALYTICS_FAILURE_CACHE_TTL_SECONDS}`
+    : `public, s-maxage=${ANALYTICS_CACHE_TTL_SECONDS}, stale-while-revalidate=86400`,
+);
+---
+
+{
+  snapshot === null ? (
+    <p>
+      Audience analytics could not be loaded right now. Check back soon,
+      or <a class="link-underline" href={SPONSORSHIP_CONTACT_URL}>ask us for the numbers</a>.
+    </p>
+  ) : (
+    <SponsorAnalytics snapshot={snapshot} stale={stale} client:load />
+  )
+}
