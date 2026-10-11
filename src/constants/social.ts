@@ -6,6 +6,10 @@ export const SOCIALS = [
     url: LINKS.X,
   },
   {
+    name: "LinkedIn",
+    url: LINKS.LINKEDIN,
+  },
+  {
     name: "GitHub",
     url: LINKS.GITHUB,
   },

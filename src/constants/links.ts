@@ -3,6 +3,7 @@ export const LINKS = {
   DISCORD: "https://discord.com/invite/N6G36KhYK4",
   EMAIL: "hello@shadcn-labs.com",
   GITHUB: "https://github.com/shadcn-labs",
+  LINKEDIN: "https://www.linkedin.com/company/shadcn-labs",
   REDDIT: "https://reddit.com/r/shadcnlabs",
   X: "https://twitter.com/shadcnlabs",
 };
