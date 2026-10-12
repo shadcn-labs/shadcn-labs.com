@@ -5,6 +5,11 @@ export const TEAM = [
     url: "https://aniketpawar.com",
   },
   {
+    description: "Logo and Graphic Designer",
+    name: "Maze",
+    url: "https://remvze.com",
+  },
+  {
     description: "Maintainer of framecn",
     name: "Indranil Maiti",
     url: "https://www.indrabuildswebsites.com",
@@ -25,8 +30,8 @@ export const TEAM = [
     url: "https://www.kshv.me",
   },
   {
-    description: "Logo and Graphic Designer",
-    name: "Maze",
-    url: "https://remvze.com",
+    description: "Creator and Maintainer of snapcn",
+    name: "Sri Somanaath G.",
+    url: "https://srisomanaathdev.vercel.app/",
   },
 ];

@@ -80,8 +80,14 @@ export const PROJECTS = [
   {
     category: "registries" as ProjectCategory,
     description: "ASCII-framed diagram components for MDX, built on Motion",
-    isNew: true,
     name: "mdxcn",
     url: "https://www.mdxcn.dev",
+  },
+  {
+    category: "registries" as ProjectCategory,
+    description: "video components for React, built on Remotion",
+    isNew: true,
+    name: "snapcn",
+    url: "https://snapcn.dev",
   },
 ];
