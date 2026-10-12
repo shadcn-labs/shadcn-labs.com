@@ -79,6 +79,13 @@ export const PROJECTS = [
   },
   {
     category: "registries" as ProjectCategory,
+    description:
+      "Chrome extension to inspect and extract shadcn-style theme tokens from any website",
+    name: "inspectcn",
+    url: "https://inspectcn.arhamkhnz.com/",
+  },
+  {
+    category: "registries" as ProjectCategory,
     description: "ASCII-framed diagram components for MDX, built on Motion",
     name: "mdxcn",
     url: "https://www.mdxcn.dev",

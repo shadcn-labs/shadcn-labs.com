@@ -25,6 +25,11 @@ export const TEAM = [
     url: "https://www.abdullahmukadam.fun",
   },
   {
+    description: "Creator and Maintainer of inspectcn",
+    name: "Arham Khan",
+    url: "https://arham.cc/",
+  },
+  {
     description: "Creator and Maintainer of mdxcn",
     name: "Keshav Bagaade",
     url: "https://www.kshv.me",
