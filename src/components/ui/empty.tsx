@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
-import { cn } from "cn";
+
+import { cn } from "@/lib/utils";
 
 const Empty = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
