@@ -39,4 +39,9 @@ export const TEAM = [
     name: "Sri Somanaath G.",
     url: "https://srisomanaathdev.vercel.app/",
   },
+  {
+    description: "Creator and Maintainer of shadcn-form",
+    name: "Hasan Harman",
+    url: "https://www.hasanharman.dev/",
+  },
 ];
