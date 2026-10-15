@@ -1,0 +1,83 @@
+---
+import { IssuesList } from "@/components/issues-list";
+import { PROJECTS } from "@/constants/projects";
+import { UTM_PARAMS } from "@/constants/site";
+import {
+  FAILURE_CACHE_TTL_SECONDS,
+  ISSUES_CACHE_TTL_SECONDS,
+  getIssuesByRepo,
+} from "@/lib/github";
+import { addQueryParams } from "@/lib/url";
+
+const { fetchedAt, groups, stale } = await getIssuesByRepo();
+
+// This island is public and independent of the page's query parameters.
+// Failed loads receive a short TTL; successful data can revalidate in the background.
+Astro.response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+Astro.response.headers.set(
+  "CDN-Cache-Control",
+  groups === null
+    ? `public, s-maxage=${FAILURE_CACHE_TTL_SECONDS}`
+    : `public, s-maxage=${ISSUES_CACHE_TTL_SECONDS}, stale-while-revalidate=3600`,
+);
+
+const total = groups?.reduce((sum, group) => sum + group.count, 0) ?? 0;
+const listed = new Set(groups?.map((group) => group.name));
+const idleProjects = PROJECTS.filter(
+  (project) => !listed.has(project.name),
+).map((project) => project.name);
+
+if (!listed.has("shadcn-labs.com")) {
+  idleProjects.push("shadcn-labs.com");
+}
+
+const formatUpdatedAt = (value: string): string =>
+  new Date(value).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    timeZone: "UTC",
+    year: "numeric",
+  });
+---
+
+{
+  fetchedAt && (
+    <p class="text-xs text-muted-foreground">
+      Last updated{" "}
+      <time datetime={fetchedAt}>{formatUpdatedAt(fetchedAt)}</time>
+      {stale && (
+        <>
+          {" "}
+          · GitHub did not respond to the last refresh, so this may be out of date
+        </>
+      )}
+    </p>
+  )
+}
+
+{
+  groups === null ? (
+    <p>
+      Could not load issues right now. See{" "}
+      <a
+        class="link-underline"
+        target="_blank"
+        href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
+      >
+        github.com/shadcn-labs
+      </a>
+      .
+    </p>
+  ) : total === 0 ? (
+    <p>No open issues right now. Check back soon.</p>
+  ) : (
+    <IssuesList
+      client:only="react"
+      groups={groups}
+      idleProjects={idleProjects}
+      total={total}
+    >
+      <p slot="fallback" role="status">Loading issue filters…</p>
+    </IssuesList>
+  )
+}

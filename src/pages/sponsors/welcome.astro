@@ -1,64 +1,19 @@
 ---
-import { ArrowRight } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
-import { buttonVariants } from "@/components/ui/button";
+import SponsorCheckout from "@/components/sponsor-checkout.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
-import { LINKS } from "@/constants/links";
-import { ROUTES } from "@/constants/routes";
-import {
-  SPONSOR_TIERS,
-  SPONSOR_PORTAL_URL,
-  SPONSORSHIP_CONTACT_URL,
-  sponsorCheckoutUrl,
-} from "@/constants/sponsors";
-import { getSponsorCheckout } from '@/lib/dodo';
-import type { SponsorCheckout } from '@/lib/dodo';
 import type { SubscriptionStatus } from "dodopayments/resources/subscriptions";
 
 // Dodo redirects here after checkout with `?subscription_id=…&status=…`.
 // Only the ID is used: the status shown comes from Dodo's API.
 export const prerender = false;
 
-type View = "active" | "pending" | "failed" | "attention" | "not-found" | "unavailable";
-
-const STATUS_VIEW: Record<SubscriptionStatus, View> = {
-  active: "active",
-  cancelled: "failed",
-  expired: "failed",
-  failed: "failed",
-  on_hold: "attention",
-  past_due: "attention",
-  paused: "attention",
-  pending: "pending",
-};
-
-// Dev only: `?preview=active|pending|failed|on_hold…` renders a state without a
-// real subscription. Production always asks Dodo.
+const subscriptionId = Astro.url.searchParams.get("subscription_id");
 const preview = Astro.url.searchParams.get("preview") as SubscriptionStatus | null;
-const checkout: SponsorCheckout =
-  import.meta.env.DEV && preview && preview in STATUS_VIEW
-    ? { kind: "confirmed", status: preview, tier: SPONSOR_TIERS[0] }
-    : await getSponsorCheckout(Astro.url.searchParams.get("subscription_id"));
 
 // Per-customer and changes while a payment settles: never cache.
 Astro.response.headers.set("Cache-Control", "private, no-store");
 
-const view: View =
-  checkout.kind === "confirmed" ? STATUS_VIEW[checkout.status] : checkout.kind;
-
-const tier = checkout.kind === "confirmed" ? checkout.tier : undefined;
-
-const TITLES: Record<View, string> = {
-  active: "Welcome aboard",
-  attention: "Payment needs attention",
-  failed: "Payment didn't go through",
-  "not-found": "Checkout not found",
-  pending: "Payment processing",
-  unavailable: "Almost there",
-};
-
-const primaryLink = buttonVariants();
-const outlineLink = buttonVariants({ variant: "outline" });
 ---
 
 <BaseLayout
@@ -67,149 +22,12 @@ const outlineLink = buttonVariants({ variant: "outline" });
 >
   <AsciiDivider />
 
-  <section id="welcome" class="view-container">
-    <h2>
-      <a href="#welcome" class="view-container-title">{TITLES[view]}</a>
-    </h2>
-
-    {
-      view === "active" && tier && (
-        <>
-          <p>
-            Thank you for sponsoring Shadcn Labs. Your{" "}
-            <span class="text-primary">{tier.name}</span> sponsorship is active.
-          </p>
-          <h3>What happens next</h3>
-          <ol class="list-decimal space-y-1 pl-5">
-            <li>
-              Send us your logo (SVG or PNG), the link you want, and your brand
-              name.
-            </li>
-            <li>We put your placements live, usually within a few business days.</li>
-            <li>
-              Dodo Payments emails your receipt. Update your card, download
-              invoices, or cancel any time from the customer portal.
-            </li>
-          </ol>
-          <div class="flex flex-wrap gap-2 pt-2">
-            <a href={SPONSORSHIP_CONTACT_URL} class={primaryLink}>
-              Send your logo
-              <ArrowRight aria-hidden="true" />
-            </a>
-            <a href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener" class={outlineLink}>
-              Manage sponsorship
-            </a>
-          </div>
-        </>
-      )
-    }
-
-    {
-      view === "pending" && (
-        <>
-          <p>
-            Dodo Payments is still confirming your{" "}
-            {tier && <span class="text-primary">{tier.name}</span>} payment. This
-            page refreshes on its own; it usually takes a few seconds.
-          </p>
-          <p class="text-muted-foreground">
-            Still waiting after a minute? Check your email for a receipt, or{" "}
-            <a class="link-underline" href={SPONSORSHIP_CONTACT_URL}>get in touch</a>.
-          </p>
-        </>
-      )
-    }
-
-    {
-      view === "failed" && tier && (
-        <>
-          <p>
-            Your <span class="text-primary">{tier.name}</span> sponsorship is not
-            active. You can try again, with another payment method if the first
-            one was declined.
-          </p>
-          <div class="flex flex-wrap gap-2 pt-2">
-            <a href={sponsorCheckoutUrl(tier)} class={primaryLink}>
-              Try again
-              <ArrowRight aria-hidden="true" />
-            </a>
-            <a href={SPONSORSHIP_CONTACT_URL} class={outlineLink}>
-              Get in touch
-            </a>
-          </div>
-        </>
-      )
-    }
-
-    {
-      view === "attention" && tier && (
-        <>
-          <p>
-            Your <span class="text-primary">{tier.name}</span> sponsorship is on
-            hold because a payment did not complete. Update your payment method
-            in the customer portal, or reach out and we will sort it out.
-          </p>
-          <div class="flex flex-wrap gap-2 pt-2">
-            <a href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener" class={primaryLink}>
-              Update payment method
-              <ArrowRight aria-hidden="true" />
-            </a>
-            <a href={SPONSORSHIP_CONTACT_URL} class={outlineLink}>
-              Get in touch
-            </a>
-          </div>
-        </>
-      )
-    }
-
-    {
-      view === "not-found" && (
-        <>
-          <p>
-            We could not find a Shadcn Labs sponsorship for this link. If you
-            just paid, email <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a>{" "}
-            with your receipt and we will check it for you.
-          </p>
-          <div class="flex flex-wrap gap-2 pt-2">
-            <a href={`${ROUTES.SPONSORS}#tiers`} class={primaryLink}>
-              See tiers
-              <ArrowRight aria-hidden="true" />
-            </a>
-          </div>
-        </>
-      )
-    }
-
-    {
-      view === "unavailable" && (
-        <>
-          <p>
-            We could not confirm your payment with Dodo Payments right now. If you
-            completed checkout, your receipt is on its way by email and nothing
-            else is needed from you yet.
-          </p>
-          <p class="text-muted-foreground">
-            Refresh this page in a minute, or{" "}
-            <a class="link-underline" href={SPONSORSHIP_CONTACT_URL}>get in touch</a> and we will check
-            for you.
-          </p>
-        </>
-      )
-    }
-  </section>
-
-  {
-    view === "pending" && (
-      <script is:inline>
-        // Re-check every 5 seconds for up to a minute while the payment settles.
-        (() => {
-          const key = `sponsor-pending:${location.search}`;
-          const tries = Number(sessionStorage.getItem(key) ?? "0");
-          if (tries >= 12) {return;}
-          sessionStorage.setItem(key, String(tries + 1));
-          setTimeout(() => location.reload(), 5000);
-        })();
-      </script>
-    )
-  }
+  <SponsorCheckout server:defer subscriptionId={subscriptionId} preview={preview}>
+    <section slot="fallback" id="welcome" class="view-container">
+      <h2>
+        <a href="#welcome" class="view-container-title">Sponsorship</a>
+      </h2>
+      <p role="status">Checking your sponsorship…</p>
+    </section>
+  </SponsorCheckout>
 </BaseLayout>
