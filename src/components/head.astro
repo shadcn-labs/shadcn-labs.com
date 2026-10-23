@@ -2,6 +2,7 @@
 import { Font } from "astro:assets";
 import { SEO } from "astro-seo";
 import Analytics from "@vercel/analytics/astro";
+import { LINKS } from "../constants/links";
 import { SITE } from "../constants/site";
 import { SOCIALS } from "../constants/social";
 
@@ -78,6 +79,16 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
     logo: `${SITE.URL}/favicon.svg`,
     description: SITE.DESCRIPTION.SHORT,
     sameAs: SOCIALS.map((s) => s.url),
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: LINKS.EMAIL,
+      contactType: "general inquiries",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Mumbai",
+      addressCountry: "IN",
+    },
   })}
 />
 
