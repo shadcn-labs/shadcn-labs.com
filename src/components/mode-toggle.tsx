@@ -6,7 +6,6 @@ import { Kbd } from "@/components/ui/kbd";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useHotkey } from "@/hooks/use-hotkey";
@@ -30,28 +29,26 @@ export const ModeToggle = () => {
   useHotkey("d", () => setIsDark((dark) => !dark));
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-              aria-keyshortcuts="D"
-            />
-          }
-          onClick={() => setIsDark((dark) => !dark)}
-        >
-          <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <MoonIcon className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </TooltipTrigger>
-        <TooltipContent>
-          {isDark ? "Delight" : "Go Dark"}
-          <Kbd>D</Kbd>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="text-muted-foreground"
+            aria-keyshortcuts="D"
+          />
+        }
+        onClick={() => setIsDark((dark) => !dark)}
+      >
+        <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <MoonIcon className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        <span className="sr-only">Toggle theme</span>
+      </TooltipTrigger>
+      <TooltipContent>
+        {isDark ? "Delight" : "Go Dark"}
+        <Kbd>D</Kbd>
+      </TooltipContent>
+    </Tooltip>
   );
 };

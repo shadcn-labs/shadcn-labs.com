@@ -2,8 +2,7 @@
 import { NAV, UTM_PARAMS } from "@/constants/site";
 import { BrandContextMenu } from "@/components/brand-context-menu";
 import { LogoType } from "@/components/logo";
-import { ModeToggle } from "@/components/mode-toggle";
-import { SoundToggle } from "@/components/ui/sound";
+import { HeaderControls } from "@/components/header-controls";
 import { SocialList } from "@/components/social-list";
 import { SOCIALS } from "@/constants/social";
 import { addQueryParams } from "@/lib/url";
@@ -13,6 +12,7 @@ const socialItems = SOCIALS.map((social) => ({
   ...social,
   url: addQueryParams(social.url, UTM_PARAMS),
 }));
+
 ---
 
 <header class="view-container pt-10">
@@ -49,8 +49,7 @@ const socialItems = SOCIALS.map((social) => ({
       ))
     }
     <div class="ml-auto flex items-center gap-1">
-      <SoundToggle client:load />
-      <ModeToggle client:load />
+      <HeaderControls client:load />
     </div>
   </nav>
 </header>

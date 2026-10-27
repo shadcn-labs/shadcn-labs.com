@@ -7,7 +7,6 @@ import { Kbd } from "@/components/ui/kbd";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useHotkey } from "@/hooks/use-hotkey";
@@ -753,69 +752,67 @@ export const SoundToggle = ({
   return (
     <SoundProvider enabled={!muted} volume={volume}>
       <SoundEffectListener />
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger
-            render={
-              <Button
-                aria-keyshortcuts="M"
-                type="button"
-                aria-label={
-                  muted ? "Unmute interface sounds" : "Mute interface sounds"
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button
+              aria-keyshortcuts="M"
+              type="button"
+              aria-label={
+                muted ? "Unmute interface sounds" : "Mute interface sounds"
+              }
+              aria-pressed={muted}
+              onClick={(event) => {
+                onClick?.(event);
+                if (!event.defaultPrevented) {
+                  setSoundMuted(!muted);
                 }
-                aria-pressed={muted}
-                onClick={(event) => {
-                  onClick?.(event);
-                  if (!event.defaultPrevented) {
-                    setSoundMuted(!muted);
-                  }
-                }}
+              }}
 
-                data-sound="swoosh"
-                {...props}
-                variant="ghost"
-                size="icon-sm"
-                className={
-                  className
-                    ? `text-muted-foreground ${className}`
-                    : "text-muted-foreground"
-                }
-              />
-            }
+              data-sound="swoosh"
+              {...props}
+              variant="ghost"
+              size="icon-sm"
+              className={
+                className
+                  ? `text-muted-foreground ${className}`
+                  : "text-muted-foreground"
+              }
+            />
+          }
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden
-            >
-              <mask id={maskId}>
-                <rect width="24" height="24" fill="white" />
-                <path
-                  className="sound-slash"
-                  d={SLASH}
-                  pathLength={1}
-                  stroke="black"
-                  strokeWidth={4}
-                />
-              </mask>
-              <g mask={`url(#${maskId})`}>
-                <path className="sound-speaker" d={SPEAKER} />
-                <path className="sound-wave sound-wave-inner" d={WAVE_INNER} />
-                <path className="sound-wave sound-wave-outer" d={WAVE_OUTER} />
-              </g>
-              <path className="sound-slash" d={SLASH} pathLength={1} />
-            </svg>
-          </TooltipTrigger>
-          <TooltipContent>
-            {muted ? "Unmute sounds" : "Mute sounds"}
-            <Kbd>M</Kbd>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+            <mask id={maskId}>
+              <rect width="24" height="24" fill="white" />
+              <path
+                className="sound-slash"
+                d={SLASH}
+                pathLength={1}
+                stroke="black"
+                strokeWidth={4}
+              />
+            </mask>
+            <g mask={`url(#${maskId})`}>
+              <path className="sound-speaker" d={SPEAKER} />
+              <path className="sound-wave sound-wave-inner" d={WAVE_INNER} />
+              <path className="sound-wave sound-wave-outer" d={WAVE_OUTER} />
+            </g>
+            <path className="sound-slash" d={SLASH} pathLength={1} />
+          </svg>
+        </TooltipTrigger>
+        <TooltipContent>
+          {muted ? "Unmute sounds" : "Mute sounds"}
+          <Kbd>M</Kbd>
+        </TooltipContent>
+      </Tooltip>
     </SoundProvider>
   );
 };
