@@ -177,7 +177,7 @@ html .react-tweet-theme {
   --slash-ms: 200ms;
   transition: stroke-dashoffset var(--slash-ms) var(--ease-out);
 }
-[data-muted="true"] .sound-slash {
+[aria-pressed="true"] .sound-slash {
   stroke-dashoffset: 0;
   --slash-ms: 260ms;
 }
@@ -189,7 +189,7 @@ html .react-tweet-theme {
     transform 130ms var(--ease-out) var(--wave-delay),
     filter 130ms var(--ease-out) var(--wave-delay);
 }
-[data-muted="true"] .sound-wave {
+[aria-pressed="true"] .sound-wave {
   opacity: 0;
   transform: scale(0.25);
   filter: blur(1px);
@@ -200,10 +200,10 @@ html .react-tweet-theme {
 .sound-wave-outer {
   --wave-delay: 20ms;
 }
-[data-muted="true"] .sound-wave-inner {
+[aria-pressed="true"] .sound-wave-inner {
   --wave-delay: 50ms;
 }
-[data-muted="true"] .sound-wave-outer {
+[aria-pressed="true"] .sound-wave-outer {
   --wave-delay: 75ms;
 }
 .sound-speaker {
@@ -211,7 +211,7 @@ html .react-tweet-theme {
   --speaker-delay: 0ms;
   transition: transform var(--speaker-ms) var(--ease-out) var(--speaker-delay);
 }
-[data-muted="true"] .sound-speaker {
+[aria-pressed="true"] .sound-speaker {
   transform: translateX(5.5px);
   --speaker-ms: 260ms;
   --speaker-delay: 80ms;
