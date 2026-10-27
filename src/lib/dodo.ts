@@ -53,9 +53,11 @@ export const getSponsorCheckout = async (
     return { kind: "unavailable" };
   }
   try {
-    const subscription = await dodo.subscriptions.retrieve(subscriptionId, {
-      timeout: 10_000,
-    });
+    const subscription = await dodo.subscriptions.retrieve(
+      subscriptionId,
+      undefined,
+      { timeout: 10_000 }
+    );
     // The Dodo business also sells Shadcn Weekly; only this brand's tiers count.
     const tier =
       subscription.brand_id === SPONSOR_BRAND_ID
