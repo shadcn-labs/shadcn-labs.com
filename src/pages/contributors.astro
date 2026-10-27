@@ -1,6 +1,7 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
 import ContributorsContent from "@/components/contributors-content.astro";
+import ContributorsContentSkeleton from "@/components/contributors-content-skeleton.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 
 export const prerender = true;
@@ -18,7 +19,10 @@ export const prerender = true;
     </h2>
 
     <ContributorsContent server:defer>
-      <p slot="fallback" role="status">Loading contributors…</p>
+      <div slot="fallback" role="status">
+        <span class="sr-only">Loading contributors…</span>
+        <ContributorsContentSkeleton />
+      </div>
     </ContributorsContent>
   </section>
 </BaseLayout>

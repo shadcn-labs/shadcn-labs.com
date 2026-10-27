@@ -1,6 +1,7 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
 import IssuesContent from "@/components/issues-content.astro";
+import IssuesContentSkeleton from "@/components/issues-content-skeleton.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
 
 export const prerender = true;
@@ -18,7 +19,10 @@ export const prerender = true;
     </h2>
 
     <IssuesContent server:defer>
-      <p slot="fallback" role="status">Loading open issues…</p>
+      <div slot="fallback" role="status">
+        <span class="sr-only">Loading open issues…</span>
+        <IssuesContentSkeleton />
+      </div>
     </IssuesContent>
   </section>
 </BaseLayout>

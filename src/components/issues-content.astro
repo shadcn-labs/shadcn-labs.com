@@ -1,5 +1,6 @@
 ---
 import { IssuesList } from "@/components/issues-list";
+import IssuesContentSkeleton from "@/components/issues-content-skeleton.astro";
 import { PROJECTS } from "@/constants/projects";
 import { UTM_PARAMS } from "@/constants/site";
 import {
@@ -77,7 +78,10 @@ const formatUpdatedAt = (value: string): string =>
       idleProjects={idleProjects}
       total={total}
     >
-      <p slot="fallback" role="status">Loading issue filters…</p>
+      <div slot="fallback" role="status">
+        <span class="sr-only">Loading issue filters…</span>
+        <IssuesContentSkeleton showTimestamp={false} />
+      </div>
     </IssuesList>
   )
 }

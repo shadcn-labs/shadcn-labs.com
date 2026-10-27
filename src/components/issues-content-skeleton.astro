@@ -1,0 +1,55 @@
+---
+import { Skeleton } from "@/components/ui/skeleton";
+
+interface Props {
+  /** The page fallback includes the "Last updated" line; the client-only
+   *  fallback inside IssuesContent does not. */
+  showTimestamp?: boolean;
+}
+
+const { showTimestamp = true } = Astro.props;
+
+const groups = [
+  { issues: ["w-4/5", "w-11/12", "w-3/5"], name: "w-24" },
+  { issues: ["w-3/4", "w-5/6", "w-2/3"], name: "w-32" },
+  { issues: ["w-2/3", "w-4/5", "w-1/2"], name: "w-20" },
+];
+---
+
+<div aria-hidden="true" class="space-y-4">
+  {showTimestamp && <Skeleton className="h-3 w-44 max-w-full" />}
+
+  <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+    <Skeleton className="h-8 flex-1 rounded-lg" />
+    <Skeleton className="h-8 w-full rounded-lg sm:w-[130px]" />
+  </div>
+
+  <div class="space-y-2">
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-2/3 max-w-md" />
+  </div>
+
+  <div class="space-y-6">
+    {
+      groups.map((group) => (
+        <div class="space-y-2">
+          <div class="flex items-center gap-1.5">
+            <Skeleton className={`h-4 ${group.name}`} />
+            <Skeleton className="h-4 w-8" />
+          </div>
+          <ul class="space-y-2">
+            {group.issues.map((width, index) => (
+              <li class="space-y-1.5">
+                <Skeleton className={`h-4 ${width}`} />
+                {index === 0 && (
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                )}
+                <Skeleton className="h-3.5 w-48 max-w-full" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</div>

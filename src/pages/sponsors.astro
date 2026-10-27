@@ -2,6 +2,7 @@
 import { ArrowRight, Check } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
 import SponsorAudience from "@/components/sponsor-audience.astro";
+import SponsorAudienceSkeleton from "@/components/sponsor-audience-skeleton.astro";
 import { buttonVariants } from "@/components/ui/button";
 import BaseLayout from "@/layouts/base-layout.astro";
 import { ROUTES } from "@/constants/routes";
@@ -52,9 +53,10 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
       <a href="#audience" class="view-container-title">Audience</a>
     </h2>
     <SponsorAudience server:defer>
-      <p slot="fallback" role="status" class="text-muted-foreground">
-        Loading audience analytics…
-      </p>
+      <div slot="fallback" role="status">
+        <span class="sr-only">Loading audience analytics…</span>
+        <SponsorAudienceSkeleton />
+      </div>
     </SponsorAudience>
   </section>
 
