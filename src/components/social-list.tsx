@@ -49,7 +49,7 @@ interface SocialListProps {
 
 export const SocialList = ({ items, className }: SocialListProps) => (
   <TooltipProvider>
-    <ul className={cn("flex items-center gap-2", className)}>
+    <ul className={cn("flex items-center gap-1", className)}>
       {items.map((item) => {
         const Icon = ICONS[item.icon];
         return (
@@ -77,7 +77,7 @@ export const SocialList = ({ items, className }: SocialListProps) => (
                   )}
                 />
               </TooltipTrigger>
-              <TooltipContent disableAnimation>{item.name}</TooltipContent>
+              <TooltipContent>{item.name}</TooltipContent>
             </Tooltip>
           </li>
         );

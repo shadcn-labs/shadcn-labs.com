@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
-  TooltipProvider,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
@@ -29,24 +28,22 @@ export const ModeToggle = () => {
   useHotkey("d", () => setIsDark((dark) => !dark));
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="text-muted-foreground"
-            />
-          }
-          onClick={() => setIsDark((dark) => !dark)}
-        >
-          <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-          <MoonIcon className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">Toggle theme</span>
-        </TooltipTrigger>
-        <TooltipContent>{isDark ? "Delight" : "Go Dark"}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="text-muted-foreground"
+          />
+        }
+        onClick={() => setIsDark((dark) => !dark)}
+      >
+        <SunIcon className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <MoonIcon className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        <span className="sr-only">Toggle theme</span>
+      </TooltipTrigger>
+      <TooltipContent>{isDark ? "Delight" : "Go Dark"}</TooltipContent>
+    </Tooltip>
   );
 };

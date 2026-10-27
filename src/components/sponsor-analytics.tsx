@@ -12,6 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  SPONSOR_ANALYTICS_PROJECT_ROWS,
+  SPONSOR_ANALYTICS_TOP_ROWS,
+} from "@/constants/analytics";
 import type {
   AnalyticsRow,
   AnalyticsSnapshot,
@@ -19,7 +23,6 @@ import type {
 } from "@/lib/vercel-analytics";
 
 const ALL_PROJECTS = "all";
-const TOP_ROWS = 6;
 
 const compact = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
@@ -66,7 +69,7 @@ const mergeTop = (lists: AnalyticsRow[][]): AnalyticsRow[] => {
   }
   return [...merged.values()]
     .toSorted((a, b) => b.visitors - a.visitors)
-    .slice(0, TOP_ROWS);
+    .slice(0, SPONSOR_ANALYTICS_TOP_ROWS);
 };
 
 const summarize = (projects: ProjectAnalytics[], dates: string[]) => {
@@ -177,7 +180,7 @@ export const SponsorAnalytics = ({
         {summary.stats.map((stat) => (
           <div key={stat.label}>
             <dt className="text-muted-foreground">{stat.label}</dt>
-            <dd className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
+            <dd className="flex min-h-12 flex-col max-[351px]:min-h-16 sm:min-h-8 sm:flex-row sm:items-baseline sm:gap-2">
               <span
                 className="font-mono text-2xl tracking-tight"
                 title={stat.value.toLocaleString("en-US")}
@@ -218,38 +221,42 @@ export const SponsorAnalytics = ({
 
       <div className="space-y-2 pt-3">
         <h3>By project</h3>
-        <ul className="space-y-1">
-          {snapshot.projects.map((project) => {
-            const active = selected === project.name;
-            const dimmed = selected !== ALL_PROJECTS && !active;
-            return (
-              <li key={project.name}>
-                <button
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() =>
-                    setSelected(active ? ALL_PROJECTS : project.name)
-                  }
-                  className={`relative flex w-full cursor-pointer justify-between gap-4 rounded-sm px-2 py-0.5 text-left transition-opacity ${dimmed ? "opacity-50 hover:opacity-100" : ""}`}
-                >
-                  <span
-                    className={`absolute inset-y-0 left-0 rounded-sm ${active ? "bg-primary/20" : "bg-muted"}`}
-                    style={{
-                      width: `${(project.visitors / projectPeak) * 100}%`,
-                    }}
-                    aria-hidden="true"
-                  />
-                  <span className="relative">{project.name}</span>
-                  <span
-                    className="relative font-mono"
-                    title={`${project.pageviews.toLocaleString("en-US")} pageviews`}
+        <ul className="min-h-[19.75rem] space-y-1">
+          {snapshot.projects
+            .slice(0, SPONSOR_ANALYTICS_PROJECT_ROWS)
+            .map((project) => {
+              const active = selected === project.name;
+              const dimmed = selected !== ALL_PROJECTS && !active;
+              return (
+                <li key={project.name}>
+                  <button
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() =>
+                      setSelected(active ? ALL_PROJECTS : project.name)
+                    }
+                    className={`relative flex w-full cursor-pointer justify-between gap-4 rounded-sm px-2 py-0.5 text-left transition-opacity ${dimmed ? "opacity-50 hover:opacity-100" : ""}`}
                   >
-                    {compact.format(project.visitors)}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
+                    <span
+                      className={`absolute inset-y-0 left-0 rounded-sm ${active ? "bg-primary/20" : "bg-muted"}`}
+                      style={{
+                        width: `${(project.visitors / projectPeak) * 100}%`,
+                      }}
+                      aria-hidden="true"
+                    />
+                    <span className="relative min-w-0 truncate">
+                      {project.name}
+                    </span>
+                    <span
+                      className="relative shrink-0 font-mono"
+                      title={`${project.pageviews.toLocaleString("en-US")} pageviews`}
+                    >
+                      {compact.format(project.visitors)}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
         </ul>
       </div>
 
@@ -258,7 +265,7 @@ export const SponsorAnalytics = ({
           { rows: summary.countries, title: "Top countries" },
           { rows: summary.referrers, title: "Top referrers" },
         ].map((list) => (
-          <div key={list.title} className="space-y-2">
+          <div key={list.title} className="min-h-[12.25rem] space-y-2">
             <h3>{list.title}</h3>
             {list.rows.length === 0 ? (
               <p className="text-muted-foreground">No data yet.</p>
@@ -267,7 +274,7 @@ export const SponsorAnalytics = ({
                 {list.rows.map((row) => (
                   <li key={row.name} className="flex justify-between gap-4">
                     <span className="truncate">{row.name}</span>
-                    <span className="font-mono">
+                    <span className="shrink-0 font-mono">
                       {compact.format(row.visitors)}
                     </span>
                   </li>

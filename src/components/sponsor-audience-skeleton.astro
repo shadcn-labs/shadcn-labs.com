@@ -1,24 +1,75 @@
 ---
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SPONSOR_ANALYTICS_PROJECT_ROWS,
+  SPONSOR_ANALYTICS_TOP_ROWS,
+} from "@/constants/analytics";
 
-const projects = [
-  { name: "w-20", value: "w-8" },
-  { name: "w-28", value: "w-10" },
-  { name: "w-24", value: "w-8" },
-  { name: "w-16", value: "w-10" },
-  { name: "w-24", value: "w-8" },
-  { name: "w-20", value: "w-10" },
-];
+const projectNames = [
+  "w-20",
+  "w-28",
+  "w-24",
+  "w-16",
+  "w-24",
+  "w-20",
+  "w-16",
+  "w-24",
+  "w-20",
+  "w-28",
+] as const;
+const projectValues = [
+  "w-8",
+  "w-10",
+  "w-8",
+  "w-10",
+  "w-8",
+  "w-10",
+  "w-8",
+  "w-10",
+  "w-8",
+  "w-10",
+] as const;
+
+const projects = Array.from(
+  { length: SPONSOR_ANALYTICS_PROJECT_ROWS },
+  (_, index) => ({
+    name: projectNames[index % projectNames.length] ?? "w-20",
+    value: projectValues[index % projectValues.length] ?? "w-8",
+  })
+);
+
+const firstListRows = [
+  "w-3/4",
+  "w-2/3",
+  "w-4/5",
+  "w-1/2",
+  "w-3/5",
+  "w-2/5",
+] as const;
+const secondListRows = [
+  "w-2/3",
+  "w-3/4",
+  "w-1/2",
+  "w-4/5",
+  "w-3/5",
+  "w-2/5",
+] as const;
+
+const rowsFor = (widths: readonly string[]) =>
+  Array.from(
+    { length: SPONSOR_ANALYTICS_TOP_ROWS },
+    (_, index) => widths[index % widths.length] ?? "w-2/3"
+  );
 
 const lists = [
-  { rows: ["w-3/4", "w-2/3", "w-4/5", "w-1/2", "w-3/5"], title: "w-24" },
-  { rows: ["w-2/3", "w-3/4", "w-1/2", "w-4/5", "w-3/5"], title: "w-20" },
+  { rows: rowsFor(firstListRows), title: "w-24" },
+  { rows: rowsFor(secondListRows), title: "w-20" },
 ];
 ---
 
 <div aria-hidden="true" class="space-y-3">
   <div class="flex items-center justify-end">
-    <Skeleton className="h-7 w-24" />
+    <Skeleton className="h-7 w-14" />
   </div>
 
   <dl class="grid grid-cols-2 gap-4">
@@ -26,11 +77,11 @@ const lists = [
       ["w-14", "w-16"].map((label) => (
         <div>
           <dt>
-            <Skeleton className={`h-4 ${label}`} />
+            <Skeleton className={`h-6 ${label}`} />
           </dt>
-          <dd class="mt-1 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-2">
+          <dd class="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
             <Skeleton className="h-8 w-16" />
-            <Skeleton className="h-3 w-28 max-w-full" />
+            <Skeleton className="h-4 w-28 max-w-full max-[351px]:h-8" />
           </dd>
         </div>
       ))
@@ -40,12 +91,12 @@ const lists = [
   <Skeleton className="h-56 w-full rounded-lg" />
 
   <div class="space-y-2 pt-3">
-    <Skeleton className="h-4 w-20" />
-    <ul class="space-y-1">
+    <Skeleton className="h-6 w-20" />
+    <ul class="min-h-[19.75rem] space-y-1">
       {
         projects.map((project) => (
-          <li class="flex justify-between gap-4 px-2 py-0.5">
-            <Skeleton className={`h-5 ${project.name}`} />
+          <li class="flex h-7 items-center justify-between gap-4 px-2">
+            <Skeleton className={`h-4 ${project.name}`} />
             <Skeleton className={`h-4 ${project.value}`} />
           </li>
         ))
@@ -56,13 +107,13 @@ const lists = [
   <div class="grid grid-cols-1 gap-x-6 gap-y-6 pt-3 sm:grid-cols-2">
     {
       lists.map((list) => (
-        <div class="space-y-2">
-          <Skeleton className={`h-4 ${list.title}`} />
+        <div class="min-h-[12.25rem] space-y-2">
+          <Skeleton className={`h-6 ${list.title}`} />
           <ul class="space-y-1">
             {list.rows.map((width) => (
-              <li class="flex justify-between gap-4">
-                <Skeleton className={`h-3.5 ${width}`} />
-                <Skeleton className="h-3.5 w-8" />
+              <li class="flex h-6 items-center justify-between gap-4">
+                <Skeleton className={`h-4 ${width}`} />
+                <Skeleton className="h-4 w-8" />
               </li>
             ))}
           </ul>
@@ -71,8 +122,9 @@ const lists = [
     }
   </div>
 
-  <div class="space-y-1.5 pt-2">
-    <Skeleton className="h-3 w-full" />
-    <Skeleton className="h-3 w-4/5 max-w-md" />
+  <div class="pt-2">
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-4/5 max-w-md min-[562px]:hidden" />
+    <Skeleton className="hidden h-4 w-3/5 max-w-sm max-[311px]:block" />
   </div>
 </div>
