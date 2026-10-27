@@ -36,7 +36,7 @@ export const ModeToggle = () => {
             <Button
               variant="ghost"
               size="icon-sm"
-              className="text-muted-foreground hover:text-foreground relative border-none bg-transparent transition-colors hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent"
+              className="text-muted-foreground"
             />
           }
           onClick={() => setIsDark((dark) => !dark)}

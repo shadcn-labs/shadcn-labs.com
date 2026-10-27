@@ -1,4 +1,9 @@
-export type ProjectCategory = "registries" | "templates" | "ports" | "skills";
+export type ProjectCategory =
+  | "registries"
+  | "templates"
+  | "ports"
+  | "skills"
+  | "apps";
 
 export const PROJECTS = [
   {
@@ -13,6 +18,18 @@ export const PROJECTS = [
     description: "agent skills for shadcn registries & more",
     name: "skills",
     url: "https://www.skills.sh/shadcn-labs/skills",
+  },
+  {
+    category: "ports" as ProjectCategory,
+    description: "CSS-in-JS port of shadcn/ui, built on StyleX",
+    name: "shadcn-cssinjs",
+    url: "https://shadcn-cssinjs.com",
+  },
+  {
+    category: "apps" as ProjectCategory,
+    description: "Visual form builder for shadcn/ui — drag, drop, ship",
+    name: "shadcn-form",
+    url: "https://www.shadcn-form.com/",
   },
   {
     category: "registries" as ProjectCategory,
@@ -38,12 +55,6 @@ export const PROJECTS = [
       "customizable and production-ready AI agent recipes, built on Eve and Flue",
     name: "agentcn",
     url: "https://agentcn.run",
-  },
-  {
-    category: "ports" as ProjectCategory,
-    description: "CSS-in-JS port of shadcn/ui, built on StyleX",
-    name: "shadcn-cssinjs",
-    url: "https://shadcn-cssinjs.com",
   },
   {
     category: "registries" as ProjectCategory,
@@ -79,9 +90,22 @@ export const PROJECTS = [
   },
   {
     category: "registries" as ProjectCategory,
+    description:
+      "Chrome extension to inspect and extract shadcn-style theme tokens from any website",
+    name: "inspectcn",
+    url: "https://inspectcn.arhamkhnz.com/",
+  },
+  {
+    category: "registries" as ProjectCategory,
     description: "ASCII-framed diagram components for MDX, built on Motion",
-    isNew: true,
     name: "mdxcn",
     url: "https://www.mdxcn.dev",
+  },
+  {
+    category: "registries" as ProjectCategory,
+    description: "video components for React, built on Remotion",
+    isNew: true,
+    name: "snapcn",
+    url: "https://snapcn.dev",
   },
 ];

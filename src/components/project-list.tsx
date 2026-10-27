@@ -20,6 +20,7 @@ export const ProjectList = () => {
 
   const counts = {
     all: PROJECTS.length,
+    apps: PROJECTS.filter((p) => p.category === "apps").length,
     ports: PROJECTS.filter((p) => p.category === "ports").length,
     registries: PROJECTS.filter((p) => p.category === "registries").length,
     skills: PROJECTS.filter((p) => p.category === "skills").length,
@@ -79,6 +80,12 @@ export const ProjectList = () => {
                 skills{" "}
                 <span className="text-muted-foreground ml-1">
                   {counts.skills}
+                </span>
+              </SelectItem>
+              <SelectItem value="apps">
+                apps{" "}
+                <span className="text-muted-foreground ml-1">
+                  {counts.apps}
                 </span>
               </SelectItem>
             </SelectGroup>

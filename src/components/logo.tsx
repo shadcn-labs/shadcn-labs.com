@@ -1,5 +1,6 @@
-import { cn } from "cn";
 import type { ComponentProps } from "react";
+
+import { cn } from "@/lib/utils";
 
 export const LogoMark = ({ className, ...props }: ComponentProps<"svg">) => (
   <svg

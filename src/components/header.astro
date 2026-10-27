@@ -1,26 +1,36 @@
 ---
-import { NAV } from "@/constants/site";
+import { NAV, UTM_PARAMS } from "@/constants/site";
 import { BrandContextMenu } from "@/components/brand-context-menu";
 import { LogoType } from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
+import { SocialList } from "@/components/social-list";
+import { SOCIALS } from "@/constants/social";
+import { addQueryParams } from "@/lib/url";
 
 const pathname = Astro.url.pathname.replace(/\/+$/u, "") || "/";
+const socialItems = SOCIALS.map((social) => ({
+  ...social,
+  url: addQueryParams(social.url, UTM_PARAMS),
+}));
 ---
 
 <header class="view-container pt-10">
-  <div class="space-y-1">
-    <BrandContextMenu client:load>
-      <h1 class="mb-1 inline-block">
-        <a href="/" class="text-foreground">
-          <span class="sr-only">Shadcn Labs</span>
-          <LogoType aria-hidden="true" />
-        </a>
-      </h1>
-    </BrandContextMenu>
-    <p class="text-primary">Pushing the limits of the shadcn/ui ecosystem.</p>
-    <p class="text-muted-foreground text-xs">
-      © Shadcn Labs <span class="font-mono">{new Date().getFullYear()}</span>
-    </p>
+  <div class="space-y-3">
+    <div class="space-y-1">
+      <BrandContextMenu client:load>
+        <h1 class="inline-block">
+          <a href="/" class="text-foreground">
+            <span class="sr-only">Shadcn Labs</span>
+            <LogoType aria-hidden="true" />
+          </a>
+        </h1>
+      </BrandContextMenu>
+      <p class="text-primary">Pushing the limits of the shadcn/ui ecosystem.</p>
+      <p class="text-muted-foreground text-xs">
+        © Shadcn Labs <span class="font-mono">{new Date().getFullYear()}</span>
+      </p>
+    </div>
+    <SocialList client:load items={socialItems} className="-ml-1.5" />
   </div>
   <nav class="mt-6 flex items-center gap-4">
     {
