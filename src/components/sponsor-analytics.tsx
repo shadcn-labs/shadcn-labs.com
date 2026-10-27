@@ -136,12 +136,7 @@ export const SponsorAnalytics = ({
   );
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
-        <h2>
-          <a href="#audience" className="view-container-title">
-            Audience
-          </a>
-        </h2>
+      <div className="flex items-center justify-end">
         <Select
           value={selected}
           onValueChange={(value) => {
@@ -283,22 +278,11 @@ export const SponsorAnalytics = ({
         ))}
       </div>
 
-      {/* "about once an hour" mirrors ANALYTICS_CACHE_TTL_SECONDS. */}
+      {/* "Updated hourly" mirrors ANALYTICS_CACHE_TTL_SECONDS. */}
       <p className="text-muted-foreground pt-2 text-xs">
-        Live from{" "}
-        <a
-          className="link-underline"
-          href="https://vercel.com/docs/analytics"
-          target="_blank"
-          rel="noopener"
-        >
-          Vercel Web Analytics
-        </a>
-        . Visitors are counted per project, so someone visiting two projects
-        counts twice. Results are cached and refreshed about once an hour, so
-        they are not real-time.
-        {stale &&
-          " Vercel did not respond to the last refresh, so this may be out of date."}
+        Visitors are counted per project, so someone visiting two projects
+        counts twice. Updated hourly.
+        {stale && " The last refresh failed, so this may be out of date."}
       </p>
     </div>
   );

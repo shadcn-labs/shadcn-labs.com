@@ -380,23 +380,23 @@ export const InstagramIcon = ({ className }: IconProps) => (
         gradientUnits="userSpaceOnUse"
       />
       <linearGradient id="d">
-        <stop offset="0" stop-color="#ff005f" />
-        <stop offset="1" stop-color="#fc01d8" />
+        <stop offset="0" stopColor="#ff005f" />
+        <stop offset="1" stopColor="#fc01d8" />
       </linearGradient>
       <linearGradient id="c">
-        <stop offset="0" stop-color="#780cff" />
-        <stop offset="1" stop-color="#820bff" stopOpacity="0" />
+        <stop offset="0" stopColor="#780cff" />
+        <stop offset="1" stopColor="#820bff" stopOpacity="0" />
       </linearGradient>
       <linearGradient id="b">
-        <stop offset="0" stop-color="#fc0" />
-        <stop offset="1" stop-color="#fc0" stopOpacity="0" />
+        <stop offset="0" stopColor="#fc0" />
+        <stop offset="1" stopColor="#fc0" stopOpacity="0" />
       </linearGradient>
       <linearGradient id="a">
-        <stop offset="0" stop-color="#fc0" />
-        <stop offset=".124" stop-color="#fc0" />
-        <stop offset=".567" stop-color="#fe4a05" />
-        <stop offset=".694" stop-color="#ff0f3f" />
-        <stop offset="1" stop-color="#fe0657" stopOpacity="0" />
+        <stop offset="0" stopColor="#fc0" />
+        <stop offset=".124" stopColor="#fc0" />
+        <stop offset=".567" stopColor="#fe4a05" />
+        <stop offset=".694" stopColor="#ff0f3f" />
+        <stop offset="1" stopColor="#fe0657" stopOpacity="0" />
       </linearGradient>
     </defs>
     <path
