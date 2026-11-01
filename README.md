@@ -31,6 +31,7 @@
 | [editorcn](https://editorcn.vercel.app) | Rich text editor components for React, built on Tiptap | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/editorcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/editorcn) |
 | [shadercn](https://shadercn.run) | shader components for React, built on vgpu and TypeGPU | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadercn) |
 | [mdxcn](https://www.mdxcn.dev) | ASCII-framed diagram components for MDX, built on Motion | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/mdxcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/mdxcn) |
+| [sensory-ui](https://www.sensory-ui.com) | Sound-enabled components for React, built on the Web Audio API | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/sensory-ui.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/sensory-ui) |
 
 ## Contributing
 

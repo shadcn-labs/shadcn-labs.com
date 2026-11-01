@@ -104,8 +104,15 @@ export const PROJECTS = [
   {
     category: "registries" as ProjectCategory,
     description: "video components for React, built on Remotion",
-    isNew: true,
     name: "snapcn",
     url: "https://snapcn.dev",
+  },
+  {
+    category: "registries" as ProjectCategory,
+    description:
+      "sound-enabled components for React, built on the Web Audio API",
+    isNew: true,
+    name: "sensory-ui",
+    url: "https://www.sensory-ui.com",
   },
 ];

@@ -44,4 +44,9 @@ export const TEAM = [
     name: "Hasan Harman",
     url: "https://www.hasanharman.dev/",
   },
+  {
+    description: "Creator and Maintainer of sensory-ui",
+    name: "Satyam Vyas",
+    url: "https://x.com/SatyamVyas04",
+  },
 ];

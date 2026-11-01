@@ -5,7 +5,7 @@ import {
   ANALYTICS_CACHE_TTL_SECONDS,
   ANALYTICS_FAILURE_CACHE_TTL_SECONDS,
   getSponsorAnalytics,
-} from "@/lib/vercel-analytics";
+} from "@/lib/analytics";
 
 const { snapshot, stale } = await getSponsorAnalytics();
 

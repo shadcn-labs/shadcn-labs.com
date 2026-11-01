@@ -20,7 +20,7 @@ import type {
   AnalyticsRow,
   AnalyticsSnapshot,
   ProjectAnalytics,
-} from "@/lib/vercel-analytics";
+} from "@/lib/analytics";
 
 const ALL_PROJECTS = "all";
 
@@ -77,9 +77,14 @@ const summarize = (projects: ProjectAnalytics[], dates: string[]) => {
   let pageviews = 0;
   let previousVisitors = 0;
   let previousPageviews = 0;
+  let hasPrevious = true;
   for (const project of projects) {
     visitors += project.visitors;
     pageviews += project.pageviews;
+    if (project.previous === null) {
+      hasPrevious = false;
+      continue;
+    }
     previousVisitors += project.previous.visitors;
     previousPageviews += project.previous.pageviews;
   }
@@ -88,12 +93,12 @@ const summarize = (projects: ProjectAnalytics[], dates: string[]) => {
     referrers: mergeTop(projects.map((project) => project.referrers)),
     stats: [
       {
-        change: change(visitors, previousVisitors),
+        change: hasPrevious ? change(visitors, previousVisitors) : null,
         label: "visitors",
         value: visitors,
       },
       {
-        change: change(pageviews, previousPageviews),
+        change: hasPrevious ? change(pageviews, previousPageviews) : null,
         label: "pageviews",
         value: pageviews,
       },
