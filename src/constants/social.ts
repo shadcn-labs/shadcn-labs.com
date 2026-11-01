@@ -19,7 +19,7 @@ export interface Social {
 export const SOCIALS: Social[] = [
   {
     icon: "x",
-    name: "X",
+    name: "X / Twitter",
     url: LINKS.X,
   },
   {

@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Check } from "@lucide/astro";
+import { ArrowRight, ArrowUpRight, CircleCheck } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
 import SponsorAudience from "@/components/sponsor-audience.astro";
 import SponsorAudienceSkeleton from "@/components/sponsor-audience-skeleton.astro";
@@ -9,13 +9,16 @@ import { ROUTES } from "@/constants/routes";
 import {
   SPONSORS,
   SPONSOR_TIERS,
+  SPONSOR_GITHUB_MANAGE_URL,
   SPONSOR_PORTAL_URL,
   SPONSORSHIP_CONTACT_URL,
   sponsorCheckoutUrl,
+  sponsorGithubUrl,
 } from "@/constants/sponsors";
 import type { SponsorTierId } from "@/constants/sponsors";
 import { UTM_PARAMS } from "@/constants/site";
 import { addQueryParams } from "@/lib/url";
+import { cn } from "@/lib/utils";
 
 // Bigger tiers get bigger blocks, and every tier always keeps one open spot.
 const BLOCK_LAYOUT: Record<
@@ -44,7 +47,7 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
 
 <BaseLayout
   title="Sponsors"
-  description="Sponsor Shadcn Labs — reach developers across the shadcn/ui ecosystem. Live audience analytics, current sponsors, and sponsorship tiers."
+  description="Sponsor Shadcn Labs on GitHub Sponsors, or through Dodo Payments if GitHub is not an option. Live audience analytics, current sponsors, and tiers."
 >
   <AsciiDivider />
 
@@ -154,39 +157,66 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
             <ul class="space-y-1">
               {tier.perks.map((perk) => (
                 <li class="flex items-center gap-2">
-                  <Check
-                    class="size-4 text-muted-foreground shrink-0"
+                  <CircleCheck
+                    class:list={[
+                      "size-4 shrink-0",
+                      tier.id === "diamond"
+                        ? "text-primary"
+                        : "text-muted-foreground",
+                    ]}
                     aria-hidden="true"
                   />
                   <span>{perk}</span>
                 </li>
               ))}
             </ul>
-            <a
-              href={sponsorCheckoutUrl(tier)}
-              class={buttonVariants({
-                variant: tier.id === "diamond" ? "default" : "outline",
-              })}
-            >
-              Become a {tier.name} sponsor
-              <ArrowRight aria-hidden="true" />
-            </a>
+            <div class="flex flex-wrap items-center gap-2 max-sm:flex-col">
+              <a
+                href={sponsorGithubUrl(tier)}
+                target="_blank"
+                rel="noopener"
+                class={cn(
+                  buttonVariants({
+                    variant: tier.id === "diamond" ? "default" : "secondary",
+                  }),
+                  "max-sm:w-full"
+                )}
+              >
+                Sponsor as {tier.name}
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a
+                href={sponsorCheckoutUrl(tier)}
+                target="_blank"
+                rel="noopener"
+                aria-label={`Not on GitHub? Sponsor ${tier.name} here`}
+                class={cn(
+                  buttonVariants({ size: "xs", variant: "link" }),
+                  "text-muted-foreground hover:text-foreground max-sm:self-center"
+                )}
+              >
+                Not on GitHub? Sponsor here
+              </a>
+            </div>
           </li>
         ))
       }
     </ul>
-    <p
-      class="text-muted-foreground pt-2 text-xs"
-    >
-      Payments are processed by{" "}
-      <a class="link-underline" href="https://dodopayments.com" target="_blank" rel="noopener">
-        Dodo Payments</a
-      >, our merchant of record. By subscribing, you agree to our{" "}
-      <a class="link-underline" href={ROUTES.TERMS}>terms</a> and <a class="link-underline" href={ROUTES.REFUNDS}
-        >refund policy</a
-      >. Already a sponsor?{" "}
-      <a class="link-underline" href={SPONSOR_PORTAL_URL} target="_blank" rel="noopener"
-        >Manage your subscription</a
+    <p class="text-muted-foreground text-xs">
+      All sponsorships run monthly. By subscribing, you agree to our <a
+        class="link-underline"
+        href={ROUTES.TERMS}>terms</a
+      > and <a class="link-underline" href={ROUTES.REFUNDS}>refund policy</a>.
+      Already a sponsor? Manage your subscription on <a
+        class="link-underline"
+        href={SPONSOR_GITHUB_MANAGE_URL}
+        target="_blank"
+        rel="noopener">GitHub</a
+      > or in the <a
+        class="link-underline"
+        href={SPONSOR_PORTAL_URL}
+        target="_blank"
+        rel="noopener">Dodo customer portal</a
       >.
     </p>
   </section>
@@ -200,7 +230,10 @@ const tierGroups = SPONSOR_TIERS.map((tier) => ({
     <p>
       Need a custom package? Happy to put something together that fits how your
       team wants to show up.{" "}
-      <a href={SPONSORSHIP_CONTACT_URL} class="link-underline inline-flex items-center gap-1">
+      <a
+        href={SPONSORSHIP_CONTACT_URL}
+        class="link-underline inline-flex items-center gap-1"
+      >
         Get in touch
         <ArrowRight size={14} aria-hidden="true" />
       </a>

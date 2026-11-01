@@ -30,7 +30,11 @@ if (Astro.cache.enabled) {
       Send a message using the form, or reach out directly.
     </p>
 
-    <ContactForm inquiry={Astro.url.searchParams.get("inquiry")} client:load />
+    <ContactForm
+      inquiry={Astro.url.searchParams.get("inquiry")}
+      scope={Astro.url.searchParams.get("scope")}
+      client:load
+    />
 
     <p class="mt-6">
       Or email <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> or <a

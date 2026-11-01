@@ -1,6 +1,6 @@
 import { ROUTES } from "./routes";
 
-export const FALLBACK_SITE_ORIGIN = "https://pdfcn.dev" as const;
+export const FALLBACK_SITE_ORIGIN = "https://www.shadcn-labs.com" as const;
 
 const getBaseUrl = () => {
   if (import.meta.env.NODE_ENV !== "production") {

@@ -33,6 +33,42 @@
 | [mdxcn](https://www.mdxcn.dev) | ASCII-framed diagram components for MDX, built on Motion | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/mdxcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/mdxcn) |
 | [sensory-ui](https://www.sensory-ui.com) | Sound-enabled components for React, built on the Web Audio API | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/sensory-ui.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/sensory-ui) |
 
+## Sponsors
+
+<!-- sponsors:start -->
+<!-- Keep tier order and placed logos in sync with src/constants/sponsors.ts. -->
+<table>
+  <tbody>
+    <tr>
+      <td colspan="3"><strong>Diamond Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://shadcn-labs.com/sponsors#tiers">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Gold Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://shadcn-labs.com/sponsors#tiers">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Silver Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://shadcn-labs.com/sponsors#tiers">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- sponsors:end -->
+
+> Found Shadcn Labs useful? [Become a sponsor](https://shadcn-labs.com/sponsors#tiers) to support maintenance and get your logo here and on the site, with placement based on your tier.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

@@ -62,7 +62,7 @@ export const getSponsorCheckout = async (
     const tier =
       subscription.brand_id === SPONSOR_BRAND_ID
         ? SPONSOR_TIERS.find(
-            (item) => item.productId === subscription.product_id
+            (item) => item.dodoProductId === subscription.product_id
           )
         : undefined;
     return tier

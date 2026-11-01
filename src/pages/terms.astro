@@ -8,8 +8,8 @@ import { SITE } from "@/constants/site";
   id="terms"
   heading="Terms of service"
   title="Terms of Service"
-  description="Terms for using shadcn-labs.com and buying a Shadcn Labs sponsorship."
-  updated="Oct 06, 2026"
+  description="Terms for using shadcn-labs.com and buying a Shadcn Labs sponsorship through GitHub Sponsors or Dodo Payments."
+  updated="Nov 01, 2026"
 >
   <p>
     These terms cover your use of shadcn-labs.com and any sponsorship you buy
@@ -24,9 +24,60 @@ import { SITE } from "@/constants/site";
     provided "as is" without warranty.
   </p>
 
-  <h3>Merchant of record</h3>
+  <h3>Sponsorships</h3>
+  <ul>
+    <li>
+      Each tier is a monthly subscription billed in advance, in US dollars, at
+      the price shown on the <a class="link-underline" href={ROUTES.SPONSORS}>sponsors page</a> or
+      on the GitHub Sponsors tier page you check out from. It renews every month
+      until you cancel.
+    </li>
+    <li>
+      The perks for each tier are listed on the sponsors page and in the matching
+      GitHub Sponsors tier. If the two descriptions differ, the tier description
+      shown by the provider at checkout governs.
+    </li>
+    <li>
+      We deliver placements as soon as we have your logo, link, and name,
+      usually within a few business days of payment. Send them through the
+      welcome-message instructions or the <a
+        class="link-underline"
+        href={`${ROUTES.CONTACT}?inquiry=sponsorship`}>sponsorship contact form</a
+      >.
+    </li>
+    <li>
+      Placement order within a tier, logo size, and layout are at our
+      discretion and may change as the sites change.
+    </li>
+    <li>
+      Where we place your logo on our own sites, the link to your website is
+      do-follow. Links inside GitHub READMEs and other GitHub-hosted pages follow
+      GitHub's own rules.
+    </li>
+    <li>
+      We may change tier prices or perks for future billing periods. We will
+      tell active sponsors by email before a change applies to them.
+    </li>
+  </ul>
+
+  <h3>GitHub Sponsors</h3>
   <p>
-    Sponsorships are sold through <a
+    GitHub Sponsors is our primary checkout. GitHub processes your payment,
+    handles receipts, and appears on your statement. Your sponsorship is also
+    subject to <a
+      class="link-underline"
+      href="https://docs.github.com/site-policy/github-terms/github-sponsors-additional-terms"
+      target="_blank"
+      rel="noopener">GitHub's sponsor terms</a
+    >. Change your amount or cancel at any time from your GitHub account;
+    GitHub confirms the change to us. GitHub decides whether a GitHub payment is
+    refundable, and any refund is issued by GitHub.
+  </p>
+
+  <h3>Dodo Payments</h3>
+  <p>
+    If GitHub is not an option for your team, you can pay the same tiers through
+    <a
       class="link-underline"
       href="https://dodopayments.com"
       target="_blank"
@@ -34,30 +85,19 @@ import { SITE } from "@/constants/site";
     >, our merchant of record. Dodo Payments processes your payment, collects
     applicable sales tax or VAT, issues your invoices, and appears on your
     statement. Your purchase is also subject to Dodo Payments' own terms. We
-    never see or store your full card details.
+    never see or store your full card details. Dodo sponsors can update payment
+    methods, download invoices, or cancel from the Dodo customer portal linked in
+    their subscription emails.
   </p>
 
-  <h3>Sponsorships</h3>
-  <ul>
-    <li>
-      Each tier is a monthly subscription billed in advance, in US dollars, at
-      the price shown on the <a class="link-underline" href={ROUTES.SPONSORS}>sponsors page</a> when
-      you subscribe. It renews every month until you cancel.
-    </li>
-    <li>
-      The perks for each tier are listed on the sponsors page. We deliver
-      placements as soon as we have your logo, link, and name, usually within a
-      few business days of payment.
-    </li>
-    <li>
-      Placement order within a tier, logo size, and layout are at our
-      discretion and may change as the sites change.
-    </li>
-    <li>
-      We may change tier prices or perks for future billing periods. We will
-      tell active sponsors by email before a change applies to them.
-    </li>
-  </ul>
+  <h3>Refunds</h3>
+  <p>
+    Refunds follow the provider that took your payment. GitHub payments are
+    refunded, if at all, by GitHub under GitHub's policy. Dodo Payments refunds
+    follow our <a class="link-underline" href={ROUTES.REFUNDS}>refund policy</a>.
+    Cancelling stops future renewals; placements stay live until the end of the
+    period you already paid for.
+  </p>
 
   <h3>Your content</h3>
   <p>

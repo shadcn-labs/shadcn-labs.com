@@ -1,6 +1,7 @@
 ---
 import LegalLayout from "@/layouts/legal-layout.astro";
 import { LINKS } from "@/constants/links";
+import { ROUTES } from "@/constants/routes";
 import { SPONSOR_PORTAL_URL } from "@/constants/sponsors";
 ---
 
@@ -8,30 +9,58 @@ import { SPONSOR_PORTAL_URL } from "@/constants/sponsors";
   id="refunds"
   heading="Refund policy"
   title="Refund Policy"
-  description="Cancellation and refund policy for Shadcn Labs sponsorships."
-  updated="Oct 06, 2026"
+  description="Cancellation and refund policy for Shadcn Labs sponsorships paid through GitHub Sponsors or Dodo Payments."
+  updated="Nov 01, 2026"
 >
   <p>
-    Sponsorships are monthly subscriptions sold through Dodo Payments, our
-    merchant of record. Approved refunds are issued by Dodo Payments to your
+    Sponsorships are monthly subscriptions. Most sponsors pay through{" "}
+    <a
+      class="link-underline"
+      href="https://github.com/sponsors/shadcn-labs"
+      target="_blank"
+      rel="noopener">GitHub Sponsors</a
+    >; teams that cannot use GitHub pay through Dodo Payments, our merchant of
+    record. Refunds are issued by the provider that took your payment, to your
     original payment method.
   </p>
 
   <h3>Cancelling</h3>
+  <ul>
+    <li>
+      <strong>GitHub Sponsors:</strong> change your amount or cancel at any time
+      from your GitHub account under your sponsorships. GitHub confirms the
+      change to us.
+    </li>
+    <li>
+      <strong>Dodo Payments:</strong> cancel from the <a
+        class="link-underline"
+        href={SPONSOR_PORTAL_URL}
+        target="_blank"
+        rel="noopener">Dodo customer portal</a
+      >, or email <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a
+      >.
+    </li>
+  </ul>
   <p>
-    Cancel at any time from the <a
-      class="link-underline"
-      href={SPONSOR_PORTAL_URL}
-      target="_blank"
-      rel="noopener">Dodo Payments customer portal</a
-    >, or by emailing <a
-      class="link-underline"
-      href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a
-    >. Cancellation stops future renewals; your placements stay live until the
-    end of the period you already paid for.
+    Cancellation stops future renewals; your placements stay live until the end
+    of the period you already paid for.
   </p>
 
-  <h3>When you get a full refund</h3>
+  <h3>GitHub Sponsors payments</h3>
+  <p>
+    GitHub decides whether a GitHub payment is refundable, under{" "}
+    <a
+      class="link-underline"
+      href="https://docs.github.com/site-policy/github-terms/github-sponsors-additional-terms"
+      target="_blank"
+      rel="noopener">GitHub's sponsor terms</a
+    >. If you were charged in error, or we cannot deliver the perks of your
+    tier, email us and we will work with GitHub to sort it out. Cancelling stops
+    future charges either way.
+  </p>
+
+  <h3>Dodo Payments refunds</h3>
+  <p>We issue a full refund through Dodo Payments when:</p>
   <ul>
     <li>
       You ask within 7 days of your first payment and your placements have not
@@ -40,7 +69,8 @@ import { SPONSOR_PORTAL_URL } from "@/constants/sponsors";
     <li>You were charged more than once for the same period.</li>
     <li>
       We cannot deliver the perks of your tier, or we remove your sponsorship
-      under our terms (in that case, for the unused part of the period).
+      under our <a class="link-underline" href={ROUTES.TERMS}>terms</a> (in that
+      case, for the unused part of the period).
     </li>
   </ul>
 
@@ -57,9 +87,10 @@ import { SPONSOR_PORTAL_URL } from "@/constants/sponsors";
   <h3>How to ask</h3>
   <p>
     Email <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> with the email you
-    paid with and your invoice or subscription ID. We reply within 3 business
-    days, and approved refunds usually reach you within 5–10 business days,
-    depending on your bank. Please contact us before opening a chargeback; we
-    resolve most issues faster that way.
+    paid with, the provider (GitHub or Dodo), and your invoice, receipt, or
+    subscription ID. We reply within 3 business days, and approved refunds
+    usually reach you within 5–10 business days, depending on your bank. Please
+    contact us before opening a chargeback; we resolve most issues faster that
+    way.
   </p>
 </LegalLayout>
