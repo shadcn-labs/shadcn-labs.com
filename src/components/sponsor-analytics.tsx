@@ -98,10 +98,7 @@ const summarize = (projects: ProjectAnalytics[], dates: string[]) => {
     if (comparableProjects === 0) {
       return "Prior 30-day data unavailable";
     }
-    const result = change(current, previous);
-    return comparableProjects === projects.length
-      ? result
-      : `${result} (${comparableProjects}/${projects.length} projects)`;
+    return change(current, previous);
   };
   return {
     countries: mergeTop(projects.map((project) => project.countries)),
@@ -200,7 +197,7 @@ export const SponsorAnalytics = ({
         {summary.stats.map((stat) => (
           <div key={stat.label}>
             <dt className="text-muted-foreground">{stat.label}</dt>
-            <dd className="flex min-h-12 flex-col max-[351px]:min-h-16 sm:min-h-8 sm:flex-row sm:items-baseline sm:gap-2">
+            <dd className="flex min-h-12 flex-col max-[351px]:min-h-16">
               <span
                 className="font-mono text-2xl tracking-tight"
                 title={stat.value.toLocaleString("en-US")}

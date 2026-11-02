@@ -69,6 +69,12 @@
 
 > Found Shadcn Labs useful? [Become a sponsor](https://shadcn-labs.com/sponsors#tiers) to support maintenance and get your logo here and on the site, with placement based on your tier.
 
+## Local audience analytics
+
+Pull production configuration with `pnpm dlx vercel@latest env pull .env --environment=production --yes`. The ignored `.env` file must stay private. Vercel does not export sensitive production secrets: replace any `[SENSITIVE]` placeholders with separately issued local credentials. Do not use live payment credentials for local checkout testing.
+
+The sponsors page compares the last 30 complete UTC days with the preceding 30 days. Growth uses only projects with both periods available; totals include every selected project. When history is unavailable (including Vercel plan retention limits), the cards say so instead of hiding their helper text. A zero baseline shows “No traffic in prior 30 days” rather than an undefined percentage.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
