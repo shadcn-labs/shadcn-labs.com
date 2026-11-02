@@ -10,8 +10,8 @@ export interface ProjectAnalytics {
   pageviews: number;
   /**
    * The equally long period right before the reporting period, or `null` when
-   * the source cannot expose it. A missing previous period hides the change
-   * figures instead of pretending traffic was zero.
+   * the source cannot expose it. Missing history is excluded from growth
+   * comparisons and labeled in the UI, never treated as zero traffic.
    */
   previous: { visitors: number; pageviews: number } | null;
   /** Daily values aligned with `AnalyticsSnapshot.dates`. */

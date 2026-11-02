@@ -46,9 +46,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const change = (current: number, previous: number): string | null => {
+const change = (current: number, previous: number): string => {
   if (previous === 0) {
-    return null;
+    return current === 0
+      ? "0% vs prior 30 days"
+      : "No traffic in prior 30 days";
   }
   const percent = Math.round(((current - previous) / previous) * 100);
   return `${percent > 0 ? "+" : ""}${percent}% vs prior 30 days`;
@@ -75,30 +77,43 @@ const mergeTop = (lists: AnalyticsRow[][]): AnalyticsRow[] => {
 const summarize = (projects: ProjectAnalytics[], dates: string[]) => {
   let visitors = 0;
   let pageviews = 0;
+  let comparableVisitors = 0;
+  let comparablePageviews = 0;
   let previousVisitors = 0;
   let previousPageviews = 0;
-  let hasPrevious = true;
+  let comparableProjects = 0;
   for (const project of projects) {
     visitors += project.visitors;
     pageviews += project.pageviews;
     if (project.previous === null) {
-      hasPrevious = false;
       continue;
     }
+    comparableProjects += 1;
+    comparableVisitors += project.visitors;
+    comparablePageviews += project.pageviews;
     previousVisitors += project.previous.visitors;
     previousPageviews += project.previous.pageviews;
   }
+  const comparison = (current: number, previous: number): string => {
+    if (comparableProjects === 0) {
+      return "Prior 30-day data unavailable";
+    }
+    const result = change(current, previous);
+    return comparableProjects === projects.length
+      ? result
+      : `${result} (${comparableProjects}/${projects.length} projects)`;
+  };
   return {
     countries: mergeTop(projects.map((project) => project.countries)),
     referrers: mergeTop(projects.map((project) => project.referrers)),
     stats: [
       {
-        change: hasPrevious ? change(visitors, previousVisitors) : null,
+        change: comparison(comparableVisitors, previousVisitors),
         label: "visitors",
         value: visitors,
       },
       {
-        change: hasPrevious ? change(pageviews, previousPageviews) : null,
+        change: comparison(comparablePageviews, previousPageviews),
         label: "pageviews",
         value: pageviews,
       },
@@ -192,11 +207,9 @@ export const SponsorAnalytics = ({
               >
                 {compact.format(stat.value)}
               </span>
-              {stat.change && (
-                <span className="text-muted-foreground font-mono text-xs">
-                  {stat.change}
-                </span>
-              )}
+              <span className="text-muted-foreground font-mono text-xs">
+                {stat.change}
+              </span>
             </dd>
           </div>
         ))}
