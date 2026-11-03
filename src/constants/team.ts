@@ -50,7 +50,7 @@ export const TEAM = [
     url: "https://x.com/SatyamVyas04",
   },
   {
-    description: "Creator and Maintainer of pinui",
+    description: "Creator and Maintainer of Pin UI",
     name: "Rachit Thakur",
     url: "https://www.rachitdesign.xyz/",
   },
