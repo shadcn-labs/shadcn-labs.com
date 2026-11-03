@@ -1,9 +1,9 @@
 ---
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  SPONSOR_ANALYTICS_PROJECT_ROWS,
-  SPONSOR_ANALYTICS_TOP_ROWS,
-} from "@/constants/analytics";
+import { SPONSOR_ANALYTICS_TOP_ROWS } from "@/constants/analytics";
+
+/** Placeholder row count; the real leaderboard renders every project. */
+const PROJECT_ROWS = 10;
 
 const projectNames = [
   "w-20",
@@ -31,7 +31,7 @@ const projectValues = [
 ] as const;
 
 const projects = Array.from(
-  { length: SPONSOR_ANALYTICS_PROJECT_ROWS },
+  { length: PROJECT_ROWS },
   (_, index) => ({
     name: projectNames[index % projectNames.length] ?? "w-20",
     value: projectValues[index % projectValues.length] ?? "w-8",
