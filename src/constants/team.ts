@@ -49,4 +49,9 @@ export const TEAM = [
     name: "Satyam Vyas",
     url: "https://x.com/SatyamVyas04",
   },
+  {
+    description: "Creator and Maintainer of pinui",
+    name: "Rachit Thakur",
+    url: "https://www.rachitdesign.xyz/",
+  },
 ];

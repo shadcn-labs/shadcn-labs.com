@@ -111,8 +111,15 @@ export const PROJECTS = [
     category: "registries" as ProjectCategory,
     description:
       "sound-enabled components for React, built on the Web Audio API",
-    isNew: true,
     name: "sensory-ui",
     url: "https://www.sensory-ui.com",
+  },
+  {
+    category: "registries" as ProjectCategory,
+    description:
+      "animated React components rebuilt from Pinterest designs, built on Motion",
+    isNew: true,
+    name: "Pin UI",
+    url: "https://www.pinui.xyz/",
   },
 ];
