@@ -1,0 +1,929 @@
+---
+import { ArrowUpRight, Download } from "@lucide/astro";
+import AsciiDivider from "@/components/ascii-divider.astro";
+import { buttonVariants } from "@/components/ui/button";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { cn } from "@/lib/utils";
+
+const GITHUB_URL = "https://github.com/shadcn-labs/goeist-font";
+const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
+const NPM_URL = "https://www.npmjs.com/package/goeist";
+const README_URL = `${GITHUB_URL}/blob/main/packages/goeist/README.md`;
+const LICENSE_URL = `${GITHUB_URL}/blob/main/OFL.txt`;
+const PROOFS_URL = "https://shadcn-labs.github.io/goeist-font/";
+
+const FAMILIES = [
+  {
+    description:
+      "Geist's proportions, spacing and OpenType features, with every exposed corner and stroke ending rounded. For interfaces, body copy and display sizes where Geist should feel a little warmer.",
+    face: "face-sans",
+    id: "sans",
+    meta: "100–900 · italic",
+    name: "Goeist Sans",
+    sample: "Soft corners, sturdy letters.",
+    tag: "sans",
+  },
+  {
+    description:
+      "The monospaced partner. Every corner is rounded as if drawn with one round tool, so stroke ends, slabs and dots become semicircles while widths stay fixed. Keeps Geist Mono's coding ligatures.",
+    face: "face-mono",
+    id: "mono",
+    meta: "100–900 · ligatures",
+    name: "Goeist Mono",
+    sample: "const soft = (a) => a + 1;",
+    tag: "mono",
+  },
+  {
+    description:
+      "A soft display serif. Saw-toothed serifs end in half-rounds and cut terminals in circular arcs, while hairlines and contrast stay fine. Includes Geist Serif's Element Shape axis.",
+    face: "face-serif",
+    id: "serif",
+    meta: "400 · four dot shapes",
+    name: "Goeist Serif",
+    sample: "Editorial, with a wink.",
+    tag: "serif",
+  },
+];
+
+const WEIGHTS = [
+  { name: "thin", value: 100 },
+  { name: "extralight", value: 200 },
+  { name: "light", value: 300 },
+  { name: "regular", value: 400 },
+  { name: "medium", value: 500 },
+  { name: "semibold", value: 600 },
+  { name: "bold", value: 700 },
+  { name: "extrabold", value: 800 },
+  { name: "black", value: 900 },
+];
+
+const CHARSETS = [
+  { chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ", label: "uppercase" },
+  { chars: "abcdefghijklmnopqrstuvwxyz", label: "lowercase" },
+  { chars: "0123456789", label: "figures" },
+  { chars: ".,:;!?'\"()[]{}–—…&*#@", label: "punctuation" },
+  { chars: "+-×÷=≠≈≤≥∞§¶†‡©®™→←↑↓", label: "symbols" },
+];
+
+const SHAPES = [
+  { label: "regular", value: 0 },
+  { label: "square", value: 25 },
+  { label: "triangle", value: 50 },
+  { label: "heart", value: 100 },
+];
+
+const INSTALL_SNIPPET = `npm i goeist`;
+const NEXT_SNIPPET = `import { GoeistSans } from "goeist/font/sans";
+import { GoeistMono } from "goeist/font/mono";
+import { GoeistSerif } from "goeist/font/serif";`;
+const CSS_SNIPPET = `@import "goeist/sans.css";
+@import "goeist/mono.css";
+@import "goeist/serif.css";`;
+const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a => b; }`;
+---
+
+<BaseLayout
+  title="Goeist"
+  description="Goeist is a rounded take on Geist — a free, open-source type family for interfaces, code and display. Sans, Mono and Serif by Shadcn Labs."
+>
+  <div class="view-container my-6">
+    <div
+      id="font-pill-segment"
+      role="tablist"
+      aria-label="Font families"
+      class="inline-flex items-center rounded-xl bg-muted/60 p-1 text-sm font-medium text-muted-foreground shadow-inner backdrop-blur-sm"
+    >
+      <button
+        type="button"
+        role="tab"
+        data-pill-tab="sans"
+        aria-selected="true"
+        class="face-sans inline-flex cursor-pointer items-center justify-center rounded-lg bg-background px-3.5 py-1.5 text-foreground font-semibold shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        Sans
+      </button>
+      <button
+        type="button"
+        role="tab"
+        data-pill-tab="mono"
+        aria-selected="false"
+        class="face-mono inline-flex cursor-pointer items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        Mono
+      </button>
+      <button
+        type="button"
+        role="tab"
+        data-pill-tab="serif"
+        aria-selected="false"
+        class="face-serif inline-flex cursor-pointer items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        Serif
+      </button>
+    </div>
+  </div>
+
+  <section id="overview" class="view-container">
+    <div class="relative pt-2">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute top-2 right-0 left-0 text-[clamp(5rem,30vw,14rem)]"
+      >
+        <div class="border-foreground/15 absolute inset-x-0 top-[0.025em] border-t"></div>
+        <div class="border-foreground/12 absolute inset-x-0 top-[0.21em] border-t"></div>
+        <div class="border-foreground/15 absolute inset-x-0 top-[0.755em] border-t"></div>
+      </div>
+      <h2
+        class="face-sans relative z-10 -ml-2 text-[clamp(5rem,30vw,14rem)] font-medium leading-[0.8] tracking-[-0.05em]"
+      >
+        Goeist.
+      </h2>
+    </div>
+
+    <p
+      class="face-sans max-w-xl pt-4 text-xl leading-tight tracking-[-0.02em] sm:text-2xl"
+    >
+      A rounded take on Geist. Sans, Mono and Serif keep Geist's proportions,
+      spacing and OpenType features while softening every exposed corner and
+      stroke ending, built for interfaces, code and display sizes.
+    </p>
+
+    <div class="flex flex-wrap items-center gap-2 pt-1">
+      <a
+        href={RELEASES_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class={cn(buttonVariants({ size: "lg" }), "gap-1.5")}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="0.75"
+          stroke-linejoin="round"
+          class="size-4"
+          aria-hidden="true"
+        >
+          <g clip-path="url(#clip0_17007_17348)">
+            <path
+              d="M16.5303 12.4697C16.2374 12.1768 15.7626 12.1768 15.4697 12.4697L12.75 15.1893V7C12.75 6.58579 12.4142 6.25 12 6.25C11.5858 6.25 11.25 6.58579 11.25 7V15.1893L8.53033 12.4697C8.23744 12.1768 7.76256 12.1768 7.46967 12.4697C7.17678 12.7626 7.17678 13.2374 7.46967 13.5303L11.4697 17.5303C11.6103 17.671 11.8011 17.75 12 17.75C12.1989 17.75 12.3897 17.671 12.5303 17.5303L16.5303 13.5303C16.8232 13.2374 16.8232 12.7626 16.5303 12.4697Z"
+              fill="currentColor"></path>
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.25 12C0.25 5.51065 5.51065 0.25 12 0.25C18.4893 0.25 23.75 5.51065 23.75 12C23.75 18.4893 18.4893 23.75 12 23.75C5.51065 23.75 0.25 18.4893 0.25 12ZM12 1.75C6.33908 1.75 1.75 6.33908 1.75 12C1.75 17.6609 6.33908 22.25 12 22.25C17.6609 22.25 22.25 17.6609 22.25 12C22.25 6.33908 17.6609 1.75 12 1.75Z"
+              fill="currentColor"></path>
+          </g>
+          <defs>
+            <clipPath id="clip0_17007_17348">
+              <rect width="24" height="24" fill="currentColor"></rect>
+            </clipPath>
+          </defs>
+        </svg>
+        Get the font
+      </a>
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="tester" class="view-container">
+    <div
+      class="relative flex min-h-80 w-full flex-col justify-center overflow-hidden bg-[#212017] p-0 text-[#f5f4ef] sm:min-h-96"
+    >
+      <div
+        id="specimen"
+        contenteditable="true"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Type tester specimen text"
+        spellcheck="false"
+        class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] text-[#f5f4ef] outline-none sm:text-6xl [overflow-wrap:anywhere]"
+      ><div class="relative w-full border-b border-dashed border-[#f5f4ef]/35 px-4 sm:px-6 pb-1">What will you</div><div class="relative w-full border-b border-dashed border-[#f5f4ef]/35 px-4 sm:px-6 pb-1 pt-4">ship next?</div></div>
+    </div>
+
+    <!-- Rotation / Bar Adjusters -->
+    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <!-- Weight Slider -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
+          <span>Weight</span>
+          <span id="slider-weight-val" class="font-medium text-foreground">400</span>
+        </div>
+        <div
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl bg-[#212017] px-3 shadow-inner"
+          data-slider="weight"
+          data-min="100"
+          data-max="900"
+          data-step="10"
+          data-value="400"
+          role="slider"
+          aria-label="Weight"
+          aria-valuemin="100"
+          aria-valuemax="900"
+          aria-valuenow="400"
+          tabindex="0"
+        >
+          <!-- Center indicator line & dot -->
+          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
+            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
+          </div>
+          <!-- Track viewport with gradient mask -->
+          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
+            <div class="slider-track-wrap absolute inset-0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Size Slider -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
+          <span>Size</span>
+          <span id="slider-size-val" class="font-medium text-foreground">60px</span>
+        </div>
+        <div
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl bg-[#212017] px-3 shadow-inner"
+          data-slider="size"
+          data-min="24"
+          data-max="120"
+          data-step="1"
+          data-value="60"
+          role="slider"
+          aria-label="Size"
+          aria-valuemin="24"
+          aria-valuemax="120"
+          aria-valuenow="60"
+          tabindex="0"
+        >
+          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
+            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
+          </div>
+          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
+            <div class="slider-track-wrap absolute inset-0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Letter Spacing Slider -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
+          <span>Letter spacing</span>
+          <span id="slider-spacing-val" class="font-medium text-foreground">-0.03em</span>
+        </div>
+        <div
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl bg-[#212017] px-3 shadow-inner"
+          data-slider="spacing"
+          data-min="-5"
+          data-max="15"
+          data-step="0.5"
+          data-value="-3"
+          role="slider"
+          aria-label="Letter spacing"
+          aria-valuemin="-5"
+          aria-valuemax="15"
+          aria-valuenow="-3"
+          tabindex="0"
+        >
+          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
+            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
+          </div>
+          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
+            <div class="slider-track-wrap absolute inset-0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="install" class="view-container">
+    <h2>
+      <a href="#install" class="view-container-title">Install</a>
+    </h2>
+    <p class="text-muted-foreground text-sm">
+      Download the release to install Goeist system-wide, or pull the variable
+      fonts into a project with npm.
+    </p>
+
+    <div
+      data-code-scope
+      class="overflow-hidden rounded-xl border border-border p-[2px] bg-muted/40"
+    >
+      <div
+        class="flex items-center justify-between gap-4 px-3 py-1.5"
+      >
+        <span class="text-muted-foreground font-mono text-[10px]">terminal</span>
+        <button
+          type="button"
+          data-copy
+          aria-label="Copy code"
+          class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
+          <svg class="copy-default size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg class="copy-success hidden size-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        </button>
+      </div>
+      <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
+        <pre class="overflow-x-auto p-3 font-mono text-xs leading-relaxed"><code data-code><span class="text-primary font-medium">npm</span> <span class="text-muted-foreground">i</span> <span>goeist</span></code></pre>
+      </div>
+    </div>
+
+    <div
+      data-code-scope
+      class="overflow-hidden rounded-xl border border-border p-[2px] bg-muted/40"
+    >
+      <div
+        class="flex items-center justify-between gap-4 px-3 py-1.5"
+      >
+        <span class="text-muted-foreground font-mono text-[10px]">next.js</span>
+        <button
+          type="button"
+          data-copy
+          aria-label="Copy code"
+          class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
+          <svg class="copy-default size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg class="copy-success hidden size-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        </button>
+      </div>
+      <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
+        <pre class="overflow-x-auto p-3 font-mono text-xs leading-relaxed"><code data-code><span class="text-primary">import</span> &#123; <span class="text-foreground font-medium">GoeistSans</span> &#125; <span class="text-primary">from</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/font/sans"</span>;
+<span class="text-primary">import</span> &#123; <span class="text-foreground font-medium">GoeistMono</span> &#125; <span class="text-primary">from</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/font/mono"</span>;
+<span class="text-primary">import</span> &#123; <span class="text-foreground font-medium">GoeistSerif</span> &#125; <span class="text-primary">from</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/font/serif"</span>;</code></pre>
+      </div>
+    </div>
+
+    <div
+      data-code-scope
+      class="overflow-hidden rounded-xl border border-border p-[2px] bg-muted/40"
+    >
+      <div
+        class="flex items-center justify-between gap-4 px-3 py-1.5"
+      >
+        <span class="text-muted-foreground font-mono text-[10px]">css</span>
+        <button
+          type="button"
+          data-copy
+          aria-label="Copy code"
+          class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
+          <svg class="copy-default size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <svg class="copy-success hidden size-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        </button>
+      </div>
+      <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
+        <pre class="overflow-x-auto p-3 font-mono text-xs leading-relaxed"><code data-code><span class="text-primary">@import</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/sans.css"</span>;
+<span class="text-primary">@import</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/mono.css"</span>;
+<span class="text-primary">@import</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/serif.css"</span>;</code></pre>
+      </div>
+    </div>
+
+    <p class="text-muted-foreground text-sm">
+      App Router, Pages Router and Tailwind setup live in the <a
+        href={README_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-underline">package README</a
+      >. Browse the interactive <a
+        href={PROOFS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-underline">proof files</a
+      > to see every glyph.
+    </p>
+    <span id="copy-status" role="status" aria-live="polite" class="sr-only"
+    ></span>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  @font-face {
+    font-family: "Goeist";
+    src: url("/fonts/goeist/goeist-sans.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Goeist";
+    src: url("/fonts/goeist/goeist-sans-italic.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Goeist Mono";
+    src: url("/fonts/goeist/goeist-mono.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Goeist Mono";
+    src: url("/fonts/goeist/goeist-mono-italic.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Goeist Serif";
+    src: url("/fonts/goeist/goeist-serif.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
+<style>
+  .face-sans {
+    font-family:
+      "Goeist", var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .face-mono {
+    font-family:
+      "Goeist Mono", var(--font-geist-mono), ui-monospace, monospace;
+  }
+
+  .face-serif {
+    font-family: "Goeist Serif", Georgia, ui-serif, serif;
+  }
+
+  .seg-btn {
+    cursor: pointer;
+    border-radius: calc(infinity * 1px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .seg-btn:hover {
+    color: var(--foreground);
+  }
+
+  .seg-btn[aria-pressed="true"] {
+    background-color: var(--foreground);
+    color: var(--background);
+  }
+
+  .seg-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .seg-btn:disabled:hover {
+    color: var(--muted-foreground);
+  }
+
+  .seg-btn:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+  }
+
+  .specimen-range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background-color: var(--border);
+    cursor: pointer;
+  }
+
+  .specimen-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background-color: var(--foreground);
+    border: 2px solid var(--background);
+    box-shadow: 0 0 0 1px var(--border);
+    transition: transform 120ms ease;
+  }
+
+  .specimen-range::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .specimen-range::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background-color: var(--foreground);
+    border: 2px solid var(--background);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+
+  .specimen-range:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  .specimen-range:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .specimen-range:disabled::-webkit-slider-thumb {
+    cursor: not-allowed;
+  }
+
+  .cta-panel {
+    background-image: radial-gradient(
+      circle at 100% 0%,
+      color-mix(in oklab, var(--primary) 16%, transparent),
+      transparent 62%
+    );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seg-btn,
+    .specimen-range::-webkit-slider-thumb {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const FAMILY_CSS = {
+    sans: '"Goeist", "Geist Variable", ui-sans-serif, sans-serif',
+    mono: '"Goeist Mono", "Geist Mono Variable", ui-monospace, monospace',
+    serif: '"Goeist Serif", Georgia, ui-serif, serif',
+  };
+
+  const DEFAULT_TEXT = "Rounded corners, sharper ideas.";
+
+  const specimen = document.getElementById("specimen");
+  const sizeInput = document.getElementById("tester-size");
+  const sizeValue = document.getElementById("tester-size-value");
+  const weightInput = document.getElementById("tester-weight");
+  const weightValue = document.getElementById("tester-weight-value");
+  const weightControl = document.getElementById("tester-weight-control");
+  const italicButton = document.getElementById("tester-italic");
+  const shapesWrap = document.getElementById("tester-shapes-wrap");
+  const resetButton = document.getElementById("tester-reset");
+  const familyButtons = document.querySelectorAll("[data-family]");
+  const shapeButtons = document.querySelectorAll("[data-shape]");
+  const copyButtons = document.querySelectorAll("[data-copy]");
+  const copyStatus = document.getElementById("copy-status");
+  const pillTabs = document.querySelectorAll<HTMLButtonElement>("[data-pill-tab]");
+
+  const activePillClasses = [
+    "bg-background",
+    "text-foreground",
+    "font-semibold",
+    "shadow-sm",
+  ];
+
+  let selectedPillFamily: "sans" | "mono" | "serif" = "sans";
+
+  const setPillState = (family: "sans" | "mono" | "serif") => {
+    selectedPillFamily = family;
+    for (const tab of pillTabs) {
+      const isSelected = tab.getAttribute("data-pill-tab") === family;
+      tab.setAttribute("aria-selected", String(isSelected));
+      if (isSelected) {
+        tab.classList.add(...activePillClasses);
+      } else {
+        tab.classList.remove(...activePillClasses);
+      }
+    }
+
+    const event = new CustomEvent("font-pill-change", {
+      bubbles: true,
+      detail: { family },
+    });
+    document.getElementById("font-pill-segment")?.dispatchEvent(event);
+    state.family = family;
+    apply();
+  };
+
+  for (const tab of pillTabs) {
+    tab.addEventListener("click", () => {
+      const family = tab.getAttribute("data-pill-tab");
+      if (family === "sans" || family === "mono" || family === "serif") {
+        setPillState(family);
+      }
+    });
+  }
+
+  const state = {
+    elsh: 0,
+    family: "sans",
+    italic: false,
+    size: 48,
+    spacing: -0.03,
+    weight: 400,
+  };
+
+  const apply = () => {
+    if (!(specimen instanceof HTMLElement)) {
+      return;
+    }
+
+    const isSerif = state.family === "serif";
+
+    specimen.style.fontFamily =
+      FAMILY_CSS[state.family as keyof typeof FAMILY_CSS];
+    specimen.style.fontWeight = isSerif ? "400" : String(state.weight);
+    specimen.style.fontSize = `${state.size}px`;
+    specimen.style.letterSpacing = `${state.spacing}em`;
+    specimen.style.fontStyle =
+      !isSerif && state.italic ? "italic" : "normal";
+    specimen.style.fontVariationSettings = isSerif
+      ? `"ELSH" ${state.elsh}`
+      : "normal";
+
+    for (const button of familyButtons) {
+      button.setAttribute(
+        "aria-pressed",
+        String(button.getAttribute("data-family") === state.family)
+      );
+    }
+
+    for (const button of shapeButtons) {
+      button.setAttribute(
+        "aria-pressed",
+        String(Number(button.getAttribute("data-shape")) === state.elsh)
+      );
+    }
+  };
+
+  // Rotation / Bar Slider Controllers
+  interface SliderConfig {
+    min: number;
+    max: number;
+    step: number;
+    tickInterval: number;
+  }
+
+  const SLIDER_CONFIGS: Record<string, SliderConfig> = {
+    weight: {
+      min: 100,
+      max: 900,
+      step: 10,
+      tickInterval: 10, // 80 ticks across 100-900
+    },
+    size: {
+      min: 24,
+      max: 120,
+      step: 1,
+      tickInterval: 1.2, // 80 ticks across 24-120
+    },
+    spacing: {
+      min: -5,
+      max: 15,
+      step: 0.5,
+      tickInterval: 0.25, // 80 ticks across -5 to 15
+    },
+  };
+
+  const setupBarSlider = (sliderEl: HTMLElement) => {
+    const sliderType = sliderEl.getAttribute("data-slider") ?? "";
+    const cfg = SLIDER_CONFIGS[sliderType];
+    if (!cfg) return;
+
+    const { min, max, step, tickInterval } = cfg;
+    let value = Number(sliderEl.getAttribute("data-value") ?? min);
+
+    const trackWrap = sliderEl.querySelector<HTMLElement>(".slider-track-wrap");
+    const valSpan = document.getElementById(`slider-${sliderType}-val`);
+
+    const TICK_SPACING_PX = 8;
+    const totalTicks = Math.round((max - min) / tickInterval);
+    const totalTrackWidth = totalTicks * TICK_SPACING_PX;
+
+    if (trackWrap) {
+      trackWrap.innerHTML = "";
+      trackWrap.style.width = `${totalTrackWidth}px`;
+      trackWrap.style.position = "absolute";
+      trackWrap.style.top = "0";
+      trackWrap.style.bottom = "0";
+      trackWrap.style.left = "0";
+
+      for (let i = 0; i <= totalTicks; i++) {
+        const tick = document.createElement("span");
+        tick.style.position = "absolute";
+        tick.style.left = `${i * TICK_SPACING_PX}px`;
+        tick.style.top = "50%";
+        tick.style.transform = "translate(-50%, -50%)";
+        tick.style.borderRadius = "9999px";
+        tick.style.pointerEvents = "none";
+        tick.style.width = "1.5px";
+        tick.style.height = i % 5 === 0 ? "18px" : "11px";
+        tick.style.backgroundColor = i % 5 === 0 ? "rgba(245, 244, 239, 0.7)" : "rgba(245, 244, 239, 0.35)";
+
+        trackWrap.appendChild(tick);
+      }
+    }
+
+    const render = () => {
+      const pct = Math.max(0, Math.min(1, (value - min) / (max - min)));
+
+      if (trackWrap) {
+        const containerWidth = sliderEl.clientWidth || 240;
+        const shiftX = (containerWidth / 2) - (pct * totalTrackWidth);
+        trackWrap.style.transform = `translateX(${shiftX}px)`;
+      }
+
+      if (valSpan) {
+        if (sliderType === "spacing") {
+          valSpan.textContent = `${(value / 100).toFixed(2)}em`;
+        } else if (sliderType === "size") {
+          valSpan.textContent = `${Math.round(value)}px`;
+        } else {
+          valSpan.textContent = `${Math.round(value)}`;
+        }
+      }
+
+      sliderEl.setAttribute("aria-valuenow", String(value));
+
+      if (sliderType === "weight") {
+        state.weight = Math.round(value);
+      } else if (sliderType === "size") {
+        state.size = Math.round(value);
+      } else if (sliderType === "spacing") {
+        state.spacing = Number((value / 100).toFixed(3));
+      }
+      apply();
+    };
+
+    let startX = 0;
+    let startVal = value;
+    let isDragging = false;
+
+    // Direct click/jump or drag logic
+    const updateFromClientX = (clientX: number) => {
+      const rect = sliderEl.getBoundingClientRect();
+      const clickX = clientX - rect.left;
+      const containerWidth = rect.width || 240;
+      // In render(): shiftX = (containerWidth / 2) - (pct * totalTrackWidth)
+      // When user clicks at clickX, we want the tick at that point to move under center:
+      // (clickX - containerWidth / 2) is the pixel delta from center.
+      // Or relative to drag start:
+      const dx = clientX - startX;
+      // Dragging left (negative dx) moves tape left, increasing value.
+      // Dragging right (positive dx) moves tape right, decreasing value.
+      // Tape moves 1:1 with cursor (1px cursor move = 1px tape move = (tickInterval / TICK_SPACING_PX) value change)
+      const valPerPx = (max - min) / totalTrackWidth;
+      let newVal = startVal - dx * valPerPx;
+      newVal = Math.round(newVal / step) * step;
+      value = Math.max(min, Math.min(max, newVal));
+      render();
+    };
+
+    const onPointerDown = (e: PointerEvent) => {
+      isDragging = true;
+      startX = e.clientX;
+      startVal = value;
+      sliderEl.setPointerCapture(e.pointerId);
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isDragging) return;
+      updateFromClientX(e.clientX);
+    };
+
+    const onPointerUp = (e: PointerEvent) => {
+      if (!isDragging) return;
+      isDragging = false;
+      try {
+        sliderEl.releasePointerCapture(e.pointerId);
+      } catch {}
+    };
+
+    sliderEl.addEventListener("pointerdown", onPointerDown);
+    sliderEl.addEventListener("pointermove", onPointerMove);
+    sliderEl.addEventListener("pointerup", onPointerUp);
+    sliderEl.addEventListener("pointercancel", onPointerUp);
+
+    sliderEl.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+        value = Math.min(max, value + step);
+        render();
+        e.preventDefault();
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+        value = Math.max(min, value - step);
+        render();
+        e.preventDefault();
+      }
+    });
+
+    window.addEventListener("resize", render);
+    render();
+  };
+
+  document.querySelectorAll<HTMLElement>(".rotary-slider").forEach(setupBarSlider);
+
+  for (const button of familyButtons) {
+    button.addEventListener("click", () => {
+      const family = button.getAttribute("data-family");
+
+      if (family !== "sans" && family !== "mono" && family !== "serif") {
+        return;
+      }
+
+      state.family = family;
+
+      if (family === "serif") {
+        state.italic = false;
+      }
+
+      apply();
+    });
+  }
+
+  for (const button of shapeButtons) {
+    button.addEventListener("click", () => {
+      const value = Number(button.getAttribute("data-shape"));
+
+      if (Number.isFinite(value)) {
+        state.elsh = value;
+        apply();
+      }
+    });
+  }
+
+  sizeInput?.addEventListener("input", () => {
+    if (sizeInput instanceof HTMLInputElement) {
+      state.size = Number(sizeInput.value);
+      apply();
+    }
+  });
+
+  weightInput?.addEventListener("input", () => {
+    if (weightInput instanceof HTMLInputElement) {
+      state.weight = Number(weightInput.value);
+      apply();
+    }
+  });
+
+  italicButton?.addEventListener("click", () => {
+    if (italicButton instanceof HTMLButtonElement && !italicButton.disabled) {
+      state.italic = !state.italic;
+      apply();
+    }
+  });
+
+  resetButton?.addEventListener("click", () => {
+    state.family = "sans";
+    state.size = 60;
+    state.weight = 500;
+    state.italic = false;
+    state.elsh = 0;
+
+    if (specimen instanceof HTMLElement) {
+      specimen.textContent = DEFAULT_TEXT;
+    }
+
+    apply();
+  });
+
+  for (const button of copyButtons) {
+    button.addEventListener("click", async () => {
+      const scope = button.closest("[data-code-scope]");
+      const code = scope?.querySelector("[data-code]");
+      const text = code?.textContent?.trim() ?? "";
+
+      if (!text) {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        return;
+      }
+
+      const defaultIcon = button.querySelector(".copy-default");
+      const successIcon = button.querySelector(".copy-success");
+
+      if (defaultIcon && successIcon) {
+        defaultIcon.classList.add("hidden");
+        successIcon.classList.remove("hidden");
+      } else {
+        button.textContent = "copied";
+      }
+      copyStatus && (copyStatus.textContent = "Copied to clipboard.");
+
+      window.setTimeout(() => {
+        if (defaultIcon && successIcon) {
+          defaultIcon.classList.remove("hidden");
+          successIcon.classList.add("hidden");
+        } else {
+          button.textContent = "copy";
+        }
+        copyStatus && (copyStatus.textContent = "");
+      }, 1500);
+    });
+  }
+
+  apply();
+</script>
