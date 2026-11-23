@@ -91,34 +91,34 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       id="font-pill-segment"
       role="tablist"
       aria-label="Font families"
-      class="inline-flex items-center rounded-xl bg-muted/60 p-1 text-sm font-medium text-muted-foreground shadow-inner backdrop-blur-sm"
+      class="relative z-20 inline-flex items-center rounded-xl bg-muted/60 p-1 text-sm font-medium text-muted-foreground shadow-inner backdrop-blur-sm select-none"
     >
       <button
         type="button"
         role="tab"
         data-pill-tab="sans"
         aria-selected="true"
-        class="face-sans inline-flex cursor-pointer items-center justify-center rounded-lg bg-background px-3.5 py-1.5 text-foreground font-semibold shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        class="face-sans inline-flex cursor-pointer select-none items-center justify-center rounded-lg bg-white dark:bg-[#322f22] px-3.5 py-1.5 text-foreground shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         Sans
       </button>
       <button
         type="button"
         role="tab"
-        data-pill-tab="mono"
+        data-pill-tab="serif"
         aria-selected="false"
-        class="face-mono inline-flex cursor-pointer items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        class="face-serif inline-flex cursor-pointer select-none items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        Mono
+        Serif
       </button>
       <button
         type="button"
         role="tab"
-        data-pill-tab="serif"
+        data-pill-tab="mono"
         aria-selected="false"
-        class="face-serif inline-flex cursor-pointer items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        class="face-mono inline-flex cursor-pointer select-none items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
-        Serif
+        Mono
       </button>
     </div>
   </div>
@@ -134,9 +134,10 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         <div class="border-foreground/15 absolute inset-x-0 top-[0.755em] border-t"></div>
       </div>
       <h2
+        id="overview-heading"
         class="face-sans relative z-10 -ml-2 text-[clamp(5rem,30vw,14rem)] font-medium leading-[0.8] tracking-[-0.05em]"
       >
-        Goeist.
+        Goeist<span id="overview-period">.</span>
       </h2>
     </div>
 
@@ -190,7 +191,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
 
   <section id="tester" class="view-container">
     <div
-      class="relative flex min-h-80 w-full flex-col justify-center overflow-hidden bg-[#212017] p-0 text-[#f5f4ef] sm:min-h-96"
+      class="relative flex min-h-80 w-full flex-col justify-center overflow-hidden rounded-xl border border-border/60 bg-muted/30 dark:bg-[#212017] p-0 text-foreground dark:text-[#f5f4ef] sm:min-h-96"
     >
       <div
         id="specimen"
@@ -199,20 +200,20 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         aria-multiline="true"
         aria-label="Type tester specimen text"
         spellcheck="false"
-        class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] text-[#f5f4ef] outline-none sm:text-6xl [overflow-wrap:anywhere]"
-      ><div class="relative w-full border-b border-dashed border-[#f5f4ef]/35 px-4 sm:px-6 pb-1">What will you</div><div class="relative w-full border-b border-dashed border-[#f5f4ef]/35 px-4 sm:px-6 pb-1 pt-4">ship next?</div></div>
+        class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] outline-none sm:text-6xl [overflow-wrap:anywhere]"
+      ><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1">Soft corners,</div><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1 pt-4">sharper ideas.</div></div>
     </div>
 
     <!-- Rotation / Bar Adjusters -->
-    <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div id="sliders-grid" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
       <!-- Weight Slider -->
-      <div class="flex flex-col gap-2">
+      <div id="weight-slider-wrapper" class="flex flex-col gap-2">
         <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
           <span>Weight</span>
           <span id="slider-weight-val" class="font-medium text-foreground">400</span>
         </div>
         <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl bg-[#212017] px-3 shadow-inner"
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
           data-slider="weight"
           data-min="100"
           data-max="900"
@@ -243,7 +244,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           <span id="slider-size-val" class="font-medium text-foreground">60px</span>
         </div>
         <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl bg-[#212017] px-3 shadow-inner"
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
           data-slider="size"
           data-min="24"
           data-max="120"
@@ -272,7 +273,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           <span id="slider-spacing-val" class="font-medium text-foreground">-0.03em</span>
         </div>
         <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl bg-[#212017] px-3 shadow-inner"
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
           data-slider="spacing"
           data-min="-5"
           data-max="15"
@@ -452,6 +453,14 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     font-family: "Goeist Serif", Georgia, ui-serif, serif;
   }
 
+  #overview-heading.face-mono {
+    letter-spacing: -0.1em;
+  }
+
+  #overview-heading.face-mono #overview-period {
+    display: none;
+  }
+
   .seg-btn {
     cursor: pointer;
     border-radius: calc(infinity * 1px);
@@ -535,6 +544,19 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     cursor: not-allowed;
   }
 
+  .rotary-tick-major {
+    background-color: rgba(17, 17, 17, 0.65) !important;
+  }
+  .rotary-tick-minor {
+    background-color: rgba(17, 17, 17, 0.25) !important;
+  }
+  :global(.dark) .rotary-tick-major {
+    background-color: rgba(245, 244, 239, 0.7) !important;
+  }
+  :global(.dark) .rotary-tick-minor {
+    background-color: rgba(245, 244, 239, 0.35) !important;
+  }
+
   .cta-panel {
     background-image: radial-gradient(
       circle at 100% 0%,
@@ -576,9 +598,9 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
   const pillTabs = document.querySelectorAll<HTMLButtonElement>("[data-pill-tab]");
 
   const activePillClasses = [
-    "bg-background",
+    "bg-white",
+    "dark:bg-[#322f22]",
     "text-foreground",
-    "font-semibold",
     "shadow-sm",
   ];
 
@@ -601,15 +623,60 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       detail: { family },
     });
     document.getElementById("font-pill-segment")?.dispatchEvent(event);
+
+    const faceClass = `face-${family}`;
+    const dynamicFaceElements = document.querySelectorAll<HTMLElement>(
+      ".font-dynamic-face, #overview h2, #overview p"
+    );
+    for (const el of dynamicFaceElements) {
+      el.classList.remove("face-sans", "face-mono", "face-serif");
+      el.classList.add(faceClass);
+    }
+
+    const weightWrapper = document.getElementById("weight-slider-wrapper");
+    const slidersGrid = document.getElementById("sliders-grid");
+    if (family === "sans") {
+      weightWrapper?.classList.remove("hidden");
+      slidersGrid?.classList.remove("sm:grid-cols-2");
+      slidersGrid?.classList.add("sm:grid-cols-3");
+    } else {
+      weightWrapper?.classList.add("hidden");
+      slidersGrid?.classList.remove("sm:grid-cols-3");
+      slidersGrid?.classList.add("sm:grid-cols-2");
+    }
+
     state.family = family;
     apply();
   };
 
   for (const tab of pillTabs) {
-    tab.addEventListener("click", () => {
+    tab.addEventListener("click", (e) => {
+      e.preventDefault();
       const family = tab.getAttribute("data-pill-tab");
       if (family === "sans" || family === "mono" || family === "serif") {
         setPillState(family);
+      }
+    });
+
+    tab.addEventListener("keydown", (e) => {
+      const tabsArray = Array.from(pillTabs);
+      const currentIndex = tabsArray.indexOf(tab);
+      let nextIndex = -1;
+
+      if (e.key === "ArrowRight") {
+        nextIndex = (currentIndex + 1) % tabsArray.length;
+      } else if (e.key === "ArrowLeft") {
+        nextIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
+      }
+
+      if (nextIndex !== -1) {
+        e.preventDefault();
+        const nextTab = tabsArray[nextIndex];
+        nextTab?.focus();
+        const family = nextTab?.getAttribute("data-pill-tab");
+        if (family === "sans" || family === "mono" || family === "serif") {
+          setPillState(family);
+        }
       }
     });
   }
@@ -718,7 +785,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         tick.style.pointerEvents = "none";
         tick.style.width = "1.5px";
         tick.style.height = i % 5 === 0 ? "18px" : "11px";
-        tick.style.backgroundColor = i % 5 === 0 ? "rgba(245, 244, 239, 0.7)" : "rgba(245, 244, 239, 0.35)";
+        tick.className = `rotary-tick ${i % 5 === 0 ? "rotary-tick-major opacity-65 dark:opacity-70" : "rotary-tick-minor opacity-25 dark:opacity-35"} bg-foreground dark:bg-[#f5f4ef]`;
 
         trackWrap.appendChild(tick);
       }
