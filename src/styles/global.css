@@ -1,20 +1,23 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "goeist/sans.css";
+@import "goeist/mono.css";
+@import "goeist/serif.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Goeist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Goeist Mono", ui-monospace, monospace;
+  --font-serif: "Goeist Serif", Georgia, ui-serif, serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-serif);
   --color-input: var(--input);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
@@ -92,7 +95,7 @@ html .react-tweet-theme {
   --tweet-color-blue-primary-hover: var(--muted-foreground);
   --tweet-font-color: var(--foreground);
   --tweet-font-color-secondary: var(--muted-foreground);
-  --tweet-font-family: var(--font-geist-sans);
+  --tweet-font-family: "Goeist", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -113,11 +116,11 @@ html .react-tweet-theme {
   }
 
   h2 {
-    @apply text-foreground text-xl font-medium tracking-[-0.02em];
+    @apply font-heading text-foreground text-xl font-normal tracking-[-0.02em];
   }
 
   h3 {
-    @apply text-foreground font-medium;
+    @apply font-heading text-foreground font-normal;
   }
 }
 
