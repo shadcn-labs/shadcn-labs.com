@@ -38,6 +38,8 @@ export default defineConfig({
     defaultStrategy: "hover",
     prefetchAll: true,
   },
+  // Canonical production origin used to build absolute canonical + sitemap URLs.
+  site: "https://www.shadcn-labs.com",
   vite: {
     plugins: [tailwindcss()],
     resolve: {

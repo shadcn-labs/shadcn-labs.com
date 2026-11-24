@@ -58,8 +58,9 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
   title={pageTitle}
   description={description}
   canonical={canonical}
-  noindex={noindex}
   nofollow={nofollow}
+  noindex={noindex}
+  robotsExtras="max-snippet:-1, max-image-preview:large, max-video-preview:-1"
   openGraph={{
     basic: { title: pageTitle, type: ogType, image, url: canonical },
     image: { alt: imageAlt, width: 1200, height: 630, type: "image/png" },
@@ -72,15 +73,6 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
     description,
     image,
     imageAlt,
-  }}
-  extend={{
-    meta: [
-      {
-        name: "robots",
-        content:
-          "max-snippet:-1, max-image-preview:large, max-video-preview:-1",
-      },
-    ],
   }}
 />
 

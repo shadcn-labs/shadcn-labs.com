@@ -4,19 +4,22 @@ import Header from "@/components/header.astro";
 import ScrollToTop from "@/components/scroll-to-top.astro";
 import Footer from "@/components/footer.astro";
 import { Toaster } from "@/components/ui/sonner";
+import { isNoindexRoute } from "@/constants/noindex";
 import "@/styles/global.css";
 
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, noindex } = Astro.props;
+const shouldNoindex = noindex ?? isNoindexRoute(Astro.url.pathname);
 ---
 
 <html lang="en">
   <head>
-    <Head title={title} description={description} />
+    <Head title={title} description={description} noindex={shouldNoindex} />
 
     <script is:inline>
       const getThemePreference = () => {
