@@ -1,9 +1,16 @@
 ---
-import { Font } from "astro:assets";
 import { SEO } from "astro-seo";
 import Analytics from "@vercel/analytics/astro";
 import { SITE } from "../constants/site";
 import { SOCIALS } from "../constants/social";
+
+// Preload the variable fonts used site-wide to avoid a flash of unstyled text.
+// Imported as URLs so the emitted, content-hashed asset URLs match the
+// `@font-face` src in `global.css` (imported from the `goeist` package).
+import sansWoff2 from "../../node_modules/goeist/assets/goeist-sans/Goeist-Variable.woff2";
+import sansItalicWoff2 from "../../node_modules/goeist/assets/goeist-sans/Goeist-Italic-Variable.woff2";
+import monoWoff2 from "../../node_modules/goeist/assets/goeist-mono/GoeistMono-Variable.woff2";
+import serifWoff2 from "../../node_modules/goeist/assets/goeist-serif/GoeistSerif-Variable.woff2";
 
 interface Props {
   title?: string;
@@ -33,6 +40,16 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
 
 <meta charset="utf-8" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preload" href={sansWoff2} as="font" type="font/woff2" crossorigin />
+<link
+  rel="preload"
+  href={sansItalicWoff2}
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+<link rel="preload" href={monoWoff2} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={serifWoff2} as="font" type="font/woff2" crossorigin />
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#1c1a12" />
@@ -81,6 +98,4 @@ const pageTitle = isHome ? title : `${title} | ${SITE.NAME}`;
   })}
 />
 
-<Font cssVariable="--font-geist-sans" preload />
-<Font cssVariable="--font-geist-mono" preload />
 <Analytics />

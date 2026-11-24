@@ -1,16 +1,14 @@
 ---
-import { ArrowUpRight, Download } from "@lucide/astro";
+import { Check, Copy, Download } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
+import { FontFamilyTabs } from "@/components/font-family-tabs";
 import { buttonVariants } from "@/components/ui/button";
 import BaseLayout from "@/layouts/base-layout.astro";
-import { cn } from "@/lib/utils";
 
 const GITHUB_URL = "https://github.com/shadcn-labs/goeist-font";
 const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
 const NPM_URL = "https://www.npmjs.com/package/goeist";
-const README_URL = `${GITHUB_URL}/blob/main/packages/goeist/README.md`;
 const LICENSE_URL = `${GITHUB_URL}/blob/main/OFL.txt`;
-const PROOFS_URL = "https://shadcn-labs.github.io/goeist-font/";
 
 const FAMILIES = [
   {
@@ -86,41 +84,22 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
   title="Goeist"
   description="Goeist is a rounded take on Geist — a free, open-source type family for interfaces, code and display. Sans, Mono and Serif by Shadcn Labs."
 >
-  <div class="view-container my-6">
-    <div
-      id="font-pill-segment"
-      role="tablist"
-      aria-label="Font families"
-      class="relative z-20 inline-flex items-center rounded-xl bg-muted/60 p-1 text-sm font-medium text-muted-foreground shadow-inner backdrop-blur-sm select-none"
+  <div class="view-container my-6 flex flex-wrap items-center justify-between gap-3">
+    <FontFamilyTabs client:load />
+
+    <a
+      href={RELEASES_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Get the font"
+      class={buttonVariants({
+        size: "default",
+        className: "max-sm:w-8 max-sm:px-0",
+      })}
     >
-      <button
-        type="button"
-        role="tab"
-        data-pill-tab="sans"
-        aria-selected="true"
-        class="face-sans inline-flex cursor-pointer select-none items-center justify-center rounded-lg bg-white dark:bg-[#322f22] px-3.5 py-1.5 text-foreground shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        Sans
-      </button>
-      <button
-        type="button"
-        role="tab"
-        data-pill-tab="serif"
-        aria-selected="false"
-        class="face-serif inline-flex cursor-pointer select-none items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        Serif
-      </button>
-      <button
-        type="button"
-        role="tab"
-        data-pill-tab="mono"
-        aria-selected="false"
-        class="face-mono inline-flex cursor-pointer select-none items-center justify-center rounded-lg px-3.5 py-1.5 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        Mono
-      </button>
-    </div>
+      <Download class="size-4" aria-hidden="true" />
+      <span class="max-sm:hidden">Get the font</span>
+    </a>
   </div>
 
   <section id="overview" class="view-container">
@@ -149,63 +128,13 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       stroke ending, built for interfaces, code and display sizes.
     </p>
 
-    <div class="flex flex-wrap items-center gap-2 pt-1">
-      <a
-        href={RELEASES_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class={cn(buttonVariants({ size: "lg" }), "gap-1.5")}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="0.75"
-          stroke-linejoin="round"
-          class="size-4"
-          aria-hidden="true"
-        >
-          <g clip-path="url(#clip0_17007_17348)">
-            <path
-              d="M16.5303 12.4697C16.2374 12.1768 15.7626 12.1768 15.4697 12.4697L12.75 15.1893V7C12.75 6.58579 12.4142 6.25 12 6.25C11.5858 6.25 11.25 6.58579 11.25 7V15.1893L8.53033 12.4697C8.23744 12.1768 7.76256 12.1768 7.46967 12.4697C7.17678 12.7626 7.17678 13.2374 7.46967 13.5303L11.4697 17.5303C11.6103 17.671 11.8011 17.75 12 17.75C12.1989 17.75 12.3897 17.671 12.5303 17.5303L16.5303 13.5303C16.8232 13.2374 16.8232 12.7626 16.5303 12.4697Z"
-              fill="currentColor"></path>
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M0.25 12C0.25 5.51065 5.51065 0.25 12 0.25C18.4893 0.25 23.75 5.51065 23.75 12C23.75 18.4893 18.4893 23.75 12 23.75C5.51065 23.75 0.25 18.4893 0.25 12ZM12 1.75C6.33908 1.75 1.75 6.33908 1.75 12C1.75 17.6609 6.33908 22.25 12 22.25C17.6609 22.25 22.25 17.6609 22.25 12C22.25 6.33908 17.6609 1.75 12 1.75Z"
-              fill="currentColor"></path>
-          </g>
-          <defs>
-            <clipPath id="clip0_17007_17348">
-              <rect width="24" height="24" fill="currentColor"></rect>
-            </clipPath>
-          </defs>
-        </svg>
-        Get the font
-      </a>
-    </div>
   </section>
 
   <AsciiDivider />
 
   <section id="tester" class="view-container">
-    <div
-      class="relative flex min-h-80 w-full flex-col justify-center overflow-hidden rounded-xl border border-border/60 bg-muted/30 dark:bg-[#212017] p-0 text-foreground dark:text-[#f5f4ef] sm:min-h-96"
-    >
-      <div
-        id="specimen"
-        contenteditable="true"
-        role="textbox"
-        aria-multiline="true"
-        aria-label="Type tester specimen text"
-        spellcheck="false"
-        class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] outline-none sm:text-6xl [overflow-wrap:anywhere]"
-      ><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1">Soft corners,</div><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1 pt-4">sharper ideas.</div></div>
-    </div>
-
     <!-- Rotation / Bar Adjusters -->
-    <div id="sliders-grid" class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div id="sliders-grid" class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
       <!-- Weight Slider -->
       <div id="weight-slider-wrapper" class="flex flex-col gap-2">
         <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
@@ -295,6 +224,20 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         </div>
       </div>
     </div>
+
+    <div
+      class="relative flex min-h-80 w-full flex-col justify-center overflow-hidden rounded-xl border border-border/60 bg-muted/30 dark:bg-[#212017] p-0 text-foreground dark:text-[#f5f4ef] sm:min-h-96"
+    >
+      <div
+        id="specimen"
+        contenteditable="true"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Type tester specimen text"
+        spellcheck="false"
+        class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] outline-none sm:text-6xl [overflow-wrap:anywhere]"
+      ><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1">Soft corners,</div><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1 pt-4">sharper ideas.</div></div>
+    </div>
   </section>
 
   <AsciiDivider />
@@ -321,8 +264,8 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           data-copy
           aria-label="Copy code"
           class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
-          <svg class="copy-default size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <svg class="copy-success hidden size-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          <Copy class="copy-default size-3.5" stroke-width={1.5} aria-hidden="true" />
+          <Check class="copy-success hidden size-3.5 text-emerald-500" aria-hidden="true" />
         </button>
       </div>
       <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
@@ -343,8 +286,8 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           data-copy
           aria-label="Copy code"
           class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
-          <svg class="copy-default size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <svg class="copy-success hidden size-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          <Copy class="copy-default size-3.5" stroke-width={1.5} aria-hidden="true" />
+          <Check class="copy-success hidden size-3.5 text-emerald-500" aria-hidden="true" />
         </button>
       </div>
       <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
@@ -367,8 +310,8 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           data-copy
           aria-label="Copy code"
           class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
-          <svg class="copy-default size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-          <svg class="copy-success hidden size-3.5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+          <Copy class="copy-default size-3.5" stroke-width={1.5} aria-hidden="true" />
+          <Check class="copy-success hidden size-3.5 text-emerald-500" aria-hidden="true" />
         </button>
       </div>
       <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
@@ -378,75 +321,18 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       </div>
     </div>
 
-    <p class="text-muted-foreground text-sm">
-      App Router, Pages Router and Tailwind setup live in the <a
-        href={README_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="link-underline">package README</a
-      >. Browse the interactive <a
-        href={PROOFS_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="link-underline">proof files</a
-      > to see every glyph.
-    </p>
     <span id="copy-status" role="status" aria-live="polite" class="sr-only"
     ></span>
   </section>
 </BaseLayout>
 
-<style is:global>
-  @font-face {
-    font-family: "Goeist";
-    src: url("/fonts/goeist/goeist-sans.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Goeist";
-    src: url("/fonts/goeist/goeist-sans-italic.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Goeist Mono";
-    src: url("/fonts/goeist/goeist-mono.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Goeist Mono";
-    src: url("/fonts/goeist/goeist-mono-italic.woff2") format("woff2");
-    font-weight: 100 900;
-    font-style: italic;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Goeist Serif";
-    src: url("/fonts/goeist/goeist-serif.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-</style>
-
 <style>
   .face-sans {
-    font-family:
-      "Goeist", var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: "Goeist", ui-sans-serif, system-ui, sans-serif;
   }
 
   .face-mono {
-    font-family:
-      "Goeist Mono", var(--font-geist-mono), ui-monospace, monospace;
+    font-family: "Goeist Mono", ui-monospace, monospace;
   }
 
   .face-serif {
@@ -575,112 +461,26 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
 
 <script>
   const FAMILY_CSS = {
-    sans: '"Goeist", "Geist Variable", ui-sans-serif, sans-serif',
-    mono: '"Goeist Mono", "Geist Mono Variable", ui-monospace, monospace',
+    mono: '"Goeist Mono", ui-monospace, monospace',
+    sans: '"Goeist", ui-sans-serif, sans-serif',
     serif: '"Goeist Serif", Georgia, ui-serif, serif',
   };
 
   const DEFAULT_TEXT = "Rounded corners, sharper ideas.";
 
-  const specimen = document.getElementById("specimen");
-  const sizeInput = document.getElementById("tester-size");
-  const sizeValue = document.getElementById("tester-size-value");
-  const weightInput = document.getElementById("tester-weight");
-  const weightValue = document.getElementById("tester-weight-value");
-  const weightControl = document.getElementById("tester-weight-control");
-  const italicButton = document.getElementById("tester-italic");
-  const shapesWrap = document.getElementById("tester-shapes-wrap");
-  const resetButton = document.getElementById("tester-reset");
-  const familyButtons = document.querySelectorAll("[data-family]");
-  const shapeButtons = document.querySelectorAll("[data-shape]");
+  const specimen = document.querySelector("#specimen");
+  const sizeInput = document.querySelector("#tester-size");
+  const sizeValue = document.querySelector("#tester-size-value");
+  const weightInput = document.querySelector("#tester-weight");
+  const weightValue = document.querySelector("#tester-weight-value");
+  const weightControl = document.querySelector("#tester-weight-control");
+  const italicButton = document.querySelector("#tester-italic");
+  const shapesWrap = document.querySelector("#tester-shapes-wrap");
+  const resetButton = document.querySelector("#tester-reset");
+  const familyButtons = document.querySelectorAll<HTMLElement>("[data-family]");
+  const shapeButtons = document.querySelectorAll<HTMLElement>("[data-shape]");
   const copyButtons = document.querySelectorAll("[data-copy]");
-  const copyStatus = document.getElementById("copy-status");
-  const pillTabs = document.querySelectorAll<HTMLButtonElement>("[data-pill-tab]");
-
-  const activePillClasses = [
-    "bg-white",
-    "dark:bg-[#322f22]",
-    "text-foreground",
-    "shadow-sm",
-  ];
-
-  let selectedPillFamily: "sans" | "mono" | "serif" = "sans";
-
-  const setPillState = (family: "sans" | "mono" | "serif") => {
-    selectedPillFamily = family;
-    for (const tab of pillTabs) {
-      const isSelected = tab.getAttribute("data-pill-tab") === family;
-      tab.setAttribute("aria-selected", String(isSelected));
-      if (isSelected) {
-        tab.classList.add(...activePillClasses);
-      } else {
-        tab.classList.remove(...activePillClasses);
-      }
-    }
-
-    const event = new CustomEvent("font-pill-change", {
-      bubbles: true,
-      detail: { family },
-    });
-    document.getElementById("font-pill-segment")?.dispatchEvent(event);
-
-    const faceClass = `face-${family}`;
-    const dynamicFaceElements = document.querySelectorAll<HTMLElement>(
-      ".font-dynamic-face, #overview h2, #overview p"
-    );
-    for (const el of dynamicFaceElements) {
-      el.classList.remove("face-sans", "face-mono", "face-serif");
-      el.classList.add(faceClass);
-    }
-
-    const weightWrapper = document.getElementById("weight-slider-wrapper");
-    const slidersGrid = document.getElementById("sliders-grid");
-    if (family === "sans") {
-      weightWrapper?.classList.remove("hidden");
-      slidersGrid?.classList.remove("sm:grid-cols-2");
-      slidersGrid?.classList.add("sm:grid-cols-3");
-    } else {
-      weightWrapper?.classList.add("hidden");
-      slidersGrid?.classList.remove("sm:grid-cols-3");
-      slidersGrid?.classList.add("sm:grid-cols-2");
-    }
-
-    state.family = family;
-    apply();
-  };
-
-  for (const tab of pillTabs) {
-    tab.addEventListener("click", (e) => {
-      e.preventDefault();
-      const family = tab.getAttribute("data-pill-tab");
-      if (family === "sans" || family === "mono" || family === "serif") {
-        setPillState(family);
-      }
-    });
-
-    tab.addEventListener("keydown", (e) => {
-      const tabsArray = Array.from(pillTabs);
-      const currentIndex = tabsArray.indexOf(tab);
-      let nextIndex = -1;
-
-      if (e.key === "ArrowRight") {
-        nextIndex = (currentIndex + 1) % tabsArray.length;
-      } else if (e.key === "ArrowLeft") {
-        nextIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
-      }
-
-      if (nextIndex !== -1) {
-        e.preventDefault();
-        const nextTab = tabsArray[nextIndex];
-        nextTab?.focus();
-        const family = nextTab?.getAttribute("data-pill-tab");
-        if (family === "sans" || family === "mono" || family === "serif") {
-          setPillState(family);
-        }
-      }
-    });
-  }
-
+  const copyStatus = document.querySelector("#copy-status");
   const state = {
     elsh: 0,
     family: "sans",
@@ -711,14 +511,14 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     for (const button of familyButtons) {
       button.setAttribute(
         "aria-pressed",
-        String(button.getAttribute("data-family") === state.family)
+        String(button.dataset.family === state.family)
       );
     }
 
     for (const button of shapeButtons) {
       button.setAttribute(
         "aria-pressed",
-        String(Number(button.getAttribute("data-shape")) === state.elsh)
+        String(Number(button.dataset.shape) === state.elsh)
       );
     }
   };
@@ -732,36 +532,41 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
   }
 
   const SLIDER_CONFIGS: Record<string, SliderConfig> = {
-    weight: {
-      min: 100,
-      max: 900,
-      step: 10,
-      tickInterval: 10, // 80 ticks across 100-900
-    },
     size: {
-      min: 24,
       max: 120,
+      min: 24,
       step: 1,
-      tickInterval: 1.2, // 80 ticks across 24-120
+      // 80 ticks across 24-120
+      tickInterval: 1.2,
     },
     spacing: {
-      min: -5,
       max: 15,
+      min: -5,
       step: 0.5,
-      tickInterval: 0.25, // 80 ticks across -5 to 15
+      // 80 ticks across -5 to 15
+      tickInterval: 0.25,
+    },
+    weight: {
+      max: 900,
+      min: 100,
+      step: 10,
+      // 80 ticks across 100-900
+      tickInterval: 10,
     },
   };
 
   const setupBarSlider = (sliderEl: HTMLElement) => {
-    const sliderType = sliderEl.getAttribute("data-slider") ?? "";
+    const sliderType = sliderEl.dataset.slider ?? "";
     const cfg = SLIDER_CONFIGS[sliderType];
-    if (!cfg) return;
+    if (!cfg) {return;}
 
     const { min, max, step, tickInterval } = cfg;
-    let value = Number(sliderEl.getAttribute("data-value") ?? min);
+    let value = Number(sliderEl.dataset.value ?? min);
 
     const trackWrap = sliderEl.querySelector<HTMLElement>(".slider-track-wrap");
-    const valSpan = document.getElementById(`slider-${sliderType}-val`);
+    const valSpan = document.querySelector<HTMLElement>(
+      `#slider-${sliderType}-val`
+    );
 
     const TICK_SPACING_PX = 8;
     const totalTicks = Math.round((max - min) / tickInterval);
@@ -775,7 +580,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       trackWrap.style.bottom = "0";
       trackWrap.style.left = "0";
 
-      for (let i = 0; i <= totalTicks; i++) {
+      for (let i = 0; i <= totalTicks; i += 1) {
         const tick = document.createElement("span");
         tick.style.position = "absolute";
         tick.style.left = `${i * TICK_SPACING_PX}px`;
@@ -787,7 +592,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         tick.style.height = i % 5 === 0 ? "18px" : "11px";
         tick.className = `rotary-tick ${i % 5 === 0 ? "rotary-tick-major opacity-65 dark:opacity-70" : "rotary-tick-minor opacity-25 dark:opacity-35"} bg-foreground dark:bg-[#f5f4ef]`;
 
-        trackWrap.appendChild(tick);
+        trackWrap.append(tick);
       }
     }
 
@@ -854,16 +659,18 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     };
 
     const onPointerMove = (e: PointerEvent) => {
-      if (!isDragging) return;
+      if (!isDragging) {return;}
       updateFromClientX(e.clientX);
     };
 
     const onPointerUp = (e: PointerEvent) => {
-      if (!isDragging) return;
+      if (!isDragging) {return;}
       isDragging = false;
       try {
         sliderEl.releasePointerCapture(e.pointerId);
-      } catch {}
+      } catch {
+        // Pointer capture may already be released.
+      }
     };
 
     sliderEl.addEventListener("pointerdown", onPointerDown);
@@ -887,11 +694,13 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     render();
   };
 
-  document.querySelectorAll<HTMLElement>(".rotary-slider").forEach(setupBarSlider);
+  for (const el of document.querySelectorAll<HTMLElement>(".rotary-slider")) {
+    setupBarSlider(el);
+  }
 
   for (const button of familyButtons) {
     button.addEventListener("click", () => {
-      const family = button.getAttribute("data-family");
+      const { family } = button.dataset;
 
       if (family !== "sans" && family !== "mono" && family !== "serif") {
         return;
@@ -909,7 +718,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
 
   for (const button of shapeButtons) {
     button.addEventListener("click", () => {
-      const value = Number(button.getAttribute("data-shape"));
+      const value = Number(button.dataset.shape);
 
       if (Number.isFinite(value)) {
         state.elsh = value;
@@ -978,7 +787,9 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       } else {
         button.textContent = "copied";
       }
-      copyStatus && (copyStatus.textContent = "Copied to clipboard.");
+      if (copyStatus) {
+        copyStatus.textContent = "Copied to clipboard.";
+      }
 
       window.setTimeout(() => {
         if (defaultIcon && successIcon) {
@@ -987,10 +798,45 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         } else {
           button.textContent = "copy";
         }
-        copyStatus && (copyStatus.textContent = "");
+        if (copyStatus) {
+          copyStatus.textContent = "";
+        }
       }, 1500);
     });
   }
+
+  const applyFamily = (family: "sans" | "mono" | "serif") => {
+    const faceClass = `face-${family}`;
+    const dynamicFaceElements = document.querySelectorAll<HTMLElement>(
+      ".font-dynamic-face, #overview h2, #overview p"
+    );
+    for (const el of dynamicFaceElements) {
+      el.classList.remove("face-sans", "face-mono", "face-serif");
+      el.classList.add(faceClass);
+    }
+
+    const weightWrapper = document.querySelector("#weight-slider-wrapper");
+    const slidersGrid = document.querySelector("#sliders-grid");
+    if (family === "sans") {
+      weightWrapper?.classList.remove("hidden");
+      slidersGrid?.classList.remove("sm:grid-cols-2");
+      slidersGrid?.classList.add("sm:grid-cols-3");
+    } else {
+      weightWrapper?.classList.add("hidden");
+      slidersGrid?.classList.remove("sm:grid-cols-3");
+      slidersGrid?.classList.add("sm:grid-cols-2");
+    }
+
+    state.family = family;
+    apply();
+  };
+
+  document.addEventListener("font-pill-change", (event) => {
+    const family = (event as CustomEvent<{ family?: string }>).detail?.family;
+    if (family === "sans" || family === "mono" || family === "serif") {
+      applyFamily(family);
+    }
+  });
 
   apply();
 </script>
