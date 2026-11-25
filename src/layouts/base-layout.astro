@@ -11,15 +11,21 @@ interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  nofollow?: boolean;
 }
 
-const { title, description, noindex } = Astro.props;
+const { title, description, noindex, nofollow } = Astro.props;
 const shouldNoindex = noindex ?? isNoindexRoute(Astro.url.pathname);
 ---
 
 <html lang="en">
   <head>
-    <Head title={title} description={description} noindex={shouldNoindex} />
+    <Head
+      title={title}
+      description={description}
+      noindex={shouldNoindex}
+      nofollow={nofollow}
+    />
 
     <script is:inline>
       const getThemePreference = () => {

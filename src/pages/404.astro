@@ -1,0 +1,47 @@
+---
+import AsciiDivider from "@/components/ascii-divider.astro";
+import { buttonVariants } from "@/components/ui/button";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { ArrowLeft, ArrowRight } from "@lucide/astro";
+
+Astro.response.status = 404;
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="This page doesn't exist."
+  noindex={true}
+  nofollow={true}
+>
+  <AsciiDivider />
+
+  <section class="view-container py-16 text-center sm:py-24">
+    <div class="space-y-3">
+      <h1 class="font-mono text-6xl font-bold tracking-tight text-foreground sm:text-7xl">
+        404
+      </h1>
+      <p class="text-base text-muted-foreground sm:text-lg">
+        This page doesn't exist.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-4 pt-6 text-sm">
+      <a
+        href="/"
+        class={buttonVariants({ variant: "default", size: "default" })}
+      >
+        <ArrowLeft size={14} aria-hidden="true" />
+        Return home
+      </a>
+      <a
+        href="/issues"
+        class="inline-flex items-center gap-1 font-medium text-link hover:text-link-hover hover:underline"
+      >
+        Grab an open issue
+        <ArrowRight size={14} aria-hidden="true" />
+      </a>
+    </div>
+  </section>
+
+  <AsciiDivider />
+</BaseLayout>
