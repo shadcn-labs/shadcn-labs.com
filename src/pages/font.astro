@@ -2,7 +2,9 @@
 import { Check, Copy, Download } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
 import { FontFamilyTabs } from "@/components/font-family-tabs";
+import { LovedBy, LovedByLogos } from "@/components/font/loved-by";
 import { buttonVariants } from "@/components/ui/button";
+import { TWEET_STATS } from "@/data/goeist-social";
 import BaseLayout from "@/layouts/base-layout.astro";
 
 const GITHUB_URL = "https://github.com/shadcn-labs/goeist-font";
@@ -132,9 +134,59 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
 
   <AsciiDivider />
 
-  <section id="tester" class="view-container">
+  <section id="weights" class="view-container-wide py-12">
+    <div class="mx-auto max-w-2xl">
+      <h2>
+        <a href="#weights" class="view-container-title">Weights</a>
+      </h2>
+      <p class="text-muted-foreground text-sm">
+        Goeist Sans and Goeist Mono run the full gamut from Thin to Black, each
+        with a matching true italic. One variable file covers every step in
+        between &mdash; no faux bold.
+      </p>
+    </div>
+
+    <div class="mt-8 grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-5 lg:grid-cols-9">
+      {
+        WEIGHTS.map((weight) => (
+          <div>
+            <div
+              class="face-sans text-4xl leading-none tracking-[-0.03em] sm:text-5xl"
+              style={`font-weight:${weight.value}`}
+            >
+              Aa
+            </div>
+            <p class="text-muted-foreground mt-2 text-xs">{weight.name}</p>
+            <p class="text-muted-foreground text-xs tabular-nums">
+              {weight.value}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="relative mt-12 overflow-hidden rounded-2xl border border-border/60 bg-muted/30 p-10 dark:bg-[#212017]">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute left-1/2 top-1/2 h-[160%] w-px -translate-x-1/2 -translate-y-1/2 rotate-[24deg] bg-primary/30"
+      ></div>
+      <div class="face-sans relative flex flex-wrap items-center justify-center gap-x-10 gap-y-2 text-[clamp(3rem,12vw,8rem)] font-medium leading-none tracking-[-0.04em]">
+        <span>Aa</span>
+        <span class="face-mono">Aa</span>
+        <span class="face-serif">Aa</span>
+      </div>
+      <p class="text-muted-foreground relative mt-6 text-center text-sm">
+        One family, three voices. The diagonal guide crosses Sans, Mono and
+        Serif &mdash; every exposed corner and stroke ending, rounded.
+      </p>
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="tester" class="view-container-wide">
     <!-- Rotation / Bar Adjusters -->
-    <div id="sliders-grid" class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div id="sliders-grid" class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Weight Slider -->
       <div id="weight-slider-wrapper" class="flex flex-col gap-2">
         <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
@@ -223,6 +275,66 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           </div>
         </div>
       </div>
+
+      <!-- Line Height Slider -->
+      <div class="flex flex-col gap-2">
+        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
+          <span>Line height</span>
+          <span id="slider-lineHeight-val" class="font-medium text-foreground">1.20</span>
+        </div>
+        <div
+          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
+          data-slider="lineHeight"
+          data-min="90"
+          data-max="180"
+          data-step="5"
+          data-value="120"
+          role="slider"
+          aria-label="Line height"
+          aria-valuemin="0.9"
+          aria-valuemax="1.8"
+          aria-valuenow="1.2"
+          tabindex="0"
+        >
+          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
+            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
+          </div>
+          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
+            <div class="slider-track-wrap absolute inset-0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-6 flex flex-wrap items-center gap-2">
+      <button
+        id="tester-italic"
+        type="button"
+        aria-pressed="false"
+        class="seg-btn"
+      >
+        Italic
+      </button>
+
+      <div
+        id="tester-shapes-wrap"
+        class="hidden items-center gap-1 rounded-full bg-muted/60 p-1"
+      >
+        {
+          SHAPES.map((shape) => (
+            <button
+              type="button"
+              data-shape={shape.value}
+              class="seg-btn"
+              aria-pressed={shape.value === 0 ? "true" : "false"}
+            >
+              {shape.label}
+            </button>
+          ))
+        }
+      </div>
+
+      <button id="tester-reset" type="button" class="seg-btn">Reset</button>
     </div>
 
     <div
@@ -236,7 +348,289 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         aria-label="Type tester specimen text"
         spellcheck="false"
         class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] outline-none sm:text-6xl [overflow-wrap:anywhere]"
-      ><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1">Soft corners,</div><div class="relative w-full border-b border-dashed border-foreground/20 dark:border-[#f5f4ef]/35 px-4 sm:px-6 pb-1 pt-4">sharper ideas.</div></div>
+      ><div class="specimen-line px-4 sm:px-6">Soft corners,</div><div class="specimen-line px-4 sm:px-6 pt-4">sharper ideas.</div></div>
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="loved-by" class="view-container-wide py-12">
+    <div class="mx-auto max-w-2xl">
+      <h2>
+        <a href="#loved-by" class="view-container-title">
+          Loved by designers &amp; engineers
+        </a>
+      </h2>
+      <p class="text-muted-foreground text-sm">
+        {TWEET_STATS.likes} likes, {TWEET_STATS.reposts} reposts and{" "}
+        {TWEET_STATS.replies} replies on the launch — from the people building
+        the tools you already use.
+      </p>
+    </div>
+
+    <div class="mt-10">
+      <LovedByLogos client:visible />
+    </div>
+
+    <div class="mt-12">
+      <LovedBy client:visible />
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="features" class="view-container">
+    <h2>
+      <a href="#features" class="view-container-title">Features</a>
+    </h2>
+    <p class="text-muted-foreground text-sm">
+      Everything Geist does well — rounded off. Variable weights, OpenType
+      features and optical niceties, free under the SIL Open Font License.
+    </p>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
+        <div class="face-sans flex items-baseline gap-4 text-5xl leading-none tracking-[-0.03em]">
+          <span class="font-thin">Aa</span>
+          <span class="font-semibold">Aa</span>
+          <span class="font-black">Aa</span>
+        </div>
+        <h3 class="mt-5 text-sm font-medium">Variable weight</h3>
+        <p class="text-muted-foreground mt-1 text-xs">
+          Nine weights, 100&ndash;900, in a single variable file &mdash; no faux
+          bold.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
+        <div class="face-sans text-5xl italic leading-none tracking-[-0.03em]">
+          Aa
+        </div>
+        <h3 class="mt-5 text-sm font-medium">True italic</h3>
+        <p class="text-muted-foreground mt-1 text-xs">
+          Drawn, not slanted &mdash; matching the rounded outlines.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
+        <div class="face-mono overflow-hidden text-2xl leading-tight">
+          =&gt; != &lt;= &amp;&amp;
+        </div>
+        <h3 class="mt-5 text-sm font-medium">Coding ligatures</h3>
+        <p class="text-muted-foreground mt-1 text-xs">
+          <code class="font-mono">&gt;=</code>, <code class="font-mono">!=</code>,{" "}
+          <code class="font-mono">&lt;=</code> and <code class="font-mono">&amp;&amp;</code>{" "}
+          in Goeist Mono.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
+        <div class="face-sans text-2xl leading-none tabular-nums">1,248.31</div>
+        <h3 class="mt-5 text-sm font-medium">Tabular figures</h3>
+        <p class="text-muted-foreground mt-1 text-xs">
+          Aligned numerals that line up in tables and data.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
+        <div class="face-mono text-3xl leading-none">O0 Il1</div>
+        <h3 class="mt-5 text-sm font-medium">Slashed zero</h3>
+        <p class="text-muted-foreground mt-1 text-xs">
+          Unambiguous 0 vs O for terminals, code and forms.
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
+        <div class="face-sans text-5xl leading-none tracking-[-0.03em]">ao</div>
+        <h3 class="mt-5 text-sm font-medium">Rounded terminals</h3>
+        <p class="text-muted-foreground mt-1 text-xs">
+          Every exposed corner and stroke ending, softened.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="specs" class="view-container">
+    <h2>
+      <a href="#specs" class="view-container-title">Technical specifications</a>
+    </h2>
+    <p class="text-muted-foreground text-sm">
+      The numbers behind the family.
+    </p>
+
+    <div class="overflow-hidden rounded-xl border border-border">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-border bg-muted/40 text-muted-foreground">
+            <th class="px-4 py-2 text-left font-normal">Family</th>
+            <th class="px-4 py-2 text-left font-normal">Weights</th>
+            <th class="px-4 py-2 text-left font-normal">Italic</th>
+            <th class="px-4 py-2 text-left font-normal">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-border">
+            <td class="px-4 py-3 font-medium">Goeist Sans</td>
+            <td class="px-4 py-3">100&ndash;900</td>
+            <td class="px-4 py-3">Yes</td>
+            <td class="px-4 py-3">Variable + static</td>
+          </tr>
+          <tr class="border-b border-border">
+            <td class="px-4 py-3 font-medium">Goeist Mono</td>
+            <td class="px-4 py-3">100&ndash;900</td>
+            <td class="px-4 py-3">Yes</td>
+            <td class="px-4 py-3">Coding ligatures</td>
+          </tr>
+          <tr>
+            <td class="px-4 py-3 font-medium">Goeist Serif</td>
+            <td class="px-4 py-3">Variable</td>
+            <td class="px-4 py-3">No</td>
+            <td class="px-4 py-3">4 dot shapes (ELSH)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <dl class="space-y-0">
+      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
+        <dt class="text-muted-foreground">License</dt>
+        <dd>SIL Open Font License 1.1</dd>
+      </div>
+      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
+        <dt class="text-muted-foreground">Format</dt>
+        <dd>WOFF2 &middot; variable + static</dd>
+      </div>
+      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
+        <dt class="text-muted-foreground">OpenType</dt>
+        <dd>Tabular figures, slashed zero, fractions, ligatures</dd>
+      </div>
+      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
+        <dt class="text-muted-foreground">Design</dt>
+        <dd>Rounded variant of Geist</dd>
+      </div>
+    </dl>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="examples" class="view-container-wide py-12">
+    <div class="mx-auto max-w-2xl">
+      <h2>
+        <a href="#examples" class="view-container-title">Examples</a>
+      </h2>
+      <p class="text-muted-foreground text-sm">
+        The same family in the places it's made for &mdash; interfaces, code and
+        editorial.
+      </p>
+    </div>
+
+    <div class="mt-6 space-y-6">
+      <div class="overflow-hidden rounded-xl border border-border/60 bg-background">
+        <div class="flex items-center gap-2 border-b border-border/60 px-4 py-2.5">
+          <span class="size-2.5 rounded-full bg-border"></span>
+          <span class="size-2.5 rounded-full bg-border"></span>
+          <span class="size-2.5 rounded-full bg-border"></span>
+          <span class="text-muted-foreground ml-3 text-xs">analytics.goeist.sh</span>
+        </div>
+        <div class="flex">
+          <aside class="hidden w-44 shrink-0 border-r border-border/60 p-4 md:block">
+            <p class="face-sans text-sm font-medium">Goeist Analytics</p>
+            <nav class="mt-4 space-y-0.5 text-sm">
+              <a class="block rounded-md bg-foreground/5 px-2.5 py-1.5 font-medium">Overview</a>
+              <a class="text-muted-foreground block rounded-md px-2.5 py-1.5">Audience</a>
+              <a class="text-muted-foreground block rounded-md px-2.5 py-1.5">Sources</a>
+              <a class="text-muted-foreground block rounded-md px-2.5 py-1.5">Settings</a>
+            </nav>
+          </aside>
+          <div class="min-w-0 flex-1 p-4 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h3 class="face-sans text-base font-medium">Overview</h3>
+              <span class="text-muted-foreground text-xs">Last 30 days</span>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+              <div class="rounded-lg border border-border/60 p-3">
+                <p class="text-muted-foreground text-xs">Visitors</p>
+                <p class="face-sans mt-1 text-xl font-medium tabular-nums">12,480</p>
+                <p class="mt-0.5 text-xs text-emerald-500">+12.4%</p>
+              </div>
+              <div class="rounded-lg border border-border/60 p-3">
+                <p class="text-muted-foreground text-xs">Page views</p>
+                <p class="face-sans mt-1 text-xl font-medium tabular-nums">48,102</p>
+                <p class="mt-0.5 text-xs text-emerald-500">+8.1%</p>
+              </div>
+              <div class="rounded-lg border border-border/60 p-3">
+                <p class="text-muted-foreground text-xs">Downloads</p>
+                <p class="face-sans mt-1 text-xl font-medium tabular-nums">3,210</p>
+                <p class="mt-0.5 text-xs text-emerald-500">+21.0%</p>
+              </div>
+              <div class="rounded-lg border border-border/60 p-3">
+                <p class="text-muted-foreground text-xs">Bounce rate</p>
+                <p class="face-sans mt-1 text-xl font-medium tabular-nums">31.4%</p>
+                <p class="mt-0.5 text-xs text-destructive">-2.3%</p>
+              </div>
+            </div>
+            <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
+              <div class="rounded-lg border border-border/60 p-4 lg:col-span-3">
+                <p class="text-muted-foreground text-xs">Page views</p>
+                <div class="mt-4 flex h-32 items-end gap-1.5">
+                  {
+                    [40, 62, 48, 78, 55, 92, 68, 100, 60, 74, 52, 86].map(
+                      (height) => (
+                        <div
+                          class="flex-1 rounded-t-sm bg-foreground/15"
+                          style={`height:${height}%`}
+                        ></div>
+                      )
+                    )
+                  }
+                </div>
+              </div>
+              <div class="rounded-lg border border-border/60 p-4 lg:col-span-2">
+                <p class="text-muted-foreground text-xs">Top pages</p>
+                <ul class="mt-3 space-y-2 text-sm">
+                  <li class="flex items-center justify-between gap-2">
+                    <span class="face-sans truncate">/font</span>
+                    <span class="text-muted-foreground tabular-nums">4,201</span>
+                  </li>
+                  <li class="flex items-center justify-between gap-2">
+                    <span class="face-sans truncate">/</span>
+                    <span class="text-muted-foreground tabular-nums">3,884</span>
+                  </li>
+                  <li class="flex items-center justify-between gap-2">
+                    <span class="face-sans truncate">/sponsors</span>
+                    <span class="text-muted-foreground tabular-nums">2,150</span>
+                  </li>
+                  <li class="flex items-center justify-between gap-2">
+                    <span class="face-sans truncate">/issues</span>
+                    <span class="text-muted-foreground tabular-nums">1,903</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-xl border border-border/60 bg-background">
+        <div class="flex items-center gap-2 border-b border-border/60 px-4 py-2.5">
+          <span class="size-2.5 rounded-full bg-border"></span>
+          <span class="size-2.5 rounded-full bg-border"></span>
+          <span class="size-2.5 rounded-full bg-border"></span>
+          <span class="text-muted-foreground ml-3 text-xs">app.tsx &mdash; goeist-font</span>
+        </div>
+        <div class="flex">
+          <div class="hidden w-12 shrink-0 border-r border-border/60 py-3 pr-3 text-right font-mono text-xs leading-6 text-muted-foreground/60 select-none sm:block">
+            1<br />2<br />3<br />4
+          </div>
+          <pre class="face-mono flex-1 overflow-x-auto p-3 text-xs leading-6 sm:text-sm">import &#123; GoeistSans &#125; from "goeist/font/sans";
+import &#123; GoeistMono &#125; from "goeist/font/mono";
+
+const soft = (n) => Math.round(n * 2) / 2;
+const rows = data.filter((d) => d.active && d.count >= 3);</pre>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -250,6 +644,21 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       Download the release to install Goeist system-wide, or pull the variable
       fonts into a project with npm.
     </p>
+
+    <a
+      href={RELEASES_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-between gap-4 rounded-xl border border-border bg-muted/30 px-5 py-4 transition-colors hover:bg-muted dark:bg-[#212017]"
+    >
+      <span>
+        <span class="block text-sm font-medium">Download the release</span>
+        <span class="text-muted-foreground block text-xs">
+          OTF, WOFF2 and variable fonts from GitHub
+        </span>
+      </span>
+      <Download class="text-muted-foreground size-4" aria-hidden="true" />
+    </a>
 
     <div
       data-code-scope
@@ -324,6 +733,93 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     <span id="copy-status" role="status" aria-live="polite" class="sr-only"
     ></span>
   </section>
+
+  <AsciiDivider />
+
+  <section id="license" class="view-container">
+    <h2>
+      <a href="#license" class="view-container-title">License &amp; pricing</a>
+    </h2>
+    <p class="text-muted-foreground text-sm">
+      Free forever, open source.
+    </p>
+
+    <div class="rounded-xl border border-border bg-muted/30 p-6 dark:bg-[#212017]">
+      <div class="flex items-baseline gap-2">
+        <span class="face-sans text-5xl font-medium tracking-[-0.03em]">$0</span>
+        <span class="text-muted-foreground text-sm">&mdash; free, forever</span>
+      </div>
+      <p class="text-muted-foreground mt-4 text-sm">
+        Goeist is released under the SIL Open Font License 1.1. Use it in
+        personal and commercial projects, modify it, and redistribute it &mdash;
+        no attribution required.
+      </p>
+      <a
+        class="link-underline mt-3 inline-block text-sm"
+        href={LICENSE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Read the full license
+      </a>
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="faq" class="view-container">
+    <h2>
+      <a href="#faq" class="view-container-title">FAQ</a>
+    </h2>
+
+    <div class="space-y-2">
+      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
+        <summary class="cursor-pointer text-sm font-medium">
+          Is Goeist free for commercial use?
+        </summary>
+        <p class="text-muted-foreground mt-2 text-sm">
+          Yes. The SIL Open Font License permits commercial use, modification
+          and redistribution, free of charge.
+        </p>
+      </details>
+      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
+        <summary class="cursor-pointer text-sm font-medium">
+          Is Goeist a fork of Geist?
+        </summary>
+        <p class="text-muted-foreground mt-2 text-sm">
+          Goeist is a rounded variant of Geist. It keeps Geist's proportions,
+          spacing and OpenType features while rounding every exposed corner and
+          stroke ending.
+        </p>
+      </details>
+      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
+        <summary class="cursor-pointer text-sm font-medium">
+          Do I have to credit Shadcn Labs?
+        </summary>
+        <p class="text-muted-foreground mt-2 text-sm">
+          No. The license does not require attribution, though a mention is
+          always appreciated.
+        </p>
+      </details>
+      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
+        <summary class="cursor-pointer text-sm font-medium">
+          Which weights and styles are included?
+        </summary>
+        <p class="text-muted-foreground mt-2 text-sm">
+          Goeist Sans and Mono cover 100&ndash;900 with true italics. Goeist
+          Serif ships four dot shapes (regular, square, triangle, heart) through
+          a single variable axis.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <footer class="view-container pb-12 text-center">
+    <p class="text-muted-foreground text-xs">
+      &copy; {new Date().getFullYear()} Aniket Pawar &middot; Goeist is licensed
+      under the SIL Open Font License 1.1
+    </p>
+  </footer>
 </BaseLayout>
 
 <style>
@@ -337,6 +833,20 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
 
   .face-serif {
     font-family: "Goeist Serif", Georgia, ui-serif, serif;
+  }
+
+  .specimen-line {
+    position: relative;
+    padding-bottom: 0.5em;
+  }
+
+  .specimen-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.25em;
+    border-top: 1px dashed color-mix(in oklab, var(--foreground) 22%, transparent);
   }
 
   #overview-heading.face-mono {
@@ -485,6 +995,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     elsh: 0,
     family: "sans",
     italic: false,
+    lineHeight: 1.2,
     size: 48,
     spacing: -0.03,
     weight: 400,
@@ -502,11 +1013,24 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     specimen.style.fontWeight = isSerif ? "400" : String(state.weight);
     specimen.style.fontSize = `${state.size}px`;
     specimen.style.letterSpacing = `${state.spacing}em`;
+    specimen.style.lineHeight = String(state.lineHeight);
     specimen.style.fontStyle =
       !isSerif && state.italic ? "italic" : "normal";
     specimen.style.fontVariationSettings = isSerif
       ? `"ELSH" ${state.elsh}`
       : "normal";
+
+    if (italicButton instanceof HTMLButtonElement) {
+      italicButton.disabled = isSerif;
+      italicButton.setAttribute(
+        "aria-pressed",
+        String(!isSerif && state.italic)
+      );
+    }
+
+    if (shapesWrap instanceof HTMLElement) {
+      shapesWrap.style.display = isSerif ? "flex" : "none";
+    }
 
     for (const button of familyButtons) {
       button.setAttribute(
@@ -532,6 +1056,12 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
   }
 
   const SLIDER_CONFIGS: Record<string, SliderConfig> = {
+    lineHeight: {
+      max: 180,
+      min: 90,
+      step: 5,
+      tickInterval: 2.5,
+    },
     size: {
       max: 120,
       min: 24,
@@ -610,6 +1140,8 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
           valSpan.textContent = `${(value / 100).toFixed(2)}em`;
         } else if (sliderType === "size") {
           valSpan.textContent = `${Math.round(value)}px`;
+        } else if (sliderType === "lineHeight") {
+          valSpan.textContent = `${(value / 100).toFixed(2)}`;
         } else {
           valSpan.textContent = `${Math.round(value)}`;
         }
@@ -623,6 +1155,8 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
         state.size = Math.round(value);
       } else if (sliderType === "spacing") {
         state.spacing = Number((value / 100).toFixed(3));
+      } else if (sliderType === "lineHeight") {
+        state.lineHeight = Number((value / 100).toFixed(2));
       }
       apply();
     };
@@ -754,6 +1288,8 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     state.weight = 500;
     state.italic = false;
     state.elsh = 0;
+    state.spacing = -0.03;
+    state.lineHeight = 1.2;
 
     if (specimen instanceof HTMLElement) {
       specimen.textContent = DEFAULT_TEXT;
