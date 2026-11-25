@@ -4,6 +4,7 @@ import vercel from "@astrojs/vercel";
 import { cacheVercel } from "@astrojs/vercel/cache";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import typegpu from "unplugin-typegpu/vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -41,7 +42,8 @@ export default defineConfig({
   // Canonical production origin used to build absolute canonical + sitemap URLs.
   site: "https://www.shadcn-labs.com",
   vite: {
-    plugins: [tailwindcss()],
+    // Compiles `'use gpu'` TypeScript functions to WGSL (contributor field).
+    plugins: [tailwindcss(), typegpu()],
     resolve: {
       noExternal: ["react-tweet"],
     },

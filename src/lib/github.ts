@@ -1,3 +1,5 @@
+import { getSecret } from "astro:env/server";
+
 export interface GitHubLabel {
   name: string;
 }
@@ -124,10 +126,18 @@ const isRateLimited = (reason: unknown): boolean =>
   reason instanceof GitHubRequestError &&
   (reason.status === 403 || reason.status === 429);
 
+/**
+ * Optional. Anonymous requests share 60/hr per IP, which one contributor
+ * refresh (one request per repo) plus a few dev reloads exhaust; a token
+ * with no scopes raises that to 5000/hr.
+ */
+const githubToken = getSecret("GITHUB_TOKEN");
+
 const githubFetch = async <T>(url: URL): Promise<T> => {
   const response = await fetch(url, {
     headers: {
       Accept: "application/vnd.github+json",
+      ...(githubToken && { Authorization: `Bearer ${githubToken}` }),
     },
   });
 
@@ -455,7 +465,7 @@ const loadContributors = async (org: string): Promise<Contributor[] | null> => {
  * CONTRIBUTORS_CACHE_TTL_SECONDS, and this in-process memo is a second layer
  * that keeps a warm server from re-fetching inside that window. Failures are
  * memoized too, for FAILURE_CACHE_TTL_SECONDS, so a rate-limited burst cannot
- * spend the anonymous 60 req/hr budget on retries. No token needed.
+ * spend the 60 req/hr anonymous budget on retries. Set GITHUB_TOKEN to lift it.
  */
 export const getContributors = async (
   org = ORG
