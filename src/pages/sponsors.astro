@@ -1,0 +1,242 @@
+---
+import { ArrowRight, ArrowUpRight, CircleCheck } from "@lucide/astro";
+import AsciiDivider from "@/components/ascii-divider.astro";
+import SponsorAudience from "@/components/sponsor-audience.astro";
+import SponsorAudienceSkeleton from "@/components/sponsor-audience-skeleton.astro";
+import { buttonVariants } from "@/components/ui/button";
+import BaseLayout from "@/layouts/base-layout.astro";
+import { ROUTES } from "@/constants/routes";
+import {
+  SPONSORS,
+  SPONSOR_TIERS,
+  SPONSOR_GITHUB_MANAGE_URL,
+  SPONSOR_PORTAL_URL,
+  SPONSORSHIP_CONTACT_URL,
+  sponsorCheckoutUrl,
+  sponsorGithubUrl,
+} from "@/constants/sponsors";
+import type { SponsorTierId } from "@/constants/sponsors";
+import { UTM_PARAMS } from "@/constants/site";
+import { addQueryParams } from "@/lib/url";
+import { cn } from "@/lib/utils";
+
+// Bigger tiers get bigger blocks, and every tier always keeps one open spot.
+const BLOCK_LAYOUT: Record<
+  SponsorTierId,
+  { grid: string; block: string; logo: string }
+> = {
+  diamond: {
+    block: "h-28",
+    grid: "grid-cols-1 sm:grid-cols-2",
+    logo: "max-h-12",
+  },
+  gold: { block: "h-24", grid: "grid-cols-2 sm:grid-cols-3", logo: "max-h-9" },
+  silver: {
+    block: "h-20",
+    grid: "grid-cols-2 sm:grid-cols-4",
+    logo: "max-h-7",
+  },
+};
+
+const tierGroups = SPONSOR_TIERS.map((tier) => ({
+  layout: BLOCK_LAYOUT[tier.id],
+  sponsors: SPONSORS.filter((sponsor) => sponsor.tier === tier.id),
+  tier,
+}));
+---
+
+<BaseLayout
+  title="Sponsors"
+  description="Sponsor Shadcn Labs on GitHub Sponsors, or through Dodo Payments if GitHub is not an option. Live audience analytics, current sponsors, and tiers."
+>
+  <AsciiDivider />
+
+  <section id="audience" class="view-container">
+    <h2>
+      <a href="#audience" class="view-container-title">Audience</a>
+    </h2>
+    <SponsorAudience server:defer>
+      <div slot="fallback" role="status">
+        <span class="sr-only">Loading audience analytics…</span>
+        <SponsorAudienceSkeleton />
+      </div>
+    </SponsorAudience>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="sponsors" class="view-container">
+    <h2>
+      <a href="#sponsors" class="view-container-title">Sponsors</a>
+    </h2>
+    <div class="space-y-6">
+      {
+        tierGroups.map(({ layout, sponsors, tier }) => (
+          <div class="space-y-2">
+            <h3>{tier.name}</h3>
+            <ul class:list={["grid gap-2", layout.grid]}>
+              {sponsors.map((sponsor) => (
+                <li>
+                  <a
+                    href={addQueryParams(sponsor.url, UTM_PARAMS)}
+                    target="_blank"
+                    rel="noopener"
+                    title={sponsor.name}
+                    class:list={[
+                      "border-border hover:bg-muted flex items-center justify-center rounded-lg border p-4 transition-colors",
+                      layout.block,
+                    ]}
+                  >
+                    <img
+                      src={sponsor.logo}
+                      alt={sponsor.name}
+                      class:list={[
+                        "w-auto max-w-full object-contain",
+                        layout.logo,
+                      ]}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a
+                  href={`#tier-${tier.id}`}
+                  aria-label={`Take this spot: become a ${tier.name} sponsor`}
+                  class:list={[
+                    "group border-border text-muted-foreground hover:border-foreground hover:text-foreground focus-visible:border-foreground focus-visible:text-foreground flex items-center justify-center rounded-lg border border-dashed transition-colors",
+                    layout.block,
+                  ]}
+                >
+                  <span class="group-hover:hidden group-focus-visible:hidden">
+                    Your logo here
+                  </span>
+                  <span class="hidden group-hover:inline group-focus-visible:inline">
+                    Take this spot ❤️
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="tiers" class="view-container">
+    <h2>
+      <a href="#tiers" class="view-container-title">Tiers</a>
+    </h2>
+    <ul class="space-y-4 pt-2">
+      {
+        SPONSOR_TIERS.map((tier) => (
+          <li
+            id={`tier-${tier.id}`}
+            class:list={[
+              "relative scroll-mt-6 space-y-3 rounded-lg border p-4",
+              tier.id === "diamond"
+                ? "border-primary"
+                : "border-border target:border-foreground",
+            ]}
+          >
+            {tier.id === "diamond" && (
+              <span class="bg-primary text-primary-foreground absolute -top-2.5 left-4 rounded-full px-2 py-0.5 text-xs leading-none font-medium">
+                most impact
+              </span>
+            )}
+            <div class="flex items-baseline justify-between gap-4">
+              <h3>{tier.name}</h3>
+              <p>
+                <span class="font-mono font-medium text-xl">${tier.price}</span>
+                <span class="text-muted-foreground">/mo</span>
+              </p>
+            </div>
+            <ul class="space-y-1">
+              {tier.perks.map((perk) => (
+                <li class="flex items-center gap-2">
+                  <CircleCheck
+                    class:list={[
+                      "size-4 shrink-0",
+                      tier.id === "diamond"
+                        ? "text-primary"
+                        : "text-muted-foreground",
+                    ]}
+                    aria-hidden="true"
+                  />
+                  <span>{perk}</span>
+                </li>
+              ))}
+            </ul>
+            <div class="flex flex-wrap items-center gap-2 max-sm:flex-col">
+              <a
+                href={sponsorGithubUrl(tier)}
+                target="_blank"
+                rel="noopener"
+                class={cn(
+                  buttonVariants({
+                    variant: tier.id === "diamond" ? "default" : "secondary",
+                  }),
+                  "max-sm:w-full"
+                )}
+              >
+                Sponsor as {tier.name}
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a
+                href={sponsorCheckoutUrl(tier)}
+                target="_blank"
+                rel="noopener"
+                aria-label={`Not on GitHub? Sponsor ${tier.name} here`}
+                class={cn(
+                  buttonVariants({ size: "xs", variant: "link" }),
+                  "text-muted-foreground hover:text-foreground max-sm:self-center"
+                )}
+              >
+                Not on GitHub? Sponsor here
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="text-muted-foreground text-xs">
+      All sponsorships run monthly. By subscribing, you agree to our <a
+        class="link-underline"
+        href={ROUTES.TERMS}>terms</a
+      > and <a class="link-underline" href={ROUTES.REFUNDS}>refund policy</a>.
+      Already a sponsor? Manage your subscription on <a
+        class="link-underline"
+        href={SPONSOR_GITHUB_MANAGE_URL}
+        target="_blank"
+        rel="noopener">GitHub</a
+      > or in the <a
+        class="link-underline"
+        href={SPONSOR_PORTAL_URL}
+        target="_blank"
+        rel="noopener">Dodo customer portal</a
+      >.
+    </p>
+  </section>
+
+  <AsciiDivider />
+
+  <section id="questions" class="view-container">
+    <h2>
+      <a href="#questions" class="view-container-title">Questions</a>
+    </h2>
+    <p>
+      Need a custom package? Happy to put something together that fits how your
+      team wants to show up.{" "}
+      <a
+        href={SPONSORSHIP_CONTACT_URL}
+        class="link-underline inline-flex items-center gap-1"
+      >
+        Get in touch
+        <ArrowRight size={14} aria-hidden="true" />
+      </a>
+    </p>
+  </section>
+</BaseLayout>

@@ -20,6 +20,7 @@ export const ProjectList = () => {
 
   const counts = {
     all: PROJECTS.length,
+    apps: PROJECTS.filter((p) => p.category === "apps").length,
     ports: PROJECTS.filter((p) => p.category === "ports").length,
     registries: PROJECTS.filter((p) => p.category === "registries").length,
     skills: PROJECTS.filter((p) => p.category === "skills").length,
@@ -30,11 +31,11 @@ export const ProjectList = () => {
     filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
   return (
-    <>
-      <div className="mb-1 flex items-center justify-between">
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
         <h2>
           <a href="#projects" className="view-container-title">
-            PROJECTS
+            Projects
           </a>
         </h2>
         <Select
@@ -81,15 +82,25 @@ export const ProjectList = () => {
                   {counts.skills}
                 </span>
               </SelectItem>
+              <SelectItem value="apps">
+                apps{" "}
+                <span className="text-muted-foreground ml-1">
+                  {counts.apps}
+                </span>
+              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
       </div>
-      <ul className="space-y-2">
+      <ul className="space-y-3">
         {filteredProjects.map((project) => (
           <li key={project.name}>
             <span className="inline-flex items-center gap-2">
-              <a target="_blank" href={addQueryParams(project.url, UTM_PARAMS)}>
+              <a
+                className="link"
+                target="_blank"
+                href={addQueryParams(project.url, UTM_PARAMS)}
+              >
                 {project.name}
               </a>
               {project.isNew ? (
@@ -100,11 +111,12 @@ export const ProjectList = () => {
                 />
               ) : null}
             </span>
-            <br />
-            {project.description}
+            <p className="text-muted-foreground text-sm">
+              {project.description}
+            </p>
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };

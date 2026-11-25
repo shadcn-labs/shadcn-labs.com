@@ -1,24 +1,22 @@
 ---
-import { LINKS } from "@/constants/links";
-import { UTM_PARAMS } from "@/constants/site";
-import { addQueryParams } from "@/lib/url";
+import { ArrowRight } from "@lucide/astro";
+import { ROUTES } from "@/constants/routes";
 ---
 
 <section id="sponsor-us" class="view-container">
   <h2>
-    <a href="#sponsor-us" class="view-container-title">SPONSOR US</a>
+    <a href="#sponsor-us" class="view-container-title">Sponsor us</a>
   </h2>
   <p>
-    Sponsor the whole ecosystem and get prominent placement on all of our
-    projects. Currently priced at <span class="font-mono">$499</span>/month.
-    Interested? <a
-      href={addQueryParams(LINKS.FOUNDER_X_DM, UTM_PARAMS)}
-      target="_blank">DM us on X</a
-    >.
+    Sponsor the entire ecosystem and get your brand in front of developers
+    across all our projects, docs, READMEs, and community, all through a single
+    sponsorship.
   </p>
   <p class="text-muted-foreground">
-    <span class="font-mono">50K+</span> visitors per month across all of our projects<span
-      class="text-highlight">*</span
-    >
+    Want to sponsor?{" "}
+    <a href={ROUTES.SPONSORS} class="link-underline inline-flex items-center gap-1">
+      See stats and tiers
+      <ArrowRight size={14} aria-hidden="true" />
+    </a>
   </p>
 </section>

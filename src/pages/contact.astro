@@ -5,6 +5,15 @@ import BaseLayout from "@/layouts/base-layout.astro";
 import { LINKS } from "@/constants/links";
 import { UTM_PARAMS } from "@/constants/site";
 import { addQueryParams } from "@/lib/url";
+
+// Rendered on demand: `?inquiry=` (e.g. from /sponsors) must reach the form's
+// first render, or the select visibly jumps from General after hydration.
+export const prerender = false;
+
+// The page only varies by its query string, which is part of the cache key.
+if (Astro.cache.enabled) {
+  Astro.cache.set({ maxAge: 86_400, swr: 86_400, tags: ["contact"] });
+}
 ---
 
 <BaseLayout
@@ -15,16 +24,21 @@ import { addQueryParams } from "@/lib/url";
 
   <section id="contact" class="view-container">
     <h2>
-      <a href="#contact" class="view-container-title">CONTACT</a>
+      <a href="#contact" class="view-container-title">Contact</a>
     </h2>
     <p class="text-muted-foreground">
       Send a message using the form, or reach out directly.
     </p>
 
-    <ContactForm client:load />
+    <ContactForm
+      inquiry={Astro.url.searchParams.get("inquiry")}
+      scope={Astro.url.searchParams.get("scope")}
+      client:load
+    />
 
     <p class="mt-6">
-      Or email <a href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> or <a
+      Or email <a class="link-underline" href={`mailto:${LINKS.EMAIL}`}>{LINKS.EMAIL}</a> or <a
+        class="link-underline"
         target="_blank"
         href={addQueryParams(LINKS.DISCORD, UTM_PARAMS)}>join our Discord</a
       >.

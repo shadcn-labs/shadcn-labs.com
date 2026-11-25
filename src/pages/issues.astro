@@ -1,64 +1,10 @@
 ---
 import AsciiDivider from "@/components/ascii-divider.astro";
-import { Badge } from "@/components/ui/badge";
+import IssuesContent from "@/components/issues-content.astro";
+import IssuesContentSkeleton from "@/components/issues-content-skeleton.astro";
 import BaseLayout from "@/layouts/base-layout.astro";
-import { PROJECTS } from "@/constants/projects";
-import { UTM_PARAMS } from "@/constants/site";
-import {
-  FAILURE_CACHE_TTL_SECONDS,
-  ISSUES_CACHE_TTL_SECONDS,
-  getIssuesByRepo,
-} from "@/lib/github";
-import { addQueryParams } from "@/lib/url";
 
-// Rendered on demand so the edge cache can serve it for minutes at a time
-// instead of freezing a snapshot into the build.
-export const prerender = false;
-
-const { fetchedAt, groups, stale } = await getIssuesByRepo();
-
-// Set after the fetch, so a failed page is not pinned at the edge for a full
-// TTL: no data gets FAILURE_CACHE_TTL_SECONDS, everything else gets five
-// minutes plus an hour of stale-while-revalidate.
-if (Astro.cache.enabled) {
-  Astro.cache.set(
-    groups === null
-      ? { maxAge: FAILURE_CACHE_TTL_SECONDS, tags: ["issues"] }
-      : {
-          maxAge: ISSUES_CACHE_TTL_SECONDS,
-          // Keep serving the last good copy for an hour while it revalidates,
-          // so a GitHub hiccup never takes the page down.
-          swr: 3600,
-          tags: ["issues"],
-        }
-  );
-}
-const total = groups?.reduce((sum, group) => sum + group.count, 0) ?? 0;
-const listed = new Set(groups?.map((group) => group.name));
-const idleProjects = PROJECTS.filter(
-  (project) => !listed.has(project.name),
-).map((project) => project.name);
-
-if (!listed.has("shadcn-labs.com")) {
-  idleProjects.push("shadcn-labs.com");
-}
-
-const formatDate = (value: string): string =>
-  new Date(value).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-
-const formatUpdatedAt = (value: string): string =>
-  new Date(value).toLocaleString("en-US", {
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    month: "short",
-    timeZone: "UTC",
-    timeZoneName: "short",
-  });
+export const prerender = true;
 ---
 
 <BaseLayout
@@ -69,96 +15,14 @@ const formatUpdatedAt = (value: string): string =>
 
   <section class="view-container" id="issues">
     <h2>
-      <a href="#issues" class="view-container-title">OPEN ISSUES</a>
+      <a href="#issues" class="view-container-title">Open issues</a>
     </h2>
 
-    {
-      fetchedAt && (
-        <p class="text-muted-foreground">
-          Last updated{" "}
-          <time datetime={fetchedAt}>{formatUpdatedAt(fetchedAt)}</time>
-          {
-            stale && (
-              <> · GitHub did not respond to the last refresh, so this may be out of date</>
-            )
-          }
-        </p>
-      )
-    }
-
-    {
-      groups === null ? (
-        <p>
-          Could not load issues right now. See{" "}
-          <a
-            target="_blank"
-            href={addQueryParams("https://github.com/shadcn-labs", UTM_PARAMS)}
-          >
-            github.com/shadcn-labs
-          </a>
-          .
-        </p>
-      ) : total === 0 ? (
-        <p>No open issues right now. Check back soon.</p>
-      ) : (
-        <p>
-          <span class="font-mono">{total}</span> open issue
-          {total === 1 ? "" : "s"} across the labs. Issues marked{" "}
-          <Badge variant="secondary">good first issue</Badge> or{" "}
-          <Badge variant="secondary">help wanted</Badge> are a great place to
-          start.
-        </p>
-      )
-    }
-
-    {
-      groups?.map((group) => (
-        <>
-          <h3 class="pt-4">
-            <a target="_blank" href={addQueryParams(group.url, UTM_PARAMS)}>
-              {group.name}
-            </a>{" "}
-            <span class="font-mono">[{group.count}]</span>
-          </h3>
-          <ul class="space-y-2">
-            {group.issues.map((issue) => (
-              <li>
-                <a
-                  target="_blank"
-                  href={addQueryParams(issue.html_url, UTM_PARAMS)}
-                >
-                  #{issue.number} {issue.title}
-                </a>
-                <br />
-                {issue.labels.length > 0 && (
-                  <>
-                    <span class="inline-flex flex-wrap items-center gap-1.5">
-                      {issue.labels.map((label) => (
-                        <Badge key={label.name} variant="secondary">
-                          {label.name}
-                        </Badge>
-                      ))}
-                    </span>
-                    <br />
-                  </>
-                )}
-                <span class="text-muted-foreground">
-                  opened {formatDate(issue.created_at)} · {issue.comments}{" "}
-                  comment{issue.comments === 1 ? "" : "s"}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ))
-    }
-
-    {
-      idleProjects.length > 0 && (
-        <p class="text-muted-foreground pt-4">
-          No open issues: {idleProjects.join(", ")}.
-        </p>
-      )
-    }
+    <IssuesContent server:defer>
+      <div slot="fallback" role="status">
+        <span class="sr-only">Loading open issues…</span>
+        <IssuesContentSkeleton />
+      </div>
+    </IssuesContent>
   </section>
 </BaseLayout>

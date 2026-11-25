@@ -1,7 +1,8 @@
 import { Select as SelectPrimitive } from "@base-ui/react/select";
-import { cn } from "cn";
 import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react";
 import * as React from "react";
+
+import { cn } from "@/lib/utils";
 
 const Select = SelectPrimitive.Root;
 
@@ -143,7 +144,7 @@ const SelectItem = ({
     )}
     {...props}
   >
-    <SelectPrimitive.ItemText className="flex flex-1 shrink-0 gap-2 whitespace-nowrap">
+    <SelectPrimitive.ItemText className="flex min-w-0 flex-1 gap-2 whitespace-nowrap">
       {children}
     </SelectPrimitive.ItemText>
     <SelectPrimitive.ItemIndicator

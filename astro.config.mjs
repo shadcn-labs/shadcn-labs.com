@@ -3,7 +3,7 @@ import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import { cacheVercel } from "@astrojs/vercel/cache";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,26 +12,11 @@ export default defineConfig({
       enabled: false,
     },
   }),
-  // Serves the on-demand routes (src/pages/issues.astro and
-  // src/pages/contributors.astro) from the Vercel edge, so GitHub is hit at
-  // most once per TTL no matter how many people load the pages.
+  // Query-aware contact shells are cached at the edge; deferred public data
+  // components set their own CDN cache headers.
   cache: {
     provider: cacheVercel(),
   },
-  fonts: [
-    {
-      cssVariable: "--font-geist-sans",
-      fallbacks: ["sans-serif"],
-      name: "Geist Sans",
-      provider: fontProviders.fontsource(),
-    },
-    {
-      cssVariable: "--font-geist-mono",
-      fallbacks: ["monospace"],
-      name: "Geist Mono",
-      provider: fontProviders.fontsource(),
-    },
-  ],
   image: {
     remotePatterns: [
       {
@@ -49,6 +34,12 @@ export default defineConfig({
   },
   integrations: [react()],
   output: "static",
+  prefetch: {
+    defaultStrategy: "hover",
+    prefetchAll: true,
+  },
+  // Canonical production origin used to build absolute canonical + sitemap URLs.
+  site: "https://www.shadcn-labs.com",
   vite: {
     plugins: [tailwindcss()],
     resolve: {

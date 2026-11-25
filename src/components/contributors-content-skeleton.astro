@@ -1,0 +1,36 @@
+---
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Slightly varied widths keep the placeholder from looking like a solid grid.
+const people = [
+  { badge: "w-14", meta: "w-16", name: "w-28" },
+  { badge: "w-16", meta: "w-20", name: "w-24" },
+  { badge: "w-12", meta: "w-14", name: "w-32" },
+  { badge: "w-16", meta: "w-24", name: "w-20" },
+  { badge: "w-14", meta: "w-20", name: "w-24" },
+  { badge: "w-12", meta: "w-16", name: "w-28" },
+  { badge: "w-16", meta: "w-14", name: "w-20" },
+  { badge: "w-14", meta: "w-24", name: "w-28" },
+];
+---
+
+<div aria-hidden="true" class="space-y-3">
+  <Skeleton className="h-4 w-full max-w-md" />
+
+  <ul class="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
+    {
+      people.map(({ badge, meta, name }) => (
+        <li class="flex items-start gap-3">
+          <Skeleton className="mt-0.5 size-8 shrink-0 rounded-full" />
+          <div class="min-w-0 flex-1 space-y-1.5">
+            <Skeleton className={`h-4 ${name}`} />
+            <div class="flex items-center gap-1.5">
+              <Skeleton className={`h-3.5 ${meta}`} />
+              <Skeleton className={`h-5 rounded-full ${badge}`} />
+            </div>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>

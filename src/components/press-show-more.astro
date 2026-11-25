@@ -1,0 +1,55 @@
+---
+import { Button } from "@/components/ui/button";
+
+interface Props {
+  count: number;
+  listId: string;
+  unit: string;
+}
+
+const { count, listId, unit } = Astro.props;
+
+const label = `Show ${count} more ${unit}${count === 1 ? "" : "s"}`;
+---
+
+<li class="flex items-center gap-1">
+  <span aria-hidden="true" class="border-border flex-1 border-t border-dashed" />
+  <Button
+    type="button"
+    variant="secondary"
+    className="rounded-full"
+    aria-expanded="false"
+    aria-controls={listId}
+    data-show-more-toggle
+  >
+    {label}
+  </Button>
+  <span aria-hidden="true" class="border-border flex-1 border-t border-dashed" />
+</li>
+
+<script>
+  const toggles = document.querySelectorAll<HTMLButtonElement>(
+    "[data-show-more-toggle]",
+  );
+
+  for (const toggle of toggles) {
+    const list = toggle.closest("ul");
+    if (!list) {
+      continue;
+    }
+
+    const hiddenItems = list.querySelectorAll(":scope > li[hidden]");
+    const showLabel = (toggle.textContent ?? "").trim();
+
+    toggle.addEventListener("click", () => {
+      const isOpening = toggle.getAttribute("aria-expanded") === "false";
+
+      for (const item of hiddenItems) {
+        item.toggleAttribute("hidden", !isOpening);
+      }
+
+      toggle.setAttribute("aria-expanded", String(isOpening));
+      toggle.textContent = isOpening ? "Show less" : showLabel;
+    });
+  }
+</script>

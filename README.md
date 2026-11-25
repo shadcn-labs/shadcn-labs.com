@@ -25,11 +25,52 @@
 | [ogimagecn](https://ogimagecn.com) | Open Graph image components for React, built on Satori | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/ogimagecn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/ogimagecn) |
 | [agentcn](https://agentcn.run) | Customizable and production-ready AI agent recipes, built on Eve and Flue | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/agentcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/agentcn) |
 | [shadcn-cssinjs](https://shadcn-cssinjs.com) | CSS-in-JS port of shadcn/ui, built on StyleX | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadcn-cssinjs.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadcn-cssinjs) |
+| [form-builder](https://www.shadcn-form.com) | Visual form builder for shadcn/ui — drag, drop, ship | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/form-builder.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/form-builder) |
 | [mcpcn](https://mcpcn.dev) | ChatGPT/Claude/MCP app UI components for React, built on Base UI | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/mcpcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/mcpcn) |
 | [emailcn](https://emailcn.run) | email components for React, built on React Email, MJML React and JSX Email | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/emailcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/emailcn) |
 | [pdfcn](https://pdfcn.dev) | PDF components for React, built on Takumi and Forme | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/pdfcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/pdfcn) |
 | [editorcn](https://editorcn.vercel.app) | Rich text editor components for React, built on Tiptap | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/editorcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/editorcn) |
 | [shadercn](https://shadercn.run) | shader components for React, built on vgpu and TypeGPU | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/shadercn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/shadercn) |
+| [mdxcn](https://www.mdxcn.dev) | ASCII-framed diagram components for MDX, built on Motion | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/mdxcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/mdxcn) |
+| [snapcn](https://snapcn.dev) | Video components for React, built on Remotion | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/snapcn.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/snapcn) |
+| [sensory-ui](https://www.sensory-ui.com) | Sound-enabled components for React, built on the Web Audio API | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/sensory-ui.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/sensory-ui) |
+| [pinui](https://www.pinui.xyz) | Animated React components rebuilt from Pinterest designs, built on Motion | [![GitHub Stars](https://www.shieldcn.dev/github/stars/shadcn-labs/pin-ui.svg?variant=branded&size=xs)](https://github.com/shadcn-labs/pin-ui) |
+
+## Sponsors
+
+<!-- sponsors:start -->
+<!-- Keep tier order and placed logos in sync with src/constants/sponsors.ts. -->
+<table>
+  <tbody>
+    <tr>
+      <td colspan="3"><strong>Diamond Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://shadcn-labs.com/sponsors#tiers">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Gold Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://shadcn-labs.com/sponsors#tiers">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Silver Sponsors</strong></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://shadcn-labs.com/sponsors#tiers">Your logo here</a></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- sponsors:end -->
+
+> Found Shadcn Labs useful? [Become a sponsor](https://shadcn-labs.com/sponsors#tiers) to support maintenance and get your logo here and on the site, with placement based on your tier.
 
 ## Contributing
 
@@ -44,6 +85,16 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 [MIT](LICENSE)
+
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=shadcn-labs/shadcn-labs.com)](https://github.com/shadcn-labs/shadcn-labs.com/graphs/contributors)
+
+> Made with [contrib.rocks](https://contrib.rocks)
+
+## Stats
+
+![Stats](https://repobeats.axiom.co/api/embed/432fe3d2799ee308efb727827cf916db4d0bd60a.svg "Repobeats analytics image")
 
 ## Star History
 

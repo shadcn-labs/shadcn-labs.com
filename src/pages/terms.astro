@@ -1,0 +1,132 @@
+---
+import LegalLayout from "@/layouts/legal-layout.astro";
+import { ROUTES } from "@/constants/routes";
+import { SITE } from "@/constants/site";
+---
+
+<LegalLayout
+  id="terms"
+  heading="Terms of service"
+  title="Terms of Service"
+  description="Terms for using shadcn-labs.com and buying a Shadcn Labs sponsorship through GitHub Sponsors or Dodo Payments."
+  updated="Nov 01, 2026"
+>
+  <p>
+    These terms cover your use of shadcn-labs.com and any sponsorship you buy
+    from Shadcn Labs ("we", "us"), operated by {SITE.AUTHOR.NAME}. By using the
+    site or subscribing to a sponsorship tier, you agree to them.
+  </p>
+
+  <h3>Open-source projects</h3>
+  <p>
+    Our registries, templates, and ports are free and open source. Each project
+    is governed by the license in its own repository, not by these terms, and is
+    provided "as is" without warranty.
+  </p>
+
+  <h3>Sponsorships</h3>
+  <ul>
+    <li>
+      Each tier is a monthly subscription billed in advance, in US dollars, at
+      the price shown on the <a class="link-underline" href={ROUTES.SPONSORS}>sponsors page</a> or
+      on the GitHub Sponsors tier page you check out from. It renews every month
+      until you cancel.
+    </li>
+    <li>
+      The perks for each tier are listed on the sponsors page and in the matching
+      GitHub Sponsors tier. If the two descriptions differ, the tier description
+      shown by the provider at checkout governs.
+    </li>
+    <li>
+      We deliver placements as soon as we have your logo, link, and name,
+      usually within a few business days of payment. Send them through the
+      welcome-message instructions or the <a
+        class="link-underline"
+        href={`${ROUTES.CONTACT}?inquiry=sponsorship`}>sponsorship contact form</a
+      >.
+    </li>
+    <li>
+      Placement order within a tier, logo size, and layout are at our
+      discretion and may change as the sites change.
+    </li>
+    <li>
+      Where we place your logo on our own sites, the link to your website is
+      do-follow. Links inside GitHub READMEs and other GitHub-hosted pages follow
+      GitHub's own rules.
+    </li>
+    <li>
+      We may change tier prices or perks for future billing periods. We will
+      tell active sponsors by email before a change applies to them.
+    </li>
+  </ul>
+
+  <h3>GitHub Sponsors</h3>
+  <p>
+    GitHub Sponsors is our primary checkout. GitHub processes your payment,
+    handles receipts, and appears on your statement. Your sponsorship is also
+    subject to <a
+      class="link-underline"
+      href="https://docs.github.com/site-policy/github-terms/github-sponsors-additional-terms"
+      target="_blank"
+      rel="noopener">GitHub's sponsor terms</a
+    >. Change your amount or cancel at any time from your GitHub account;
+    GitHub confirms the change to us. GitHub decides whether a GitHub payment is
+    refundable, and any refund is issued by GitHub.
+  </p>
+
+  <h3>Dodo Payments</h3>
+  <p>
+    If GitHub is not an option for your team, you can pay the same tiers through
+    <a
+      class="link-underline"
+      href="https://dodopayments.com"
+      target="_blank"
+      rel="noopener">Dodo Payments</a
+    >, our merchant of record. Dodo Payments processes your payment, collects
+    applicable sales tax or VAT, issues your invoices, and appears on your
+    statement. Your purchase is also subject to Dodo Payments' own terms. We
+    never see or store your full card details. Dodo sponsors can update payment
+    methods, download invoices, or cancel from the Dodo customer portal linked in
+    their subscription emails.
+  </p>
+
+  <h3>Refunds</h3>
+  <p>
+    Refunds follow the provider that took your payment. GitHub payments are
+    refunded, if at all, by GitHub under GitHub's policy. Dodo Payments refunds
+    follow our <a class="link-underline" href={ROUTES.REFUNDS}>refund policy</a>.
+    Cancelling stops future renewals; placements stay live until the end of the
+    period you already paid for.
+  </p>
+
+  <h3>Your content</h3>
+  <p>
+    You confirm that you have the right to use the logo, name, and link you send
+    us, and you allow us to display them across our sites, repositories, and
+    social posts for the length of your sponsorship. We may decline or remove
+    any sponsor or content that is illegal, misleading, malicious, or harmful to
+    our community.
+  </p>
+
+  <h3>Acceptable use</h3>
+  <p>
+    Do not attempt to disrupt the site, abuse the contact form, or access data
+    you are not entitled to.
+  </p>
+
+  <h3>Liability</h3>
+  <p>
+    The site and sponsorships are provided "as is". We do not guarantee any
+    specific traffic, clicks, or conversions; audience analytics show past
+    traffic only. To the extent the law allows, our total liability for any
+    claim related to a sponsorship is limited to the amount you paid for it in
+    the three months before the claim.
+  </p>
+
+  <h3>Changes</h3>
+  <p>
+    We may update these terms. The date at the top shows the latest version;
+    continuing to use the site or keeping an active sponsorship after a change
+    means you accept it.
+  </p>
+</LegalLayout>

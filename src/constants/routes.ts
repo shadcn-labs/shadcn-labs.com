@@ -3,7 +3,13 @@ export const ROUTES = {
   BRAND: "/brand",
   CONTACT: "/contact",
   CONTRIBUTORS: "/contributors",
+  FONT: "/font",
   HOME: "/",
   ISSUES: "/issues",
   PRESS: "/press",
+  PRIVACY: "/privacy",
+  REFUNDS: "/refunds",
+  SPONSORS: "/sponsors",
+  SPONSORS_WELCOME: "/sponsors/welcome",
+  TERMS: "/terms",
 };
