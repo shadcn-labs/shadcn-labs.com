@@ -682,7 +682,7 @@ const BENTO: { id: string; span: string }[] = [
 ];
 
 const useArtboardFit = () => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [fit, setFit] = useState({ height: 0, scale: 0, width: 0 });
 
   useEffect(() => {

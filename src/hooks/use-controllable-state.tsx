@@ -47,7 +47,7 @@ export function useControllableState<T>({
   // consistently in the same environment. Bundlers should be able to remove the
   // code block entirely in production.
   /* eslint-disable react-hooks/rules-of-hooks */
-  if (process.env.NODE_ENV !== "production") {
+  if (import.meta.env.NODE_ENV !== "production") {
     const isControlledRef = React.useRef(prop !== undefined);
     React.useEffect(() => {
       const wasControlled = isControlledRef.current;
