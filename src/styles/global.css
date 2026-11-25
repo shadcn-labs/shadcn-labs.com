@@ -153,10 +153,8 @@ html .react-tweet-theme {
   }
 }
 
-/* Full-bleed layout for display-heavy pages: spans the viewport with a sane
-   max width and responsive gutters, instead of the narrow prose column. */
 @utility view-container-wide {
-  @apply mx-auto w-full max-w-[1440px] scroll-mt-6 px-5 sm:px-8 lg:px-12;
+  @apply mx-auto w-full max-w-7xl scroll-mt-6 space-y-3 px-4 sm:px-6 lg:px-8;
 }
 
 @utility view-container-title {

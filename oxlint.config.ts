@@ -9,5 +9,7 @@ export default defineConfig({
   ignorePatterns: [
     ...(core.ignorePatterns ?? []),
     "src/components/evilcharts/**",
+    "src/components/elastic-slider.tsx",
+    "src/hooks/use-controllable-state.tsx",
   ],
 });

@@ -1,98 +1,79 @@
 ---
-import { Check, Copy, Download } from "@lucide/astro";
+import { ArrowUpRight, Check, Download, X } from "@lucide/astro";
 import AsciiDivider from "@/components/ascii-divider.astro";
 import { FontFamilyTabs } from "@/components/font-family-tabs";
+import { FontExamples } from "@/components/font/font-examples";
+import { FontDescription } from "@/components/font/font-description";
+import { GlyphInspector } from "@/components/font/glyph-inspector";
 import { LovedBy, LovedByLogos } from "@/components/font/loved-by";
+import { InstallCard } from "@/components/font/install-card";
+import { StylisticSets } from "@/components/font/stylistic-sets";
+import { TypeTester } from "@/components/font/type-tester";
+import { GitHubIcon } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
-import { TWEET_STATS } from "@/data/goeist-social";
+import {
+  DOWNLOAD_SIZE,
+  DOWNLOAD_URL,
+  FONT_VERSION,
+  GITHUB_URL,
+  LICENSE_URL,
+} from "@/data/goeist-font";
 import BaseLayout from "@/layouts/base-layout.astro";
 
-const GITHUB_URL = "https://github.com/shadcn-labs/goeist-font";
-const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
-const NPM_URL = "https://www.npmjs.com/package/goeist";
-const LICENSE_URL = `${GITHUB_URL}/blob/main/OFL.txt`;
+const DOWNLOAD_FILE = `Goeist-Family-v${FONT_VERSION}.zip`;
 
-const FAMILIES = [
+const SPECS = [
+  { label: "Name", value: "Goeist" },
+  { label: "Families", value: "Sans, Mono, Serif" },
+  { label: "Weights", value: "9 (Thin 100 to Black 900), true italics" },
+  { label: "Formats", value: "OTF, TTF, variable TTF, WOFF2" },
+  { label: "Glyphs", value: "975 (Sans), 1,159 (Mono), 898 (Serif)" },
   {
-    description:
-      "Geist's proportions, spacing and OpenType features, with every exposed corner and stroke ending rounded. For interfaces, body copy and display sizes where Geist should feel a little warmer.",
-    face: "face-sans",
-    id: "sans",
-    meta: "100–900 · italic",
-    name: "Goeist Sans",
-    sample: "Soft corners, sturdy letters.",
-    tag: "sans",
+    label: "Scripts",
+    value: "Latin (387 languages), Cyrillic (39) in Sans and Mono",
   },
   {
-    description:
-      "The monospaced partner. Every corner is rounded as if drawn with one round tool, so stroke ends, slabs and dots become semicircles while widths stay fixed. Keeps Geist Mono's coding ligatures.",
-    face: "face-mono",
-    id: "mono",
-    meta: "100–900 · ligatures",
-    name: "Goeist Mono",
-    sample: "const soft = (a) => a + 1;",
-    tag: "mono",
+    label: "OpenType",
+    value: "tnum, frac, sups, subs, ordn, case, liga, stylistic sets",
   },
+  { label: "Based on", value: "Geist by Vercel and Basement Studio" },
+];
+
+const LICENSE_CAN = [
+  "Personal and commercial use",
+  "Embed on the web with @font-face",
+  "Bundle with apps and products",
+  "Modify and create derivative fonts",
+  "Redistribute freely, no attribution required",
+];
+
+const LICENSE_TERMS = [
+  "Don't sell the font files on their own",
+  "Derivatives must stay under the OFL",
+  "Modified versions can't use the name Goeist",
+];
+
+const TYPE_CREDITS = [
+  { href: "https://github.com/lauridskern/open-runde", name: "Open Runde" },
+  { href: "https://github.com/bvvst/intern", name: "Intern" },
+  { href: "https://github.com/anaclumos/sunghyun-sans", name: "Sunghyun Sans" },
   {
-    description:
-      "A soft display serif. Saw-toothed serifs end in half-rounds and cut terminals in circular arcs, while hairlines and contrast stay fine. Includes Geist Serif's Element Shape axis.",
-    face: "face-serif",
-    id: "serif",
-    meta: "400 · four dot shapes",
-    name: "Goeist Serif",
-    sample: "Editorial, with a wink.",
-    tag: "serif",
+    href: "https://abcdinamo.com/typefaces/diatype-rounded",
+    name: "ABC Diatype Rounded Mono",
   },
+  { href: "https://github.com/undercasetype/Fraunces", name: "Fraunces" },
 ];
-
-const WEIGHTS = [
-  { name: "thin", value: 100 },
-  { name: "extralight", value: 200 },
-  { name: "light", value: 300 },
-  { name: "regular", value: 400 },
-  { name: "medium", value: 500 },
-  { name: "semibold", value: 600 },
-  { name: "bold", value: 700 },
-  { name: "extrabold", value: 800 },
-  { name: "black", value: 900 },
-];
-
-const CHARSETS = [
-  { chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZ", label: "uppercase" },
-  { chars: "abcdefghijklmnopqrstuvwxyz", label: "lowercase" },
-  { chars: "0123456789", label: "figures" },
-  { chars: ".,:;!?'\"()[]{}–—…&*#@", label: "punctuation" },
-  { chars: "+-×÷=≠≈≤≥∞§¶†‡©®™→←↑↓", label: "symbols" },
-];
-
-const SHAPES = [
-  { label: "regular", value: 0 },
-  { label: "square", value: 25 },
-  { label: "triangle", value: 50 },
-  { label: "heart", value: 100 },
-];
-
-const INSTALL_SNIPPET = `npm i goeist`;
-const NEXT_SNIPPET = `import { GoeistSans } from "goeist/font/sans";
-import { GoeistMono } from "goeist/font/mono";
-import { GoeistSerif } from "goeist/font/serif";`;
-const CSS_SNIPPET = `@import "goeist/sans.css";
-@import "goeist/mono.css";
-@import "goeist/serif.css";`;
-const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a => b; }`;
 ---
 
 <BaseLayout
   title="Goeist"
   description="Goeist is a rounded take on Geist — a free, open-source type family for interfaces, code and display. Sans, Mono and Serif by Shadcn Labs."
 >
-  <div class="view-container my-6 flex flex-wrap items-center justify-between gap-3">
+  <div class="view-container my-6 flex flex-wrap items-center justify-between gap-3 space-y-0">
     <FontFamilyTabs client:load />
 
     <a
-      href={RELEASES_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+      href="#get"
       aria-label="Get the font"
       class={buttonVariants({
         size: "default",
@@ -108,7 +89,7 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
     <div class="relative pt-2">
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute top-2 right-0 left-0 text-[clamp(5rem,30vw,14rem)]"
+        class="pointer-events-none absolute top-2 right-0 left-0 text-[clamp(4.5rem,24vw,10rem)]"
       >
         <div class="border-foreground/15 absolute inset-x-0 top-[0.025em] border-t"></div>
         <div class="border-foreground/12 absolute inset-x-0 top-[0.21em] border-t"></div>
@@ -116,841 +97,237 @@ const LIGATURES = `const sum = (a, b) => a + b; if (a != b && i <= n) { return a
       </div>
       <h2
         id="overview-heading"
-        class="face-sans relative z-10 -ml-2 text-[clamp(5rem,30vw,14rem)] font-medium leading-[0.8] tracking-[-0.05em]"
+        data-family-face
+        class="font-sans relative z-10 -ml-1 text-[clamp(4.5rem,24vw,10rem)] font-medium leading-[0.8] tracking-[-0.05em]"
       >
         Goeist<span id="overview-period">.</span>
       </h2>
     </div>
-
-    <p
-      class="face-sans max-w-xl pt-4 text-xl leading-tight tracking-[-0.02em] sm:text-2xl"
-    >
-      A rounded take on Geist. Sans, Mono and Serif keep Geist's proportions,
-      spacing and OpenType features while softening every exposed corner and
-      stroke ending, built for interfaces, code and display sizes.
-    </p>
-
   </section>
 
-  <AsciiDivider />
+  <AsciiDivider class="text-center" />
 
-  <section id="weights" class="view-container-wide py-12">
-    <div class="mx-auto max-w-2xl">
-      <h2>
-        <a href="#weights" class="view-container-title">Weights</a>
-      </h2>
-      <p class="text-muted-foreground text-sm">
-        Goeist Sans and Goeist Mono run the full gamut from Thin to Black, each
-        with a matching true italic. One variable file covers every step in
-        between &mdash; no faux bold.
-      </p>
+  <section id="at-a-glance" class="view-container">
+    <h2>
+      <a href="#at-a-glance" class="view-container-title">At a glance</a>
+    </h2>
+    <FontDescription client:visible />
+  </section>
+
+  <AsciiDivider class="text-center" />
+
+  <section id="glyphs" class="view-container-wide">
+    <h2>
+      <a href="#glyphs" class="view-container-title">Glyphs</a>
+    </h2>
+    <div class="pt-3">
+      <GlyphInspector client:visible />
     </div>
+  </section>
 
-    <div class="mt-8 grid grid-cols-3 gap-x-4 gap-y-8 sm:grid-cols-5 lg:grid-cols-9">
+  <AsciiDivider class="text-center" />
+
+  <section id="stylistic-sets" class="view-container-wide">
+    <h2>
+      <a href="#stylistic-sets" class="view-container-title">Stylistic sets</a>
+    </h2>
+    <div class="pt-3">
+      <StylisticSets client:visible />
+    </div>
+  </section>
+
+  <AsciiDivider class="text-center" />
+
+  <section id="examples" class="view-container-wide">
+    <h2>
+      <a href="#examples" class="view-container-title">Examples</a>
+    </h2>
+    <div class="pt-3">
+      <FontExamples client:visible />
+    </div>
+  </section>
+
+  <AsciiDivider class="text-center" />
+
+  <section id="tester" class="view-container-wide">
+    <h2>
+      <a href="#tester" class="view-container-title">Type tester</a>
+    </h2>
+    <div class="pt-3">
+      <TypeTester client:visible />
+    </div>
+  </section>
+
+  <AsciiDivider class="text-center" />
+
+  <section id="specs" class="view-container">
+    <h2>
+      <a href="#specs" class="view-container-title">Specs &amp; license</a>
+    </h2>
+
+    <dl class="grid grid-cols-1 gap-x-6 gap-y-4 pt-3 sm:grid-cols-2">
       {
-        WEIGHTS.map((weight) => (
-          <div>
-            <div
-              class="face-sans text-4xl leading-none tracking-[-0.03em] sm:text-5xl"
-              style={`font-weight:${weight.value}`}
-            >
-              Aa
-            </div>
-            <p class="text-muted-foreground mt-2 text-xs">{weight.name}</p>
-            <p class="text-muted-foreground text-xs tabular-nums">
-              {weight.value}
-            </p>
+        SPECS.map((spec) => (
+          <div class="border-border/60 border-t pt-2">
+            <dt class="text-muted-foreground text-xs">{spec.label}</dt>
+            <dd class="mt-1 text-sm">{spec.value}</dd>
           </div>
         ))
       }
-    </div>
+    </dl>
 
-    <div class="relative mt-12 overflow-hidden rounded-2xl border border-border/60 bg-muted/30 p-10 dark:bg-[#212017]">
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute left-1/2 top-1/2 h-[160%] w-px -translate-x-1/2 -translate-y-1/2 rotate-[24deg] bg-primary/30"
-      ></div>
-      <div class="face-sans relative flex flex-wrap items-center justify-center gap-x-10 gap-y-2 text-[clamp(3rem,12vw,8rem)] font-medium leading-none tracking-[-0.04em]">
-        <span>Aa</span>
-        <span class="face-mono">Aa</span>
-        <span class="face-serif">Aa</span>
-      </div>
-      <p class="text-muted-foreground relative mt-6 text-center text-sm">
-        One family, three voices. The diagonal guide crosses Sans, Mono and
-        Serif &mdash; every exposed corner and stroke ending, rounded.
-      </p>
-    </div>
-  </section>
-
-  <AsciiDivider />
-
-  <section id="tester" class="view-container-wide">
-    <!-- Rotation / Bar Adjusters -->
-    <div id="sliders-grid" class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <!-- Weight Slider -->
-      <div id="weight-slider-wrapper" class="flex flex-col gap-2">
-        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
-          <span>Weight</span>
-          <span id="slider-weight-val" class="font-medium text-foreground">400</span>
-        </div>
-        <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
-          data-slider="weight"
-          data-min="100"
-          data-max="900"
-          data-step="10"
-          data-value="400"
-          role="slider"
-          aria-label="Weight"
-          aria-valuemin="100"
-          aria-valuemax="900"
-          aria-valuenow="400"
-          tabindex="0"
+    <div class="grid grid-cols-1 gap-3 pt-3 sm:grid-cols-[2fr_3fr]">
+      <div class="flex flex-col rounded-xl border border-border bg-muted/30 p-5 dark:bg-[#212017]">
+        <p class="text-muted-foreground text-xs">Free forever</p>
+        <p class="font-sans mt-1 text-5xl font-medium tracking-[-0.04em]">$0</p>
+        <p class="text-muted-foreground mt-1 text-sm">No cost, no catch.</p>
+        <a
+          class="link-underline mt-auto inline-flex items-center gap-1 pt-6 text-sm"
+          href={LICENSE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <!-- Center indicator line & dot -->
-          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
-            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
-          </div>
-          <!-- Track viewport with gradient mask -->
-          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
-            <div class="slider-track-wrap absolute inset-0"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Size Slider -->
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
-          <span>Size</span>
-          <span id="slider-size-val" class="font-medium text-foreground">60px</span>
-        </div>
-        <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
-          data-slider="size"
-          data-min="24"
-          data-max="120"
-          data-step="1"
-          data-value="60"
-          role="slider"
-          aria-label="Size"
-          aria-valuemin="24"
-          aria-valuemax="120"
-          aria-valuenow="60"
-          tabindex="0"
-        >
-          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
-            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
-          </div>
-          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
-            <div class="slider-track-wrap absolute inset-0"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Letter Spacing Slider -->
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
-          <span>Letter spacing</span>
-          <span id="slider-spacing-val" class="font-medium text-foreground">-0.03em</span>
-        </div>
-        <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
-          data-slider="spacing"
-          data-min="-5"
-          data-max="15"
-          data-step="0.5"
-          data-value="-3"
-          role="slider"
-          aria-label="Letter spacing"
-          aria-valuemin="-5"
-          aria-valuemax="15"
-          aria-valuenow="-3"
-          tabindex="0"
-        >
-          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
-            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
-          </div>
-          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
-            <div class="slider-track-wrap absolute inset-0"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Line Height Slider -->
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center justify-between face-sans text-xs text-muted-foreground">
-          <span>Line height</span>
-          <span id="slider-lineHeight-val" class="font-medium text-foreground">1.20</span>
-        </div>
-        <div
-          class="rotary-slider relative flex h-11 w-full select-none touch-none cursor-ew-resize items-center overflow-hidden rounded-xl border border-border/60 bg-muted/50 dark:bg-[#212017] dark:border-transparent px-3 shadow-inner"
-          data-slider="lineHeight"
-          data-min="90"
-          data-max="180"
-          data-step="5"
-          data-value="120"
-          role="slider"
-          aria-label="Line height"
-          aria-valuemin="0.9"
-          aria-valuemax="1.8"
-          aria-valuenow="1.2"
-          tabindex="0"
-        >
-          <div class="pointer-events-none absolute left-1/2 top-1.5 bottom-1.5 z-20 w-[2px] -translate-x-1/2 rounded-full bg-primary">
-            <div class="absolute -top-1 left-1/2 size-2 -translate-x-1/2 rounded-full bg-primary"></div>
-          </div>
-          <div class="pointer-events-none relative z-10 size-full overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_82%,transparent_100%)]">
-            <div class="slider-track-wrap absolute inset-0"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mb-6 flex flex-wrap items-center gap-2">
-      <button
-        id="tester-italic"
-        type="button"
-        aria-pressed="false"
-        class="seg-btn"
-      >
-        Italic
-      </button>
-
-      <div
-        id="tester-shapes-wrap"
-        class="hidden items-center gap-1 rounded-full bg-muted/60 p-1"
-      >
-        {
-          SHAPES.map((shape) => (
-            <button
-              type="button"
-              data-shape={shape.value}
-              class="seg-btn"
-              aria-pressed={shape.value === 0 ? "true" : "false"}
-            >
-              {shape.label}
-            </button>
-          ))
-        }
-      </div>
-
-      <button id="tester-reset" type="button" class="seg-btn">Reset</button>
-    </div>
-
-    <div
-      class="relative flex min-h-80 w-full flex-col justify-center overflow-hidden rounded-xl border border-border/60 bg-muted/30 dark:bg-[#212017] p-0 text-foreground dark:text-[#f5f4ef] sm:min-h-96"
-    >
-      <div
-        id="specimen"
-        contenteditable="true"
-        role="textbox"
-        aria-multiline="true"
-        aria-label="Type tester specimen text"
-        spellcheck="false"
-        class="face-sans relative z-10 w-full text-left cursor-text text-4xl font-normal tracking-[-0.03em] outline-none sm:text-6xl [overflow-wrap:anywhere]"
-      ><div class="specimen-line px-4 sm:px-6">Soft corners,</div><div class="specimen-line px-4 sm:px-6 pt-4">sharper ideas.</div></div>
-    </div>
-  </section>
-
-  <AsciiDivider />
-
-  <section id="loved-by" class="view-container-wide py-12">
-    <div class="mx-auto max-w-2xl">
-      <h2>
-        <a href="#loved-by" class="view-container-title">
-          Loved by designers &amp; engineers
+          Read the full license
+          <ArrowUpRight class="size-3.5" aria-hidden="true" />
         </a>
-      </h2>
-      <p class="text-muted-foreground text-sm">
-        {TWEET_STATS.likes} likes, {TWEET_STATS.reposts} reposts and{" "}
-        {TWEET_STATS.replies} replies on the launch — from the people building
-        the tools you already use.
-      </p>
-    </div>
+      </div>
 
-    <div class="mt-10">
+      <div class="rounded-xl border border-border p-5">
+        <ul class="space-y-2 text-sm">
+          {
+            LICENSE_CAN.map((item) => (
+              <li class="flex gap-2">
+                <Check
+                  class="mt-0.5 size-4 shrink-0 text-emerald-500"
+                  aria-hidden="true"
+                />
+                {item}
+              </li>
+            ))
+          }
+          {
+            LICENSE_TERMS.map((item) => (
+              <li class="text-muted-foreground flex gap-2">
+                <X class="text-destructive mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <AsciiDivider class="text-center" />
+
+  <section id="loved-by" class="view-container-wide">
+    <h2>
+      <a href="#loved-by" class="view-container-title">
+        Loved by designers &amp; engineers
+      </a>
+    </h2>
+
+    <div class="pt-3">
       <LovedByLogos client:visible />
     </div>
-
-    <div class="mt-12">
+    <div class="pt-6">
       <LovedBy client:visible />
     </div>
   </section>
 
-  <AsciiDivider />
+  <AsciiDivider class="text-center" />
 
-  <section id="features" class="view-container">
-    <h2>
-      <a href="#features" class="view-container-title">Features</a>
-    </h2>
-    <p class="text-muted-foreground text-sm">
-      Everything Geist does well — rounded off. Variable weights, OpenType
-      features and optical niceties, free under the SIL Open Font License.
-    </p>
-
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
-        <div class="face-sans flex items-baseline gap-4 text-5xl leading-none tracking-[-0.03em]">
-          <span class="font-thin">Aa</span>
-          <span class="font-semibold">Aa</span>
-          <span class="font-black">Aa</span>
-        </div>
-        <h3 class="mt-5 text-sm font-medium">Variable weight</h3>
-        <p class="text-muted-foreground mt-1 text-xs">
-          Nine weights, 100&ndash;900, in a single variable file &mdash; no faux
-          bold.
+  <section id="get" class="view-container pb-6">
+    <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div class="cta-panel flex min-h-64 flex-col justify-between gap-6 rounded-2xl border border-border p-6">
+        <p
+          data-family-face
+          class="font-sans text-6xl font-medium leading-none tracking-[-0.05em] sm:text-7xl"
+        >
+          Goeist.
+        </p>
+        <p class="text-muted-foreground text-sm">
+          A rounded take on Geist.
         </p>
       </div>
 
-      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
-        <div class="face-sans text-5xl italic leading-none tracking-[-0.03em]">
-          Aa
-        </div>
-        <h3 class="mt-5 text-sm font-medium">True italic</h3>
-        <p class="text-muted-foreground mt-1 text-xs">
-          Drawn, not slanted &mdash; matching the rounded outlines.
-        </p>
+      <div class="flex flex-col gap-3">
+        <a href={DOWNLOAD_URL} aria-label={`Download ${DOWNLOAD_FILE}`} class="cta-card">
+          <span class="flex items-center justify-between gap-2 text-sm font-medium">
+            Download
+            <Download class="size-4" aria-hidden="true" />
+          </span>
+          <span class="flex items-baseline justify-between gap-2">
+            <span class="text-2xl font-medium tracking-[-0.03em] sm:text-3xl">
+              Goeist {FONT_VERSION}
+            </span>
+            <span class="text-muted-foreground shrink-0 text-xs">
+              zip &middot; {DOWNLOAD_SIZE}
+            </span>
+          </span>
+        </a>
+        <InstallCard client:visible />
+        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" class="cta-card">
+          <span class="flex items-center justify-between gap-2 text-sm font-medium">
+            Source
+            <ArrowUpRight class="size-4" aria-hidden="true" />
+          </span>
+          <span class="flex items-center gap-2 text-2xl font-medium tracking-[-0.03em] sm:text-3xl">
+            <GitHubIcon className="size-6" />
+            GitHub
+          </span>
+        </a>
       </div>
+    </div>
 
-      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
-        <div class="face-mono overflow-hidden text-2xl leading-tight">
-          =&gt; != &lt;= &amp;&amp;
-        </div>
-        <h3 class="mt-5 text-sm font-medium">Coding ligatures</h3>
-        <p class="text-muted-foreground mt-1 text-xs">
-          <code class="font-mono">&gt;=</code>, <code class="font-mono">!=</code>,{" "}
-          <code class="font-mono">&lt;=</code> and <code class="font-mono">&amp;&amp;</code>{" "}
-          in Goeist Mono.
+    <div class="text-muted-foreground space-y-2 pt-3 text-xs">
+        <p>
+          Designed by{" "}
+          <a class="link-underline text-foreground" href="https://github.com/Aniket-508" target="_blank" rel="noopener noreferrer">Aniket Pawar</a>{" "}
+          at Shadcn Labs, drawn from{" "}
+          <a class="link-underline text-foreground" href="https://github.com/vercel/geist-font" target="_blank" rel="noopener noreferrer">Geist</a>{" "}
+          by Vercel and Basement Studio. Rounding inspired by{" "}
+          {
+            TYPE_CREDITS.map((credit, index) => (
+              <>
+                <a
+                  class="link-underline text-foreground"
+                  href={credit.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {credit.name}
+                </a>
+                {index < TYPE_CREDITS.length - 1 ? ", " : ""}
+              </>
+            ))
+          }{" "}
+          and{" "}
+          <a
+            class="link-underline text-foreground"
+            href="https://fontsinuse.com/typefaces/1913/itc-souvenir"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ITC Souvenir
+          </a>.
         </p>
-      </div>
-
-      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
-        <div class="face-sans text-2xl leading-none tabular-nums">1,248.31</div>
-        <h3 class="mt-5 text-sm font-medium">Tabular figures</h3>
-        <p class="text-muted-foreground mt-1 text-xs">
-          Aligned numerals that line up in tables and data.
+        <p>
+          Goeist is independent, not affiliated with or endorsed by Vercel. ABC
+          Diatype and ITC Souvenir are visual references only; none of their
+          font data is used.
         </p>
-      </div>
-
-      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
-        <div class="face-mono text-3xl leading-none">O0 Il1</div>
-        <h3 class="mt-5 text-sm font-medium">Slashed zero</h3>
-        <p class="text-muted-foreground mt-1 text-xs">
-          Unambiguous 0 vs O for terminals, code and forms.
-        </p>
-      </div>
-
-      <div class="rounded-xl border border-border/60 bg-muted/30 p-5 dark:bg-[#212017]">
-        <div class="face-sans text-5xl leading-none tracking-[-0.03em]">ao</div>
-        <h3 class="mt-5 text-sm font-medium">Rounded terminals</h3>
-        <p class="text-muted-foreground mt-1 text-xs">
-          Every exposed corner and stroke ending, softened.
-        </p>
-      </div>
     </div>
   </section>
-
-  <AsciiDivider />
-
-  <section id="specs" class="view-container">
-    <h2>
-      <a href="#specs" class="view-container-title">Technical specifications</a>
-    </h2>
-    <p class="text-muted-foreground text-sm">
-      The numbers behind the family.
-    </p>
-
-    <div class="overflow-hidden rounded-xl border border-border">
-      <table class="w-full text-sm">
-        <thead>
-          <tr class="border-b border-border bg-muted/40 text-muted-foreground">
-            <th class="px-4 py-2 text-left font-normal">Family</th>
-            <th class="px-4 py-2 text-left font-normal">Weights</th>
-            <th class="px-4 py-2 text-left font-normal">Italic</th>
-            <th class="px-4 py-2 text-left font-normal">Features</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b border-border">
-            <td class="px-4 py-3 font-medium">Goeist Sans</td>
-            <td class="px-4 py-3">100&ndash;900</td>
-            <td class="px-4 py-3">Yes</td>
-            <td class="px-4 py-3">Variable + static</td>
-          </tr>
-          <tr class="border-b border-border">
-            <td class="px-4 py-3 font-medium">Goeist Mono</td>
-            <td class="px-4 py-3">100&ndash;900</td>
-            <td class="px-4 py-3">Yes</td>
-            <td class="px-4 py-3">Coding ligatures</td>
-          </tr>
-          <tr>
-            <td class="px-4 py-3 font-medium">Goeist Serif</td>
-            <td class="px-4 py-3">Variable</td>
-            <td class="px-4 py-3">No</td>
-            <td class="px-4 py-3">4 dot shapes (ELSH)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <dl class="space-y-0">
-      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
-        <dt class="text-muted-foreground">License</dt>
-        <dd>SIL Open Font License 1.1</dd>
-      </div>
-      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
-        <dt class="text-muted-foreground">Format</dt>
-        <dd>WOFF2 &middot; variable + static</dd>
-      </div>
-      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
-        <dt class="text-muted-foreground">OpenType</dt>
-        <dd>Tabular figures, slashed zero, fractions, ligatures</dd>
-      </div>
-      <div class="flex items-center justify-between gap-4 border-b border-border/60 py-2 text-sm">
-        <dt class="text-muted-foreground">Design</dt>
-        <dd>Rounded variant of Geist</dd>
-      </div>
-    </dl>
-  </section>
-
-  <AsciiDivider />
-
-  <section id="examples" class="view-container-wide py-12">
-    <div class="mx-auto max-w-2xl">
-      <h2>
-        <a href="#examples" class="view-container-title">Examples</a>
-      </h2>
-      <p class="text-muted-foreground text-sm">
-        The same family in the places it's made for &mdash; interfaces, code and
-        editorial.
-      </p>
-    </div>
-
-    <div class="mt-6 space-y-6">
-      <div class="overflow-hidden rounded-xl border border-border/60 bg-background">
-        <div class="flex items-center gap-2 border-b border-border/60 px-4 py-2.5">
-          <span class="size-2.5 rounded-full bg-border"></span>
-          <span class="size-2.5 rounded-full bg-border"></span>
-          <span class="size-2.5 rounded-full bg-border"></span>
-          <span class="text-muted-foreground ml-3 text-xs">analytics.goeist.sh</span>
-        </div>
-        <div class="flex">
-          <aside class="hidden w-44 shrink-0 border-r border-border/60 p-4 md:block">
-            <p class="face-sans text-sm font-medium">Goeist Analytics</p>
-            <nav class="mt-4 space-y-0.5 text-sm">
-              <a class="block rounded-md bg-foreground/5 px-2.5 py-1.5 font-medium">Overview</a>
-              <a class="text-muted-foreground block rounded-md px-2.5 py-1.5">Audience</a>
-              <a class="text-muted-foreground block rounded-md px-2.5 py-1.5">Sources</a>
-              <a class="text-muted-foreground block rounded-md px-2.5 py-1.5">Settings</a>
-            </nav>
-          </aside>
-          <div class="min-w-0 flex-1 p-4 sm:p-6">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <h3 class="face-sans text-base font-medium">Overview</h3>
-              <span class="text-muted-foreground text-xs">Last 30 days</span>
-            </div>
-            <div class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-              <div class="rounded-lg border border-border/60 p-3">
-                <p class="text-muted-foreground text-xs">Visitors</p>
-                <p class="face-sans mt-1 text-xl font-medium tabular-nums">12,480</p>
-                <p class="mt-0.5 text-xs text-emerald-500">+12.4%</p>
-              </div>
-              <div class="rounded-lg border border-border/60 p-3">
-                <p class="text-muted-foreground text-xs">Page views</p>
-                <p class="face-sans mt-1 text-xl font-medium tabular-nums">48,102</p>
-                <p class="mt-0.5 text-xs text-emerald-500">+8.1%</p>
-              </div>
-              <div class="rounded-lg border border-border/60 p-3">
-                <p class="text-muted-foreground text-xs">Downloads</p>
-                <p class="face-sans mt-1 text-xl font-medium tabular-nums">3,210</p>
-                <p class="mt-0.5 text-xs text-emerald-500">+21.0%</p>
-              </div>
-              <div class="rounded-lg border border-border/60 p-3">
-                <p class="text-muted-foreground text-xs">Bounce rate</p>
-                <p class="face-sans mt-1 text-xl font-medium tabular-nums">31.4%</p>
-                <p class="mt-0.5 text-xs text-destructive">-2.3%</p>
-              </div>
-            </div>
-            <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-5">
-              <div class="rounded-lg border border-border/60 p-4 lg:col-span-3">
-                <p class="text-muted-foreground text-xs">Page views</p>
-                <div class="mt-4 flex h-32 items-end gap-1.5">
-                  {
-                    [40, 62, 48, 78, 55, 92, 68, 100, 60, 74, 52, 86].map(
-                      (height) => (
-                        <div
-                          class="flex-1 rounded-t-sm bg-foreground/15"
-                          style={`height:${height}%`}
-                        ></div>
-                      )
-                    )
-                  }
-                </div>
-              </div>
-              <div class="rounded-lg border border-border/60 p-4 lg:col-span-2">
-                <p class="text-muted-foreground text-xs">Top pages</p>
-                <ul class="mt-3 space-y-2 text-sm">
-                  <li class="flex items-center justify-between gap-2">
-                    <span class="face-sans truncate">/font</span>
-                    <span class="text-muted-foreground tabular-nums">4,201</span>
-                  </li>
-                  <li class="flex items-center justify-between gap-2">
-                    <span class="face-sans truncate">/</span>
-                    <span class="text-muted-foreground tabular-nums">3,884</span>
-                  </li>
-                  <li class="flex items-center justify-between gap-2">
-                    <span class="face-sans truncate">/sponsors</span>
-                    <span class="text-muted-foreground tabular-nums">2,150</span>
-                  </li>
-                  <li class="flex items-center justify-between gap-2">
-                    <span class="face-sans truncate">/issues</span>
-                    <span class="text-muted-foreground tabular-nums">1,903</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="overflow-hidden rounded-xl border border-border/60 bg-background">
-        <div class="flex items-center gap-2 border-b border-border/60 px-4 py-2.5">
-          <span class="size-2.5 rounded-full bg-border"></span>
-          <span class="size-2.5 rounded-full bg-border"></span>
-          <span class="size-2.5 rounded-full bg-border"></span>
-          <span class="text-muted-foreground ml-3 text-xs">app.tsx &mdash; goeist-font</span>
-        </div>
-        <div class="flex">
-          <div class="hidden w-12 shrink-0 border-r border-border/60 py-3 pr-3 text-right font-mono text-xs leading-6 text-muted-foreground/60 select-none sm:block">
-            1<br />2<br />3<br />4
-          </div>
-          <pre class="face-mono flex-1 overflow-x-auto p-3 text-xs leading-6 sm:text-sm">import &#123; GoeistSans &#125; from "goeist/font/sans";
-import &#123; GoeistMono &#125; from "goeist/font/mono";
-
-const soft = (n) => Math.round(n * 2) / 2;
-const rows = data.filter((d) => d.active && d.count >= 3);</pre>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <AsciiDivider />
-
-  <section id="install" class="view-container">
-    <h2>
-      <a href="#install" class="view-container-title">Install</a>
-    </h2>
-    <p class="text-muted-foreground text-sm">
-      Download the release to install Goeist system-wide, or pull the variable
-      fonts into a project with npm.
-    </p>
-
-    <a
-      href={RELEASES_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="flex items-center justify-between gap-4 rounded-xl border border-border bg-muted/30 px-5 py-4 transition-colors hover:bg-muted dark:bg-[#212017]"
-    >
-      <span>
-        <span class="block text-sm font-medium">Download the release</span>
-        <span class="text-muted-foreground block text-xs">
-          OTF, WOFF2 and variable fonts from GitHub
-        </span>
-      </span>
-      <Download class="text-muted-foreground size-4" aria-hidden="true" />
-    </a>
-
-    <div
-      data-code-scope
-      class="overflow-hidden rounded-xl border border-border p-[2px] bg-muted/40"
-    >
-      <div
-        class="flex items-center justify-between gap-4 px-3 py-1.5"
-      >
-        <span class="text-muted-foreground font-mono text-[10px]">terminal</span>
-        <button
-          type="button"
-          data-copy
-          aria-label="Copy code"
-          class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
-          <Copy class="copy-default size-3.5" stroke-width={1.5} aria-hidden="true" />
-          <Check class="copy-success hidden size-3.5 text-emerald-500" aria-hidden="true" />
-        </button>
-      </div>
-      <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
-        <pre class="overflow-x-auto p-3 font-mono text-xs leading-relaxed"><code data-code><span class="text-primary font-medium">npm</span> <span class="text-muted-foreground">i</span> <span>goeist</span></code></pre>
-      </div>
-    </div>
-
-    <div
-      data-code-scope
-      class="overflow-hidden rounded-xl border border-border p-[2px] bg-muted/40"
-    >
-      <div
-        class="flex items-center justify-between gap-4 px-3 py-1.5"
-      >
-        <span class="text-muted-foreground font-mono text-[10px]">next.js</span>
-        <button
-          type="button"
-          data-copy
-          aria-label="Copy code"
-          class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
-          <Copy class="copy-default size-3.5" stroke-width={1.5} aria-hidden="true" />
-          <Check class="copy-success hidden size-3.5 text-emerald-500" aria-hidden="true" />
-        </button>
-      </div>
-      <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
-        <pre class="overflow-x-auto p-3 font-mono text-xs leading-relaxed"><code data-code><span class="text-primary">import</span> &#123; <span class="text-foreground font-medium">GoeistSans</span> &#125; <span class="text-primary">from</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/font/sans"</span>;
-<span class="text-primary">import</span> &#123; <span class="text-foreground font-medium">GoeistMono</span> &#125; <span class="text-primary">from</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/font/mono"</span>;
-<span class="text-primary">import</span> &#123; <span class="text-foreground font-medium">GoeistSerif</span> &#125; <span class="text-primary">from</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/font/serif"</span>;</code></pre>
-      </div>
-    </div>
-
-    <div
-      data-code-scope
-      class="overflow-hidden rounded-xl border border-border p-[2px] bg-muted/40"
-    >
-      <div
-        class="flex items-center justify-between gap-4 px-3 py-1.5"
-      >
-        <span class="text-muted-foreground font-mono text-[10px]">css</span>
-        <button
-          type="button"
-          data-copy
-          aria-label="Copy code"
-          class="text-muted-foreground hover:text-foreground inline-flex items-center justify-center transition-colors">
-          <Copy class="copy-default size-3.5" stroke-width={1.5} aria-hidden="true" />
-          <Check class="copy-success hidden size-3.5 text-emerald-500" aria-hidden="true" />
-        </button>
-      </div>
-      <div class="overflow-hidden rounded-[calc(0.75rem-2px)] border border-border/50 bg-background">
-        <pre class="overflow-x-auto p-3 font-mono text-xs leading-relaxed"><code data-code><span class="text-primary">@import</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/sans.css"</span>;
-<span class="text-primary">@import</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/mono.css"</span>;
-<span class="text-primary">@import</span> <span class="text-[#10b981] dark:text-[#34d399]">"goeist/serif.css"</span>;</code></pre>
-      </div>
-    </div>
-
-    <span id="copy-status" role="status" aria-live="polite" class="sr-only"
-    ></span>
-  </section>
-
-  <AsciiDivider />
-
-  <section id="license" class="view-container">
-    <h2>
-      <a href="#license" class="view-container-title">License &amp; pricing</a>
-    </h2>
-    <p class="text-muted-foreground text-sm">
-      Free forever, open source.
-    </p>
-
-    <div class="rounded-xl border border-border bg-muted/30 p-6 dark:bg-[#212017]">
-      <div class="flex items-baseline gap-2">
-        <span class="face-sans text-5xl font-medium tracking-[-0.03em]">$0</span>
-        <span class="text-muted-foreground text-sm">&mdash; free, forever</span>
-      </div>
-      <p class="text-muted-foreground mt-4 text-sm">
-        Goeist is released under the SIL Open Font License 1.1. Use it in
-        personal and commercial projects, modify it, and redistribute it &mdash;
-        no attribution required.
-      </p>
-      <a
-        class="link-underline mt-3 inline-block text-sm"
-        href={LICENSE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Read the full license
-      </a>
-    </div>
-  </section>
-
-  <AsciiDivider />
-
-  <section id="faq" class="view-container">
-    <h2>
-      <a href="#faq" class="view-container-title">FAQ</a>
-    </h2>
-
-    <div class="space-y-2">
-      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
-        <summary class="cursor-pointer text-sm font-medium">
-          Is Goeist free for commercial use?
-        </summary>
-        <p class="text-muted-foreground mt-2 text-sm">
-          Yes. The SIL Open Font License permits commercial use, modification
-          and redistribution, free of charge.
-        </p>
-      </details>
-      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
-        <summary class="cursor-pointer text-sm font-medium">
-          Is Goeist a fork of Geist?
-        </summary>
-        <p class="text-muted-foreground mt-2 text-sm">
-          Goeist is a rounded variant of Geist. It keeps Geist's proportions,
-          spacing and OpenType features while rounding every exposed corner and
-          stroke ending.
-        </p>
-      </details>
-      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
-        <summary class="cursor-pointer text-sm font-medium">
-          Do I have to credit Shadcn Labs?
-        </summary>
-        <p class="text-muted-foreground mt-2 text-sm">
-          No. The license does not require attribution, though a mention is
-          always appreciated.
-        </p>
-      </details>
-      <details class="rounded-xl border border-border bg-muted/30 px-4 py-3 dark:bg-[#212017]">
-        <summary class="cursor-pointer text-sm font-medium">
-          Which weights and styles are included?
-        </summary>
-        <p class="text-muted-foreground mt-2 text-sm">
-          Goeist Sans and Mono cover 100&ndash;900 with true italics. Goeist
-          Serif ships four dot shapes (regular, square, triangle, heart) through
-          a single variable axis.
-        </p>
-      </details>
-    </div>
-  </section>
-
-  <footer class="view-container pb-12 text-center">
-    <p class="text-muted-foreground text-xs">
-      &copy; {new Date().getFullYear()} Aniket Pawar &middot; Goeist is licensed
-      under the SIL Open Font License 1.1
-    </p>
-  </footer>
 </BaseLayout>
 
 <style>
-  .face-sans {
-    font-family: "Goeist", ui-sans-serif, system-ui, sans-serif;
-  }
-
-  .face-mono {
-    font-family: "Goeist Mono", ui-monospace, monospace;
-  }
-
-  .face-serif {
-    font-family: "Goeist Serif", Georgia, ui-serif, serif;
-  }
-
-  .specimen-line {
-    position: relative;
-    padding-bottom: 0.5em;
-  }
-
-  .specimen-line::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0.25em;
-    border-top: 1px dashed color-mix(in oklab, var(--foreground) 22%, transparent);
-  }
-
-  #overview-heading.face-mono {
+  #overview-heading:global(.font-mono) {
     letter-spacing: -0.1em;
   }
 
-  #overview-heading.face-mono #overview-period {
+  #overview-heading:global(.font-mono) #overview-period {
     display: none;
-  }
-
-  .seg-btn {
-    cursor: pointer;
-    border-radius: calc(infinity * 1px);
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-    color: var(--muted-foreground);
-    transition:
-      color 150ms ease,
-      background-color 150ms ease;
-  }
-
-  .seg-btn:hover {
-    color: var(--foreground);
-  }
-
-  .seg-btn[aria-pressed="true"] {
-    background-color: var(--foreground);
-    color: var(--background);
-  }
-
-  .seg-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.4;
-  }
-
-  .seg-btn:disabled:hover {
-    color: var(--muted-foreground);
-  }
-
-  .seg-btn:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 1px;
-  }
-
-  .specimen-range {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 2px;
-    border-radius: 999px;
-    background-color: var(--border);
-    cursor: pointer;
-  }
-
-  .specimen-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background-color: var(--foreground);
-    border: 2px solid var(--background);
-    box-shadow: 0 0 0 1px var(--border);
-    transition: transform 120ms ease;
-  }
-
-  .specimen-range::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
-  }
-
-  .specimen-range::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background-color: var(--foreground);
-    border: 2px solid var(--background);
-    box-shadow: 0 0 0 1px var(--border);
-  }
-
-  .specimen-range:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 4px;
-  }
-
-  .specimen-range:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-
-  .specimen-range:disabled::-webkit-slider-thumb {
-    cursor: not-allowed;
-  }
-
-  .rotary-tick-major {
-    background-color: rgba(17, 17, 17, 0.65) !important;
-  }
-  .rotary-tick-minor {
-    background-color: rgba(17, 17, 17, 0.25) !important;
-  }
-  :global(.dark) .rotary-tick-major {
-    background-color: rgba(245, 244, 239, 0.7) !important;
-  }
-  :global(.dark) .rotary-tick-minor {
-    background-color: rgba(245, 244, 239, 0.35) !important;
   }
 
   .cta-panel {
@@ -961,418 +338,44 @@ const rows = data.filter((d) => d.active && d.count >= 3);</pre>
     );
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .seg-btn,
-    .specimen-range::-webkit-slider-thumb {
-      transition: none;
-    }
+  .cta-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 1rem;
+    background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+    padding: 1.25rem;
+    transition: background-color 150ms ease;
+  }
+
+  :global(.dark) .cta-card {
+    border: 1px solid var(--border);
+    background-color: #212017;
+  }
+
+  .cta-card:hover {
+    background-color: var(--muted);
   }
 </style>
 
 <script>
-  const FAMILY_CSS = {
-    mono: '"Goeist Mono", ui-monospace, monospace',
-    sans: '"Goeist", ui-sans-serif, sans-serif',
-    serif: '"Goeist Serif", Georgia, ui-serif, serif',
-  };
+  import {
+    FONT_FAMILY_EVENT,
+    isFontFamily,
+  } from "@/components/font/use-font-family";
 
-  const DEFAULT_TEXT = "Rounded corners, sharper ideas.";
+  const FACES = ["font-sans", "font-mono", "font-serif"];
 
-  const specimen = document.querySelector("#specimen");
-  const sizeInput = document.querySelector("#tester-size");
-  const sizeValue = document.querySelector("#tester-size-value");
-  const weightInput = document.querySelector("#tester-weight");
-  const weightValue = document.querySelector("#tester-weight-value");
-  const weightControl = document.querySelector("#tester-weight-control");
-  const italicButton = document.querySelector("#tester-italic");
-  const shapesWrap = document.querySelector("#tester-shapes-wrap");
-  const resetButton = document.querySelector("#tester-reset");
-  const familyButtons = document.querySelectorAll<HTMLElement>("[data-family]");
-  const shapeButtons = document.querySelectorAll<HTMLElement>("[data-shape]");
-  const copyButtons = document.querySelectorAll("[data-copy]");
-  const copyStatus = document.querySelector("#copy-status");
-  const state = {
-    elsh: 0,
-    family: "sans",
-    italic: false,
-    lineHeight: 1.2,
-    size: 48,
-    spacing: -0.03,
-    weight: 400,
-  };
+  document.addEventListener(FONT_FAMILY_EVENT, (event) => {
+    const family = (event as CustomEvent<{ family?: string }>).detail?.family;
 
-  const apply = () => {
-    if (!(specimen instanceof HTMLElement)) {
+    if (!isFontFamily(family)) {
       return;
     }
 
-    const isSerif = state.family === "serif";
-
-    specimen.style.fontFamily =
-      FAMILY_CSS[state.family as keyof typeof FAMILY_CSS];
-    specimen.style.fontWeight = isSerif ? "400" : String(state.weight);
-    specimen.style.fontSize = `${state.size}px`;
-    specimen.style.letterSpacing = `${state.spacing}em`;
-    specimen.style.lineHeight = String(state.lineHeight);
-    specimen.style.fontStyle =
-      !isSerif && state.italic ? "italic" : "normal";
-    specimen.style.fontVariationSettings = isSerif
-      ? `"ELSH" ${state.elsh}`
-      : "normal";
-
-    if (italicButton instanceof HTMLButtonElement) {
-      italicButton.disabled = isSerif;
-      italicButton.setAttribute(
-        "aria-pressed",
-        String(!isSerif && state.italic)
-      );
-    }
-
-    if (shapesWrap instanceof HTMLElement) {
-      shapesWrap.style.display = isSerif ? "flex" : "none";
-    }
-
-    for (const button of familyButtons) {
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.family === state.family)
-      );
-    }
-
-    for (const button of shapeButtons) {
-      button.setAttribute(
-        "aria-pressed",
-        String(Number(button.dataset.shape) === state.elsh)
-      );
-    }
-  };
-
-  // Rotation / Bar Slider Controllers
-  interface SliderConfig {
-    min: number;
-    max: number;
-    step: number;
-    tickInterval: number;
-  }
-
-  const SLIDER_CONFIGS: Record<string, SliderConfig> = {
-    lineHeight: {
-      max: 180,
-      min: 90,
-      step: 5,
-      tickInterval: 2.5,
-    },
-    size: {
-      max: 120,
-      min: 24,
-      step: 1,
-      // 80 ticks across 24-120
-      tickInterval: 1.2,
-    },
-    spacing: {
-      max: 15,
-      min: -5,
-      step: 0.5,
-      // 80 ticks across -5 to 15
-      tickInterval: 0.25,
-    },
-    weight: {
-      max: 900,
-      min: 100,
-      step: 10,
-      // 80 ticks across 100-900
-      tickInterval: 10,
-    },
-  };
-
-  const setupBarSlider = (sliderEl: HTMLElement) => {
-    const sliderType = sliderEl.dataset.slider ?? "";
-    const cfg = SLIDER_CONFIGS[sliderType];
-    if (!cfg) {return;}
-
-    const { min, max, step, tickInterval } = cfg;
-    let value = Number(sliderEl.dataset.value ?? min);
-
-    const trackWrap = sliderEl.querySelector<HTMLElement>(".slider-track-wrap");
-    const valSpan = document.querySelector<HTMLElement>(
-      `#slider-${sliderType}-val`
-    );
-
-    const TICK_SPACING_PX = 8;
-    const totalTicks = Math.round((max - min) / tickInterval);
-    const totalTrackWidth = totalTicks * TICK_SPACING_PX;
-
-    if (trackWrap) {
-      trackWrap.innerHTML = "";
-      trackWrap.style.width = `${totalTrackWidth}px`;
-      trackWrap.style.position = "absolute";
-      trackWrap.style.top = "0";
-      trackWrap.style.bottom = "0";
-      trackWrap.style.left = "0";
-
-      for (let i = 0; i <= totalTicks; i += 1) {
-        const tick = document.createElement("span");
-        tick.style.position = "absolute";
-        tick.style.left = `${i * TICK_SPACING_PX}px`;
-        tick.style.top = "50%";
-        tick.style.transform = "translate(-50%, -50%)";
-        tick.style.borderRadius = "9999px";
-        tick.style.pointerEvents = "none";
-        tick.style.width = "1.5px";
-        tick.style.height = i % 5 === 0 ? "18px" : "11px";
-        tick.className = `rotary-tick ${i % 5 === 0 ? "rotary-tick-major opacity-65 dark:opacity-70" : "rotary-tick-minor opacity-25 dark:opacity-35"} bg-foreground dark:bg-[#f5f4ef]`;
-
-        trackWrap.append(tick);
-      }
-    }
-
-    const render = () => {
-      const pct = Math.max(0, Math.min(1, (value - min) / (max - min)));
-
-      if (trackWrap) {
-        const containerWidth = sliderEl.clientWidth || 240;
-        const shiftX = (containerWidth / 2) - (pct * totalTrackWidth);
-        trackWrap.style.transform = `translateX(${shiftX}px)`;
-      }
-
-      if (valSpan) {
-        if (sliderType === "spacing") {
-          valSpan.textContent = `${(value / 100).toFixed(2)}em`;
-        } else if (sliderType === "size") {
-          valSpan.textContent = `${Math.round(value)}px`;
-        } else if (sliderType === "lineHeight") {
-          valSpan.textContent = `${(value / 100).toFixed(2)}`;
-        } else {
-          valSpan.textContent = `${Math.round(value)}`;
-        }
-      }
-
-      sliderEl.setAttribute("aria-valuenow", String(value));
-
-      if (sliderType === "weight") {
-        state.weight = Math.round(value);
-      } else if (sliderType === "size") {
-        state.size = Math.round(value);
-      } else if (sliderType === "spacing") {
-        state.spacing = Number((value / 100).toFixed(3));
-      } else if (sliderType === "lineHeight") {
-        state.lineHeight = Number((value / 100).toFixed(2));
-      }
-      apply();
-    };
-
-    let startX = 0;
-    let startVal = value;
-    let isDragging = false;
-
-    // Direct click/jump or drag logic
-    const updateFromClientX = (clientX: number) => {
-      const rect = sliderEl.getBoundingClientRect();
-      const clickX = clientX - rect.left;
-      const containerWidth = rect.width || 240;
-      // In render(): shiftX = (containerWidth / 2) - (pct * totalTrackWidth)
-      // When user clicks at clickX, we want the tick at that point to move under center:
-      // (clickX - containerWidth / 2) is the pixel delta from center.
-      // Or relative to drag start:
-      const dx = clientX - startX;
-      // Dragging left (negative dx) moves tape left, increasing value.
-      // Dragging right (positive dx) moves tape right, decreasing value.
-      // Tape moves 1:1 with cursor (1px cursor move = 1px tape move = (tickInterval / TICK_SPACING_PX) value change)
-      const valPerPx = (max - min) / totalTrackWidth;
-      let newVal = startVal - dx * valPerPx;
-      newVal = Math.round(newVal / step) * step;
-      value = Math.max(min, Math.min(max, newVal));
-      render();
-    };
-
-    const onPointerDown = (e: PointerEvent) => {
-      isDragging = true;
-      startX = e.clientX;
-      startVal = value;
-      sliderEl.setPointerCapture(e.pointerId);
-    };
-
-    const onPointerMove = (e: PointerEvent) => {
-      if (!isDragging) {return;}
-      updateFromClientX(e.clientX);
-    };
-
-    const onPointerUp = (e: PointerEvent) => {
-      if (!isDragging) {return;}
-      isDragging = false;
-      try {
-        sliderEl.releasePointerCapture(e.pointerId);
-      } catch {
-        // Pointer capture may already be released.
-      }
-    };
-
-    sliderEl.addEventListener("pointerdown", onPointerDown);
-    sliderEl.addEventListener("pointermove", onPointerMove);
-    sliderEl.addEventListener("pointerup", onPointerUp);
-    sliderEl.addEventListener("pointercancel", onPointerUp);
-
-    sliderEl.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowUp") {
-        value = Math.min(max, value + step);
-        render();
-        e.preventDefault();
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
-        value = Math.max(min, value - step);
-        render();
-        e.preventDefault();
-      }
-    });
-
-    window.addEventListener("resize", render);
-    render();
-  };
-
-  for (const el of document.querySelectorAll<HTMLElement>(".rotary-slider")) {
-    setupBarSlider(el);
-  }
-
-  for (const button of familyButtons) {
-    button.addEventListener("click", () => {
-      const { family } = button.dataset;
-
-      if (family !== "sans" && family !== "mono" && family !== "serif") {
-        return;
-      }
-
-      state.family = family;
-
-      if (family === "serif") {
-        state.italic = false;
-      }
-
-      apply();
-    });
-  }
-
-  for (const button of shapeButtons) {
-    button.addEventListener("click", () => {
-      const value = Number(button.dataset.shape);
-
-      if (Number.isFinite(value)) {
-        state.elsh = value;
-        apply();
-      }
-    });
-  }
-
-  sizeInput?.addEventListener("input", () => {
-    if (sizeInput instanceof HTMLInputElement) {
-      state.size = Number(sizeInput.value);
-      apply();
+    for (const element of document.querySelectorAll("[data-family-face]")) {
+      element.classList.remove(...FACES);
+      element.classList.add(`font-${family}`);
     }
   });
-
-  weightInput?.addEventListener("input", () => {
-    if (weightInput instanceof HTMLInputElement) {
-      state.weight = Number(weightInput.value);
-      apply();
-    }
-  });
-
-  italicButton?.addEventListener("click", () => {
-    if (italicButton instanceof HTMLButtonElement && !italicButton.disabled) {
-      state.italic = !state.italic;
-      apply();
-    }
-  });
-
-  resetButton?.addEventListener("click", () => {
-    state.family = "sans";
-    state.size = 60;
-    state.weight = 500;
-    state.italic = false;
-    state.elsh = 0;
-    state.spacing = -0.03;
-    state.lineHeight = 1.2;
-
-    if (specimen instanceof HTMLElement) {
-      specimen.textContent = DEFAULT_TEXT;
-    }
-
-    apply();
-  });
-
-  for (const button of copyButtons) {
-    button.addEventListener("click", async () => {
-      const scope = button.closest("[data-code-scope]");
-      const code = scope?.querySelector("[data-code]");
-      const text = code?.textContent?.trim() ?? "";
-
-      if (!text) {
-        return;
-      }
-
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch {
-        return;
-      }
-
-      const defaultIcon = button.querySelector(".copy-default");
-      const successIcon = button.querySelector(".copy-success");
-
-      if (defaultIcon && successIcon) {
-        defaultIcon.classList.add("hidden");
-        successIcon.classList.remove("hidden");
-      } else {
-        button.textContent = "copied";
-      }
-      if (copyStatus) {
-        copyStatus.textContent = "Copied to clipboard.";
-      }
-
-      window.setTimeout(() => {
-        if (defaultIcon && successIcon) {
-          defaultIcon.classList.remove("hidden");
-          successIcon.classList.add("hidden");
-        } else {
-          button.textContent = "copy";
-        }
-        if (copyStatus) {
-          copyStatus.textContent = "";
-        }
-      }, 1500);
-    });
-  }
-
-  const applyFamily = (family: "sans" | "mono" | "serif") => {
-    const faceClass = `face-${family}`;
-    const dynamicFaceElements = document.querySelectorAll<HTMLElement>(
-      ".font-dynamic-face, #overview h2, #overview p"
-    );
-    for (const el of dynamicFaceElements) {
-      el.classList.remove("face-sans", "face-mono", "face-serif");
-      el.classList.add(faceClass);
-    }
-
-    const weightWrapper = document.querySelector("#weight-slider-wrapper");
-    const slidersGrid = document.querySelector("#sliders-grid");
-    if (family === "sans") {
-      weightWrapper?.classList.remove("hidden");
-      slidersGrid?.classList.remove("sm:grid-cols-2");
-      slidersGrid?.classList.add("sm:grid-cols-3");
-    } else {
-      weightWrapper?.classList.add("hidden");
-      slidersGrid?.classList.remove("sm:grid-cols-3");
-      slidersGrid?.classList.add("sm:grid-cols-2");
-    }
-
-    state.family = family;
-    apply();
-  };
-
-  document.addEventListener("font-pill-change", (event) => {
-    const family = (event as CustomEvent<{ family?: string }>).detail?.family;
-    if (family === "sans" || family === "mono" || family === "serif") {
-      applyFamily(family);
-    }
-  });
-
-  apply();
 </script>

@@ -28,6 +28,7 @@
       "headers": {
         "Authorization": "Bearer ${KOBRA_TOKEN}"
       }
-    }
+    },
+    "@ncdai": "https://chanhdai.com/r/{name}.json"
   }
 }

@@ -1,3 +1,4 @@
+import { isFontFamily, setFontFamily } from "@/components/font/use-font-family";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
@@ -14,9 +15,9 @@ export const FontFamilyTabs = () => (
   <Tabs
     defaultValue="sans"
     onValueChange={(value) => {
-      document.dispatchEvent(
-        new CustomEvent("font-pill-change", { detail: { family: value } })
-      );
+      if (isFontFamily(value)) {
+        setFontFamily(value);
+      }
     }}
   >
     <TabsList

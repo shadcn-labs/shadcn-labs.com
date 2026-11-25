@@ -1,9 +1,20 @@
+import clankerui from "@/components/font/logos/clankerui.svg?raw";
+import diceui from "@/components/font/logos/diceui.svg?raw";
+import illos from "@/components/font/logos/illos.svg?raw";
+import jam from "@/components/font/logos/jam.svg?raw";
+import mastra from "@/components/font/logos/mastra.svg?raw";
+import openui from "@/components/font/logos/openui.svg?raw";
+import rareui from "@/components/font/logos/rareui.svg?raw";
+import roadmap from "@/components/font/logos/roadmap.svg?raw";
+import shadcncraft from "@/components/font/logos/shadcncraft.svg?raw";
+import tracwell from "@/components/font/logos/tracwell.svg?raw";
+import vercel from "@/components/font/logos/vercel.svg?raw";
+
 export interface Company {
   name: string;
-  /** Domain resolved via Google's favicon service for the logo mark. */
-  domain?: string;
-  /** Explicit logo URL that overrides the favicon service. */
-  favicon?: string;
+  url: string;
+  svg: string;
+  kind: "wordmark" | "mark";
 }
 
 export interface Testimonial {
@@ -12,40 +23,43 @@ export interface Testimonial {
   handle: string;
   role: string;
   url: string;
+  featured?: boolean;
 }
 
-/** Resolve an X profile avatar via unavatar.io. */
 export const avatarFor = (handle: string) => `https://unavatar.io/x/${handle}`;
 
-/** Resolve a company logo mark (grayscale) from its favicon. */
-export const faviconFor = (company: Company) =>
-  company.favicon ??
-  `https://www.google.com/s2/favicons?domain=${company.domain}&sz=128`;
-
-// Companies of the people who replied to the Goeist launch tweet, derived from
-// their bios / website links. Each mark is resolved from the site favicon.
 export const COMPANIES: Company[] = [
-  { domain: "vercel.com", name: "Vercel" },
-  { domain: "mastra.ai", name: "Mastra" },
-  { domain: "roadmap.sh", name: "roadmap.sh" },
-  { domain: "openui.com", name: "OpenUI" },
+  { kind: "wordmark", name: "Vercel", svg: vercel, url: "https://vercel.com" },
+  { kind: "wordmark", name: "Mastra", svg: mastra, url: "https://mastra.ai" },
+  { kind: "wordmark", name: "OpenUI", svg: openui, url: "https://openui.com" },
+  { kind: "wordmark", name: "Illos", svg: illos, url: "https://illos.dev" },
+  { kind: "mark", name: "roadmap.sh", svg: roadmap, url: "https://roadmap.sh" },
+  { kind: "mark", name: "Dice UI", svg: diceui, url: "https://diceui.com" },
   {
-    domain: "editframe.com",
-    favicon: "https://editframe.com/images/favicon.png",
-    name: "EditFrame",
+    kind: "mark",
+    name: "shadcncraft",
+    svg: shadcncraft,
+    url: "https://shadcncraft.com",
   },
-  { domain: "diceui.com", name: "DiceUI" },
-  { domain: "shadcncraft.com", name: "shadcncraft" },
-  { domain: "jam.dev", name: "Jam" },
-  { domain: "ocelli.app", name: "Ocelli" },
-  { domain: "clankerui.dev", name: "ClankerUI" },
-  { domain: "illos.dev", name: "Illos" },
-  { domain: "rareui.com", name: "rareui" },
-  { domain: "tracwell.app", name: "Tracwell" },
+  { kind: "mark", name: "Jam", svg: jam, url: "https://jam.dev" },
+  {
+    kind: "mark",
+    name: "Clanker UI",
+    svg: clankerui,
+    url: "https://clankerui.dev",
+  },
+  { kind: "mark", name: "Rare UI", svg: rareui, url: "https://rareui.com" },
+  {
+    kind: "mark",
+    name: "Tracwell",
+    svg: tracwell,
+    url: "https://tracwell.app",
+  },
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
   {
+    featured: true,
     handle: "evilrabbit_",
     name: "Evil Rabbit",
     quote: "Insane work, Aniket! 🤯🔥",
@@ -67,6 +81,7 @@ export const TESTIMONIALS: Testimonial[] = [
     url: "https://x.com/dominikmartn/status/2120955173300548063",
   },
   {
+    featured: true,
     handle: "imarikchakma",
     name: "Arik Chakma",
     quote: "Noeist 🤌",
@@ -109,10 +124,3 @@ export const TESTIMONIALS: Testimonial[] = [
     url: "https://x.com/sadmann17/status/2120966990726943020",
   },
 ];
-
-export const TWEET_STATS = {
-  bookmarks: 81,
-  likes: 216,
-  replies: 54,
-  reposts: 41,
-};

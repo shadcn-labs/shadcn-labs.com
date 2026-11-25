@@ -1,7 +1,13 @@
 ---
+import { cn } from "@/lib/utils";
 
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<div class="my-6 text-center">
+<div class={cn("view-container my-6", className)} aria-hidden="true">
   <span class="tracking-[-0.1em]">~ ~ ~</span>
 </div>

@@ -79,7 +79,7 @@ export const NotFoundHero = ({ logins, snapshotAt }: NotFoundHeroProps) => {
   return (
     <section
       aria-labelledby="not-found-title"
-      className="relative isolate mt-10 flex min-h-[min(640px,78svh)] w-full flex-col items-center justify-center overflow-hidden px-4"
+      className="relative isolate mx-auto mt-10 flex min-h-[min(640px,78svh)] w-full max-w-7xl flex-col items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8"
       onPointerDown={(event) => {
         if (mode === "gpu" && !(event.target as Element).closest(INTERACTIVE)) {
           fieldRef.current?.ripple(...localPoint(event));
