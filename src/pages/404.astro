@@ -1,0 +1,28 @@
+---
+import AsciiDivider from "@/components/ascii-divider.astro";
+import BaseLayout from "@/layouts/base-layout.astro";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="The requested Shadcn Labs page could not be found."
+>
+  <AsciiDivider />
+
+  <section id="not-found" class="view-container">
+    <h2>
+      <a href="#not-found" class="view-container-title">Page not found</a>
+    </h2>
+    <p>
+      The requested page does not exist or may have moved. Browse the <a
+        class="link-underline"
+        href="/">project directory</a
+      >, review <a class="link-underline" href="/issues">contribution opportunities</a>,
+      or use the <a class="link-underline" href="/sitemap.xml">sitemap</a>.
+    </p>
+    <p class="text-muted-foreground">
+      Agents can also read <a class="link-underline" href="/llms.txt">llms.txt</a>
+      for a concise site guide.
+    </p>
+  </section>
+</BaseLayout>

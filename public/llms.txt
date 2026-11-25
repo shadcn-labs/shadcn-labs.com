@@ -1,0 +1,27 @@
+# Shadcn Labs
+
+> Shadcn Labs builds open-source component registries and developer tools for the shadcn/ui ecosystem.
+
+Use this site to discover Shadcn Labs projects, understand what each project provides, find contribution opportunities, or contact the team. Prefer the linked project sites and GitHub repositories for implementation-specific documentation.
+
+## Core pages
+
+- [Home](https://www.shadcn-labs.com/): Project directory and latest Shadcn Labs work.
+- [About](https://www.shadcn-labs.com/about): Organization background and team.
+- [Issues](https://www.shadcn-labs.com/issues): Open-source contribution opportunities.
+- [Contact](https://www.shadcn-labs.com/contact): Contact form, email, and community links.
+- [Brand](https://www.shadcn-labs.com/brand): Brand assets and usage guidance.
+- [Press](https://www.shadcn-labs.com/press): News and press coverage.
+- [Contributors](https://www.shadcn-labs.com/contributors): Community contributors.
+- [Sponsors](https://www.shadcn-labs.com/sponsors): Sponsorship information.
+
+## Project families
+
+- AI and agent tooling: agentcn, mcpcn, and skills.
+- UI foundations: startercn, termcn, shadcn-cssinjs, and shadercn.
+- Content components: framecn, ogimagecn, emailcn, pdfcn, editorcn, and mdxcn.
+
+## Additional resources
+
+- [GitHub organization](https://github.com/shadcn-labs): Source code and contribution history.
+- [Sitemap](https://www.shadcn-labs.com/sitemap.xml): Complete public page index.
