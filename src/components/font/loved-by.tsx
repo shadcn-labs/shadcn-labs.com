@@ -1,3 +1,4 @@
+import { XIcon } from "@/components/icons";
 import { LogosSwap } from "@/components/ui/logos-swap";
 import { Marquee, MarqueeContent, MarqueeItem } from "@/components/ui/marquee";
 import {
@@ -62,7 +63,7 @@ const TestimonialBody = ({
 }) => (
   <a
     className={cn(
-      "border-border/60 bg-muted/30 hover:bg-muted block rounded-xl border transition-colors dark:bg-[#212017]",
+      "border-border/60 bg-muted/30 hover:bg-muted relative block rounded-xl border transition-colors dark:bg-[#212017]",
       featured ? "h-44" : "h-36"
     )}
     href={item.url}
@@ -78,7 +79,7 @@ const TestimonialBody = ({
       >
         <p>&ldquo;{item.quote}&rdquo;</p>
       </TestimonialQuote>
-      <TestimonialAuthor>
+      <TestimonialAuthor className="pr-12">
         <TestimonialAvatar>
           <TestimonialAvatarImg
             src={avatarFor(item.handle)}
@@ -95,6 +96,7 @@ const TestimonialBody = ({
         </TestimonialAuthorTagline>
       </TestimonialAuthor>
     </Testimonial>
+    <XIcon className="text-muted-foreground absolute right-5 bottom-6 size-4" />
   </a>
 );
 
