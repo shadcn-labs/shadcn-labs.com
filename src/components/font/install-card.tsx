@@ -1,4 +1,4 @@
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CircleCheckIcon, CopyIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const COMMAND = "npm i goeist";
@@ -28,7 +28,7 @@ export const InstallCard = () => {
       <span className="flex w-full items-center justify-between gap-2 text-sm font-medium">
         Install
         {copied ? (
-          <CheckIcon className="size-4 text-emerald-500" aria-hidden="true" />
+          <CircleCheckIcon className="text-primary size-4" aria-hidden="true" />
         ) : (
           <CopyIcon className="size-4" aria-hidden="true" />
         )}
