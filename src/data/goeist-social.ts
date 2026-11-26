@@ -1,3 +1,4 @@
+import breezeui from "@/components/font/logos/breezeui.svg?raw";
 import clankerui from "@/components/font/logos/clankerui.svg?raw";
 import diceui from "@/components/font/logos/diceui.svg?raw";
 import illos from "@/components/font/logos/illos.svg?raw";
@@ -29,6 +30,12 @@ export interface Testimonial {
 export const avatarFor = (handle: string) => `https://unavatar.io/x/${handle}`;
 
 export const COMPANIES: Company[] = [
+  {
+    kind: "mark",
+    name: "Breeze UI",
+    svg: breezeui,
+    url: "https://www.breezeui.com/",
+  },
   { kind: "wordmark", name: "Vercel", svg: vercel, url: "https://vercel.com" },
   { kind: "wordmark", name: "Mastra", svg: mastra, url: "https://mastra.ai" },
   { kind: "wordmark", name: "OpenUI", svg: openui, url: "https://openui.com" },
@@ -122,5 +129,12 @@ export const TESTIMONIALS: Testimonial[] = [
     quote: "Clean.",
     role: "Building DiceUI",
     url: "https://x.com/sadmann17/status/2120966990726943020",
+  },
+  {
+    handle: "radiumcoders",
+    name: "Jay",
+    quote: "using this rn, it's awesome",
+    role: "Design Engineer, Breeze UI",
+    url: "https://x.com/radiumcoders/status/2123310171254644888",
   },
 ];
