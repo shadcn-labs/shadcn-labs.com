@@ -102,11 +102,6 @@ const TestimonialBody = ({
 
 const FEATURED = TESTIMONIALS.filter((item) => item.featured);
 const REST = TESTIMONIALS.filter((item) => !item.featured);
-const half = Math.ceil(REST.length / 2);
-const ROWS = [
-  { direction: "left", items: REST.slice(0, half) },
-  { direction: "right", items: REST.slice(half) },
-] as const;
 
 export const LovedBy = () => (
   <div className="space-y-3">
@@ -115,18 +110,16 @@ export const LovedBy = () => (
         <TestimonialBody key={item.handle} featured item={item} />
       ))}
     </div>
-    <div className="space-y-3 mask-[linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-      {ROWS.map((row) => (
-        <Marquee key={row.direction}>
-          <MarqueeContent direction={row.direction} speed={32}>
-            {row.items.map((item) => (
-              <MarqueeItem key={item.handle} className="w-72 px-1.5">
-                <TestimonialBody item={item} />
-              </MarqueeItem>
-            ))}
-          </MarqueeContent>
-        </Marquee>
-      ))}
+    <div className="mask-[linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      <Marquee>
+        <MarqueeContent speed={32}>
+          {REST.map((item) => (
+            <MarqueeItem key={item.handle} className="w-72 px-1.5">
+              <TestimonialBody item={item} />
+            </MarqueeItem>
+          ))}
+        </MarqueeContent>
+      </Marquee>
     </div>
   </div>
 );
