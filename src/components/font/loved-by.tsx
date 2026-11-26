@@ -1,4 +1,5 @@
 import { XIcon } from "@/components/icons";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogosSwap } from "@/components/ui/logos-swap";
 import { Marquee, MarqueeContent, MarqueeItem } from "@/components/ui/marquee";
 import {
@@ -6,9 +7,6 @@ import {
   TestimonialAuthor,
   TestimonialAuthorName,
   TestimonialAuthorTagline,
-  TestimonialAvatar,
-  TestimonialAvatarImg,
-  TestimonialAvatarRing,
   TestimonialQuote,
 } from "@/components/ui/testimonial";
 import { avatarFor, COMPANIES, TESTIMONIALS } from "@/data/goeist-social";
@@ -24,7 +22,7 @@ const CompanyLogo = ({ company }: { company: Company }) => (
     target="_blank"
     rel="noopener noreferrer"
     aria-label={company.name}
-    className="text-foreground/70 hover:text-foreground flex h-6 items-center gap-2 transition-colors"
+    className="text-foreground/70 hover:text-foreground flex h-6 items-center gap-2 grayscale transition-colors"
   >
     <span
       className={
@@ -54,6 +52,15 @@ export const LovedByLogos = () => (
   </LogosSwap>
 );
 
+const initialsFor = (name: string) =>
+  name
+    .split(/\s+/u)
+    .map((part) => part[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
 const TestimonialBody = ({
   featured = false,
   item,
@@ -77,17 +84,19 @@ const TestimonialBody = ({
           featured && "text-2xl tracking-[-0.02em]"
         )}
       >
-        <p>&ldquo;{item.quote}&rdquo;</p>
+        <p>{item.quote}</p>
       </TestimonialQuote>
       <TestimonialAuthor className="pr-12">
-        <TestimonialAvatar>
-          <TestimonialAvatarImg
+        <Avatar className="ring-foreground/10 row-span-2 ring-1 dark:ring-white/15">
+          <AvatarImage
             src={avatarFor(item.handle)}
             alt={item.name}
             loading="lazy"
           />
-          <TestimonialAvatarRing />
-        </TestimonialAvatar>
+          <AvatarFallback className="text-[10px] font-medium">
+            {initialsFor(item.name)}
+          </AvatarFallback>
+        </Avatar>
         <TestimonialAuthorName className="min-w-0 truncate">
           {item.name}
         </TestimonialAuthorName>
@@ -102,6 +111,11 @@ const TestimonialBody = ({
 
 const FEATURED = TESTIMONIALS.filter((item) => item.featured);
 const REST = TESTIMONIALS.filter((item) => !item.featured);
+const half = Math.ceil(REST.length / 2);
+const ROWS = [
+  { direction: "left", items: REST.slice(0, half) },
+  { direction: "right", items: REST.slice(half) },
+] as const;
 
 export const LovedBy = () => (
   <div className="space-y-3">
@@ -110,16 +124,18 @@ export const LovedBy = () => (
         <TestimonialBody key={item.handle} featured item={item} />
       ))}
     </div>
-    <div className="mask-[linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-      <Marquee>
-        <MarqueeContent speed={32}>
-          {REST.map((item) => (
-            <MarqueeItem key={item.handle} className="w-72 px-1.5">
-              <TestimonialBody item={item} />
-            </MarqueeItem>
-          ))}
-        </MarqueeContent>
-      </Marquee>
+    <div className="space-y-3 mask-[linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      {ROWS.map((row) => (
+        <Marquee key={row.direction}>
+          <MarqueeContent direction={row.direction} speed={32}>
+            {row.items.map((item) => (
+              <MarqueeItem key={item.handle} className="w-72 px-1.5">
+                <TestimonialBody item={item} />
+              </MarqueeItem>
+            ))}
+          </MarqueeContent>
+        </Marquee>
+      ))}
     </div>
   </div>
 );

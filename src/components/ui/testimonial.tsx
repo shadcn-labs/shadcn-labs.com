@@ -35,43 +35,6 @@ export const TestimonialAuthor = ({
   />
 );
 
-export const TestimonialAvatar = ({
-  className,
-  ...props
-}: ComponentProps<"div">) => (
-  <div
-    className={cn("relative row-span-2 size-8 shrink-0", className)}
-    {...props}
-  />
-);
-
-export const TestimonialAvatarImg = ({
-  className,
-  src,
-  alt,
-  ...props
-}: ComponentProps<"img">) => (
-  <img
-    className={cn("size-8 rounded-full object-cover select-none", className)}
-    src={src}
-    alt={alt}
-    {...props}
-  />
-);
-
-export const TestimonialAvatarRing = ({
-  className,
-  ...props
-}: ComponentProps<"div">) => (
-  <div
-    className={cn(
-      "ring-foreground/10 pointer-events-none absolute inset-0 rounded-full ring-1 dark:ring-white/15",
-      className
-    )}
-    {...props}
-  />
-);
-
 export const TestimonialAuthorName = ({
   className,
   ...props
