@@ -45,8 +45,8 @@ const CompanyLogo = ({ company }: { company: Company }) => (
 
 export const LovedByLogos = () => (
   <LogosSwap
-    columnCount={6}
-    className="w-full gap-x-4 gap-y-6 [--column-count:2] sm:[--column-count:3] lg:[--column-count:6]"
+    columnCount={8}
+    className="w-full gap-x-4 gap-y-6 [--column-count:2] sm:[--column-count:3] lg:[--column-count:8]"
   >
     {COMPANIES.map((company) => (
       <CompanyLogo key={company.name} company={company} />

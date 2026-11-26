@@ -361,7 +361,9 @@ const TYPE_CREDITS = [
 <script>
   import {
     FONT_FAMILY_EVENT,
+    FONT_FAMILY_PARAM,
     isFontFamily,
+    setFontFamily,
   } from "@/components/font/use-font-family";
 
   const FACES = ["font-sans", "font-mono", "font-serif"];
@@ -378,4 +380,14 @@ const TYPE_CREDITS = [
       element.classList.add(`font-${family}`);
     }
   });
+
+  // Apply the font family from the URL on first load so deep links like
+  // /font?type=serif render the correct family before any interaction.
+  const initialFamily = new URLSearchParams(window.location.search).get(
+    FONT_FAMILY_PARAM
+  );
+
+  if (isFontFamily(initialFamily)) {
+    setFontFamily(initialFamily);
+  }
 </script>
